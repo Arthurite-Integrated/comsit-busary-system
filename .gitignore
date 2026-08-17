@@ -1,0 +1,36 @@
+# ─── Sensitive / credentials ──────────────────────────────────────────────────
+connect.php
+
+# ─── Large & sensitive data ───────────────────────────────────────────────────
+# 756 MB SQL dump — transfer separately to server via scp
+/DB/
+
+# Staff photos and signature images — personal data, transfer separately via scp
+/pictures/
+
+# ─── PHP ──────────────────────────────────────────────────────────────────────
+*.log
+error_log
+php_error.log
+
+# ─── macOS ────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+
+# ─── Windows ──────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ─── Editors ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/

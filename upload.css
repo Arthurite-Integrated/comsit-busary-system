@@ -1,0 +1,134 @@
+.sbtn    {
+	background-image: url(images/button.gif);
+	border: 1px solid #000033;
+	height: 22px;
+	width: 82px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #CC0000;
+	font-weight: bold;
+	background-position: center;
+	padding: 0px;
+	margin-top: 20px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+	margin-left: 20px;
+}
+.sbtn2    {
+	background-image: url(images/button.gif);
+	border: 1px solid #000033;
+	height: 22px;
+	width: 82px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #CC0000;
+	font-weight: bold;
+	background-position: center;
+	padding: 0px;
+}.buttonx {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #CC0000;
+	height: 22px;
+	width: 82px;
+	background-image: url(images/button.gif);
+}
+#container2 #content #form1 legend {
+	padding: 5px;
+	margin: auto;
+}
+.formx {
+	margin: 5px 5px 0px 5px;
+}
+
+.labelx {
+	padding: 0px;
+	text-align: center;
+}
+
+.msg {
+	text-align:left;
+ 	color:#C30;
+	background-repeat: no-repeat;
+ 	margin-left:5px;
+	padding:5px;
+}
+
+.emsg {
+	text-align:left;
+	margin-left:5px;
+	color:#C30;
+	background-repeat: no-repeat;
+	padding:5px;
+}
+
+#loader2{
+   visibility:hidden;
+}
+
+#f1_upload_form{
+   height:100px;
+}
+
+#f1_error{
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+   font-weight:bold;
+}
+
+#f1_ok{
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+   font-weight:bold;
+}
+
+#f1_upload_form {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #666666;
+}
+
+#f1_upload_process{
+   z-index:100;
+   visibility:hidden;
+   position:absolute;
+   text-align:center;
+   width:400px;
+}
+
+
+
+#f1_upload_form2{
+   /*height:100px;*/
+}
+
+#f1_error2{
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+   font-weight:bold;
+}
+
+#f1_ok2{
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+   font-weight:bold;
+}
+
+#f1_upload_form2 {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #666666;
+}
+
+#f1_upload_process2{
+   z-index:100;
+   visibility:hidden;
+   position:absolute;
+   text-align:center;
+   width:100%;
+   /*width:400px;*/
+}
+
