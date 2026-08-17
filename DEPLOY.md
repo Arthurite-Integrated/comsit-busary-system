@@ -102,17 +102,17 @@ sudo systemctl start apache2 mariadb
 
 **3. Set the MariaDB root password to match the app**
 
-The app has `root` / `bursary29032017` hardcoded in two files (`connect.php` and `class/mysqli_class.php`). Rather than modifying the app, configure the database to match.
+The app has `root` / `YOUR_DB_PASSWORD` hardcoded in two files (`connect.php` and `class/mysqli_class.php`). Rather than modifying the app, configure the database to match.
 
 On Debian, MariaDB root uses socket authentication by default — connect with `sudo mysql`, then set the password:
 
 ```bash
-sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('bursary29032017'); FLUSH PRIVILEGES;"
+sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('YOUR_DB_PASSWORD'); FLUSH PRIVILEGES;"
 ```
 
 Verify it works:
 ```bash
-mysql -uroot -pbursary29032017 -e "SELECT 1;"
+mysql -uroot -pYOUR_DB_PASSWORD -e "SELECT 1;"
 ```
 
 Should return `1` with no error.
@@ -138,7 +138,7 @@ sudo nano /var/www/html/connect.php
 Set the credentials to match the app's expected values:
 ```php
 $user = "root";
-$password = "bursary29032017";
+$password = "YOUR_DB_PASSWORD";
 ```
 
 Save: **Ctrl+O → Enter → Ctrl+X**.
@@ -231,7 +231,7 @@ Navigate to `http://YOUR_STATIC_IP/` in your browser. You should see the COMSIT 
 
 **9. Find login credentials**
 ```bash
-mysql -uroot -pbursary29032017 uilkashdb_b \
+mysql -uroot -pYOUR_DB_PASSWORD uilkashdb_b \
   -e "SELECT fileno, surname, first_name, password FROM stafftb LIMIT 10;"
 ```
 
@@ -301,11 +301,11 @@ sudo chown admin:admin /var/www/html/pictures
 ### 500 Internal Server Error on first load
 **Symptom:** Browser shows 500, Apache log shows `Access denied for user 'root'@'localhost' in mysqli_class.php`
 
-**Cause:** The app has credentials hardcoded in two separate files — `connect.php` and `class/mysqli_class.php`. Both expect `root` / `bursary29032017`. On Debian, MariaDB root uses socket auth by default so password login fails.
+**Cause:** The app has credentials hardcoded in two separate files — `connect.php` and `class/mysqli_class.php`. Both expect `root` / `YOUR_DB_PASSWORD`. On Debian, MariaDB root uses socket auth by default so password login fails.
 
 **Fix:** Set the MariaDB root password to match what the app expects:
 ```bash
-sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('bursary29032017'); FLUSH PRIVILEGES;"
+sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('YOUR_DB_PASSWORD'); FLUSH PRIVILEGES;"
 ```
 
 ---
@@ -317,7 +317,7 @@ sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('bursary29032017')
 
 **Fix:** Use MariaDB's syntax instead:
 ```bash
-sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('bursary29032017'); FLUSH PRIVILEGES;"
+sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('YOUR_DB_PASSWORD'); FLUSH PRIVILEGES;"
 ```
 
 ---
