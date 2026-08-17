@@ -1,6 +1,6 @@
 # Deploying to AWS Lightsail
 
-Step-by-step guide — from pushing to GitHub to a live LAMP instance.
+Step-by-step guide — from pushing to GitHub to a live LAMP instance on Debian.
 
 **Before you start:** Git installed, GitHub account, AWS account with billing, the 756 MB SQL dump on hand, Terminal open.
 
@@ -50,7 +50,7 @@ Log in to `console.aws.amazon.com` → search **Lightsail** → click **Create i
 
 **2. Select platform and blueprint**
 
-Platform: **Linux/Unix**. Blueprint: **Apps + OS → LAMP (PHP 8)**.
+Platform: **Linux/Unix**. Blueprint: **OS Only → Debian**.
 
 **3. Choose a plan**
 
@@ -64,69 +64,86 @@ Name it (e.g. `comsit-prod`), click **Create instance**. Wait ~60 seconds for st
 
 Go to **Networking → Create static IP** → attach it to the instance. Note the IP — you'll use it in every command below.
 
-**6. Download the SSH key**
-
-**Account → SSH keys** → download the default key for your region. Then:
+**6. Download the SSH key and fix permissions**
 ```bash
-mv ~/Downloads/LightsailDefaultKey-us-east-1.pem ~/.ssh/lightsail.pem
-chmod 400 ~/.ssh/lightsail.pem
+mv ~/Downloads/comsit-key.pem ~/.ssh/comsit-key.pem
+chmod 400 ~/.ssh/comsit-key.pem
 ```
+
+**7. Open port 22 in the Lightsail firewall**
+
+The browser terminal bypasses the firewall; external SSH does not. Fix it before trying to connect from your Mac:
+
+> Instance → **Networking** tab → **IPv4 Firewall** → **Add rule**
+> Application: `SSH` · Port: `22` · Source: `All IPv4 (0.0.0.0/0)` → **Create**
 
 ---
 
 ## Phase 3 — Configure the Server
 
-**1. SSH into the server**
+**1. SSH into the server from your Mac**
 ```bash
-ssh -i ~/.ssh/lightsail.pem bitnami@YOUR_STATIC_IP
+ssh -i ~/.ssh/comsit-key.pem admin@YOUR_STATIC_IP
 ```
 
-The default user on Bitnami LAMP is `bitnami`.
+The default user on Debian Lightsail is `admin`.
 
-**2. Get the MySQL root password**
+**2. Install the LAMP stack**
 ```bash
-cat /home/bitnami/bitnami_application_password
+sudo apt-get update -y
+sudo apt-get install -y apache2 mysql-server php php-mysqli php-gd php-zip php-mbstring unzip git
+sudo systemctl enable apache2 mysql
+sudo systemctl start apache2 mysql
 ```
 
-Copy this — you'll use it multiple times.
-
-**3. Install git**
+**3. Secure MySQL and set a root password**
 ```bash
-sudo apt-get update -y && sudo apt-get install git -y
+sudo mysql
 ```
 
-**4. Clear the default Bitnami web root**
+Inside the MySQL prompt:
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOUR_CHOSEN_PASSWORD';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+> Pick a strong password and save it — you'll use it for every `mysql` command from here on.
+
+**4. Clear the default Apache web root**
 ```bash
-sudo rm -rf /opt/bitnami/apache2/htdocs/*
+sudo rm -rf /var/www/html/*
 ```
 
 **5. Clone the repository into the web root**
 ```bash
-sudo git clone https://github.com/YOUR_USERNAME/comsit.git /opt/bitnami/apache2/htdocs
+sudo git clone https://github.com/YOUR_USERNAME/comsit.git /var/www/html
 ```
 
 If the repo is private, use a GitHub **Personal Access Token** as the password (GitHub → Settings → Developer settings → Personal access tokens → classic, with `repo` scope).
 
 **6. Create connect.php from the template**
 ```bash
-sudo cp /opt/bitnami/apache2/htdocs/connect.example.php \
-        /opt/bitnami/apache2/htdocs/connect.php
-
-sudo nano /opt/bitnami/apache2/htdocs/connect.php
+sudo cp /var/www/html/connect.example.php /var/www/html/connect.php
+sudo nano /var/www/html/connect.php
 ```
 
-Replace `YOUR_MYSQL_PASSWORD` with the Bitnami password from step 2. Save: **Ctrl+O → Enter → Ctrl+X**.
+Replace `YOUR_MYSQL_PASSWORD` with the password you set in step 3. Save: **Ctrl+O → Enter → Ctrl+X**.
 
 **7. Set file ownership and permissions**
 ```bash
-sudo chown -R daemon:daemon /opt/bitnami/apache2/htdocs
-sudo find /opt/bitnami/apache2/htdocs -type d -exec chmod 755 {} \;
-sudo find /opt/bitnami/apache2/htdocs -type f -exec chmod 644 {} \;
+sudo chown -R www-data:www-data /var/www/html
+sudo find /var/www/html -type d -exec chmod 755 {} \;
+sudo find /var/www/html -type f -exec chmod 644 {} \;
 ```
 
 **8. Raise PHP limits** (required for PHPExcel and CSV imports)
 ```bash
-sudo nano /opt/bitnami/php/etc/php.ini
+# Find your PHP version first
+php -v
+
+# Edit php.ini — replace 8.2 with your actual version if different
+sudo nano /etc/php/8.2/apache2/php.ini
 ```
 
 Find and update these four values (Ctrl+W to search in nano):
@@ -139,7 +156,7 @@ max_execution_time = 300
 
 Restart Apache:
 ```bash
-sudo /opt/bitnami/ctlscript.sh restart apache
+sudo systemctl restart apache2
 ```
 
 ---
@@ -148,23 +165,23 @@ sudo /opt/bitnami/ctlscript.sh restart apache
 
 **1. Upload the SQL dump** *(open a new Terminal tab on your Mac)*
 ```bash
-scp -i ~/.ssh/lightsail.pem \
+scp -i ~/.ssh/comsit-key.pem \
   "/Users/pro/Documents/projects/arthurite/comsit/DB/uilkashdb_backup_1.sql" \
-  bitnami@YOUR_STATIC_IP:~/uilkashdb_backup_1.sql
+  admin@YOUR_STATIC_IP:~/uilkashdb_backup_1.sql
 ```
 
 > **756 MB — allow 5–15 minutes depending on your upload speed.**
 
 **2. Upload the pictures directory** *(staff photos and signatures)*
 ```bash
-scp -r -i ~/.ssh/lightsail.pem \
+scp -r -i ~/.ssh/comsit-key.pem \
   "/Users/pro/Documents/projects/arthurite/comsit/pictures/" \
-  bitnami@YOUR_STATIC_IP:/opt/bitnami/apache2/htdocs/pictures/
+  admin@YOUR_STATIC_IP:/var/www/html/pictures/
 ```
 
 **3. Create the database** *(back in the SSH session)*
 ```bash
-mysql -uroot -pBITNAMI_PASSWORD -e \
+mysql -uroot -pYOUR_CHOSEN_PASSWORD -e \
   "CREATE DATABASE IF NOT EXISTS uilkashdb_b CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 ```
 
@@ -172,14 +189,14 @@ mysql -uroot -pBITNAMI_PASSWORD -e \
 
 **4. Import the dump**
 ```bash
-mysql -uroot -pBITNAMI_PASSWORD uilkashdb_b < ~/uilkashdb_backup_1.sql
+mysql -uroot -pYOUR_CHOSEN_PASSWORD uilkashdb_b < ~/uilkashdb_backup_1.sql
 ```
 
 No output means it's working. Wait for the prompt to return (~5 minutes).
 
 **5. Verify the import**
 ```bash
-mysql -uroot -pBITNAMI_PASSWORD -e "USE uilkashdb_b; SHOW TABLES;" | wc -l
+mysql -uroot -pYOUR_CHOSEN_PASSWORD -e "USE uilkashdb_b; SHOW TABLES;" | wc -l
 ```
 
 Expect **175+**. If it's near 0, the import didn't complete — retry step 4.
@@ -190,7 +207,7 @@ Navigate to `http://YOUR_STATIC_IP/` in your browser. You should see the COMSIT 
 
 **7. Find login credentials**
 ```bash
-mysql -uroot -pBITNAMI_PASSWORD uilkashdb_b \
+mysql -uroot -pYOUR_CHOSEN_PASSWORD uilkashdb_b \
   -e "SELECT fileno, surname, firstname, password FROM stafftb LIMIT 10;"
 ```
 
@@ -199,7 +216,12 @@ Passwords are base64. Decode in the browser console:
 atob("PASTE_BASE64_VALUE_HERE")
 ```
 
-**8. Clean up the dump from the server**
+**8. Fix pictures directory ownership** (if staff photos aren't loading)
+```bash
+sudo chown -R www-data:www-data /var/www/html/pictures
+```
+
+**9. Clean up the dump from the server**
 ```bash
 rm ~/uilkashdb_backup_1.sql
 ```
@@ -210,12 +232,14 @@ rm ~/uilkashdb_backup_1.sql
 
 **Custom domain:** Create a DNS A record pointing to the static IP. Lightsail also has a built-in DNS zone manager.
 
-**HTTPS / SSL:** Run the Bitnami Let's Encrypt helper — it provisions a certificate and reconfigures Apache automatically:
+**HTTPS / SSL:**
 ```bash
-sudo /opt/bitnami/bncert-tool
+sudo apt-get install -y certbot python3-certbot-apache
+sudo certbot --apache -d yourdomain.com
 ```
 
-**Future code updates:** On the server, pull the latest changes:
+**Future code updates:**
 ```bash
-cd /opt/bitnami/apache2/htdocs && sudo git pull
+cd /var/www/html && sudo git pull
+sudo chown -R www-data:www-data /var/www/html
 ```
