@@ -2,6 +2,8 @@
 
 Step-by-step guide — from pushing to GitHub to a live LAMP instance on Debian.
 
+**Tested environment:** AWS Lightsail · Debian 12 · MariaDB · PHP 8.5 · Apache 2.4
+
 **Before you start:** Git installed, GitHub account, AWS account with billing, the 756 MB SQL dump on hand, Terminal open.
 
 ---
@@ -52,6 +54,8 @@ Log in to `console.aws.amazon.com` → search **Lightsail** → click **Create i
 
 Platform: **Linux/Unix**. Blueprint: **OS Only → Debian**.
 
+> Bitnami LAMP blueprints are no longer supported on AWS Lightsail. Use Debian and install the LAMP stack manually (Phase 3).
+
 **3. Choose a plan**
 
 The **$10/month** plan (2 GB RAM, 1 vCPU, 60 GB SSD) is a safe minimum. Consider $20/month for heavier usage.
@@ -72,7 +76,7 @@ chmod 400 ~/.ssh/comsit-key.pem
 
 **7. Open port 22 in the Lightsail firewall**
 
-The browser terminal bypasses the firewall; external SSH does not. Fix it before trying to connect from your Mac:
+External SSH is blocked by default. The AWS browser terminal bypasses this, but your Mac does not.
 
 > Instance → **Networking** tab → **IPv4 Firewall** → **Add rule**
 > Application: `SSH` · Port: `22` · Source: `All IPv4 (0.0.0.0/0)` → **Create**
@@ -91,24 +95,27 @@ The default user on Debian Lightsail is `admin`.
 **2. Install the LAMP stack**
 ```bash
 sudo apt-get update -y
-sudo apt-get install -y apache2 mysql-server php php-mysqli php-gd php-zip php-mbstring unzip git
-sudo systemctl enable apache2 mysql
-sudo systemctl start apache2 mysql
+sudo apt-get install -y apache2 mariadb-server php php-mysqli php-gd php-zip php-mbstring unzip git
+sudo systemctl enable apache2 mariadb
+sudo systemctl start apache2 mariadb
 ```
 
-**3. Secure MySQL and set a root password**
+**3. Set the MariaDB root password to match the app**
+
+The app has `root` / `bursary29032017` hardcoded in two files (`connect.php` and `class/mysqli_class.php`). Rather than modifying the app, configure the database to match.
+
+On Debian, MariaDB root uses socket authentication by default — connect with `sudo mysql`, then set the password:
+
 ```bash
-sudo mysql
+sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('bursary29032017'); FLUSH PRIVILEGES;"
 ```
 
-Inside the MySQL prompt:
-```sql
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOUR_CHOSEN_PASSWORD';
-FLUSH PRIVILEGES;
-EXIT;
+Verify it works:
+```bash
+mysql -uroot -pbursary29032017 -e "SELECT 1;"
 ```
 
-> Pick a strong password and save it — you'll use it for every `mysql` command from here on.
+Should return `1` with no error.
 
 **4. Clear the default Apache web root**
 ```bash
@@ -128,7 +135,13 @@ sudo cp /var/www/html/connect.example.php /var/www/html/connect.php
 sudo nano /var/www/html/connect.php
 ```
 
-Replace `YOUR_MYSQL_PASSWORD` with the password you set in step 3. Save: **Ctrl+O → Enter → Ctrl+X**.
+Set the credentials to match the app's expected values:
+```php
+$user = "root";
+$password = "bursary29032017";
+```
+
+Save: **Ctrl+O → Enter → Ctrl+X**.
 
 **7. Set file ownership and permissions**
 ```bash
@@ -138,20 +151,23 @@ sudo find /var/www/html -type f -exec chmod 644 {} \;
 ```
 
 **8. Raise PHP limits** (required for PHPExcel and CSV imports)
-```bash
-# Find your PHP version first
-php -v
 
-# Edit php.ini — replace 8.2 with your actual version if different
-sudo nano /etc/php/8.2/apache2/php.ini
+First check your PHP version:
+```bash
+php -v
 ```
 
-Find and update these four values (Ctrl+W to search in nano):
-```ini
-memory_limit = 256M
-upload_max_filesize = 50M
-post_max_size = 55M
-max_execution_time = 300
+Then edit the Apache PHP ini — replace `8.5` with your actual version if different:
+```bash
+sudo sed -i 's/^memory_limit = .*/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini
+sudo sed -i 's/^post_max_size = .*/post_max_size = 55M/' /etc/php/8.5/apache2/php.ini
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
+```
+
+Verify the Apache ini (not the CLI ini — they are separate files):
+```bash
+grep -E "^memory_limit|^upload_max_filesize|^post_max_size|^max_execution_time" /etc/php/8.5/apache2/php.ini
 ```
 
 Restart Apache:
@@ -172,56 +188,59 @@ scp -i ~/.ssh/comsit-key.pem \
 
 > **756 MB — allow 5–15 minutes depending on your upload speed.**
 
-**2. Upload the pictures directory** *(staff photos and signatures)*
+**2. Create the pictures directory on the server** *(in the SSH session)*
+```bash
+sudo mkdir -p /var/www/html/pictures
+sudo chown admin:admin /var/www/html/pictures
+```
+
+**3. Upload the pictures directory** *(from your Mac)*
 ```bash
 scp -r -i ~/.ssh/comsit-key.pem \
   "/Users/pro/Documents/projects/arthurite/comsit/pictures/" \
   admin@YOUR_STATIC_IP:/var/www/html/pictures/
 ```
 
-**3. Create the database** *(back in the SSH session)*
+**4. Create the database** *(in the SSH session)*
 ```bash
-mysql -uroot -pYOUR_CHOSEN_PASSWORD -e \
-  "CREATE DATABASE IF NOT EXISTS uilkashdb_b CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+sudo mysql -e "CREATE DATABASE IF NOT EXISTS uilkashdb_b CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 ```
 
-> Paste the password immediately after `-p` with no space.
-
-**4. Import the dump**
+**5. Import the dump**
 ```bash
-mysql -uroot -pYOUR_CHOSEN_PASSWORD uilkashdb_b < ~/uilkashdb_backup_1.sql
+sudo mysql uilkashdb_b < ~/uilkashdb_backup_1.sql
 ```
 
 No output means it's working. Wait for the prompt to return (~5 minutes).
 
-**5. Verify the import**
+**6. Verify the import**
 ```bash
-mysql -uroot -pYOUR_CHOSEN_PASSWORD -e "USE uilkashdb_b; SHOW TABLES;" | wc -l
+sudo mysql -e "USE uilkashdb_b; SHOW TABLES;" | wc -l
 ```
 
-Expect **175+**. If it's near 0, the import didn't complete — retry step 4.
+Expect **175+**.
 
-**6. Open the app**
-
-Navigate to `http://YOUR_STATIC_IP/` in your browser. You should see the COMSIT login page.
-
-**7. Find login credentials**
-```bash
-mysql -uroot -pYOUR_CHOSEN_PASSWORD uilkashdb_b \
-  -e "SELECT fileno, surname, firstname, password FROM stafftb LIMIT 10;"
-```
-
-Passwords are base64. Decode in the browser console:
-```js
-atob("PASTE_BASE64_VALUE_HERE")
-```
-
-**8. Fix pictures directory ownership** (if staff photos aren't loading)
+**7. Fix pictures directory ownership**
 ```bash
 sudo chown -R www-data:www-data /var/www/html/pictures
 ```
 
-**9. Clean up the dump from the server**
+**8. Open the app**
+
+Navigate to `http://YOUR_STATIC_IP/` in your browser. You should see the COMSIT login page.
+
+**9. Find login credentials**
+```bash
+mysql -uroot -pbursary29032017 uilkashdb_b \
+  -e "SELECT fileno, surname, first_name, password FROM stafftb LIMIT 10;"
+```
+
+Passwords are base64-encoded. Decode in the browser console:
+```js
+atob("PASTE_BASE64_VALUE_HERE")
+```
+
+**10. Clean up the dump from the server**
 ```bash
 rm ~/uilkashdb_backup_1.sql
 ```
@@ -243,3 +262,81 @@ sudo certbot --apache -d yourdomain.com
 cd /var/www/html && sudo git pull
 sudo chown -R www-data:www-data /var/www/html
 ```
+
+---
+
+## Known Challenges & Fixes
+
+### SSH times out from your Mac
+**Symptom:** `ssh: connect to host ... port 22: Operation timed out`
+
+**Cause:** Lightsail's firewall blocks port 22 by default. The AWS browser terminal bypasses this, external SSH does not.
+
+**Fix:** Instance → **Networking** → **IPv4 Firewall** → Add rule: SSH / port 22 / All IPv4.
+
+---
+
+### `scp` fails with "not a regular file"
+**Symptom:** `scp: local "...pictures/" is not a regular file`
+
+**Cause:** Missing the `-r` flag for directories.
+
+**Fix:** Always use `scp -r` when uploading a directory.
+
+---
+
+### `scp` fails with "path canonicalization failed"
+**Symptom:** `scp: realpath /var/www/html/pictures/: No such file`
+
+**Cause:** The destination directory doesn't exist on the server yet.
+
+**Fix:**
+```bash
+sudo mkdir -p /var/www/html/pictures
+sudo chown admin:admin /var/www/html/pictures
+```
+
+---
+
+### 500 Internal Server Error on first load
+**Symptom:** Browser shows 500, Apache log shows `Access denied for user 'root'@'localhost' in mysqli_class.php`
+
+**Cause:** The app has credentials hardcoded in two separate files — `connect.php` and `class/mysqli_class.php`. Both expect `root` / `bursary29032017`. On Debian, MariaDB root uses socket auth by default so password login fails.
+
+**Fix:** Set the MariaDB root password to match what the app expects:
+```bash
+sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('bursary29032017'); FLUSH PRIVILEGES;"
+```
+
+---
+
+### MariaDB syntax error on ALTER USER
+**Symptom:** `ERROR 1064: You have an error in your SQL syntax ... near 'BY ...'`
+
+**Cause:** The `IDENTIFIED WITH mysql_native_password BY` syntax is MySQL-specific. This server runs **MariaDB**.
+
+**Fix:** Use MariaDB's syntax instead:
+```bash
+sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('bursary29032017'); FLUSH PRIVILEGES;"
+```
+
+---
+
+### PHP ini changes don't appear in `php -i`
+**Symptom:** `php -i | grep memory_limit` still shows the old value after editing php.ini.
+
+**Cause:** `php -i` reads the **CLI** ini (`/etc/php/8.5/cli/php.ini`), not the Apache one (`/etc/php/8.5/apache2/php.ini`). They are separate files.
+
+**Fix:** Verify the Apache ini directly:
+```bash
+grep -E "^memory_limit|^upload_max_filesize|^post_max_size|^max_execution_time" /etc/php/8.5/apache2/php.ini
+```
+
+---
+
+### PHPExcel errors on Excel export
+**Symptom:** Errors when generating payroll reports or bank lists as Excel files.
+
+**Cause:** PHPExcel was abandoned in 2015 and has known compatibility issues with PHP 8.x.
+
+**Fix:** The core app functions (vouchers, payroll, HR, journal entries) work fine. Excel export features may need the library upgraded to [PhpSpreadsheet](https://github.com/PHPOffice/PhpSpreadsheet) at a later stage.
