@@ -1,46 +1,22 @@
 # Deploying to AWS Lightsail
 
-Step-by-step guide — from pushing to GitHub to a live LAMP instance on Debian.
+Step-by-step guide for deploying the COMSIT Bursary System on a fresh AWS Lightsail instance.
 
 **Tested environment:** AWS Lightsail · Debian 12 · MariaDB · PHP 8.5 · Apache 2.4
 
-**Before you start:** Git installed, GitHub account, AWS account with billing, the 756 MB SQL dump on hand, Terminal open.
+**Before you start:** AWS account with billing set up, the 756 MB SQL dump file on hand, Terminal open on your Mac.
 
 ---
 
-## Phase 1 — Push the Code to GitHub
+## Phase 1 — Clone the Repository
 
-**1. Navigate to the project**
+**1. Clone onto your Mac** *(optional — only needed if you want a local copy)*
 ```bash
-cd /Users/pro/Documents/projects/arthurite/comsit
+git clone https://github.com/Arthurite-Integrated/comsit-busary-system.git
+cd comsit-busary-system
 ```
 
-**2. Initialize git**
-```bash
-git init
-git branch -M main
-```
-
-**3. Stage all files**
-```bash
-git add .
-git status   # verify connect.php, DB/, and pictures/ do NOT appear
-```
-
-**4. Commit**
-```bash
-git commit -m "Initial commit — COMSIT Bursary System"
-```
-
-**5. Create a new repository on GitHub**
-
-Go to **github.com → New repository**. Name it `comsit`. Set it to **Private** — this system contains financial data. Do NOT initialize with a README.
-
-**6. Connect and push**
-```bash
-git remote add origin https://github.com/YOUR_USERNAME/comsit.git
-git push -u origin main
-```
+The server will clone directly from GitHub in Phase 3. You only need a local copy if you intend to make code changes and push them.
 
 ---
 
@@ -102,7 +78,7 @@ sudo systemctl start apache2 mariadb
 
 **3. Set the MariaDB root password to match the app**
 
-The app has `root` / `YOUR_DB_PASSWORD` hardcoded in two files (`connect.php` and `class/mysqli_class.php`). Rather than modifying the app, configure the database to match.
+The app has `root` and a password hardcoded in two files (`connect.php` and `class/mysqli_class.php`). Rather than modifying the app, configure the database to match.
 
 On Debian, MariaDB root uses socket authentication by default — connect with `sudo mysql`, then set the password:
 
@@ -124,10 +100,10 @@ sudo rm -rf /var/www/html/*
 
 **5. Clone the repository into the web root**
 ```bash
-sudo git clone https://github.com/YOUR_USERNAME/comsit.git /var/www/html
+sudo git clone https://github.com/Arthurite-Integrated/comsit-busary-system.git /var/www/html
 ```
 
-If the repo is private, use a GitHub **Personal Access Token** as the password (GitHub → Settings → Developer settings → Personal access tokens → classic, with `repo` scope).
+If prompted for credentials, use your GitHub username and a **Personal Access Token** as the password (GitHub → Settings → Developer settings → Personal access tokens → classic, with `repo` scope).
 
 **6. Create connect.php from the template**
 ```bash
@@ -135,7 +111,7 @@ sudo cp /var/www/html/connect.example.php /var/www/html/connect.php
 sudo nano /var/www/html/connect.php
 ```
 
-Set the credentials to match the app's expected values:
+Set the credentials to match what you used in step 3:
 ```php
 $user = "root";
 $password = "YOUR_DB_PASSWORD";
@@ -157,7 +133,7 @@ First check your PHP version:
 php -v
 ```
 
-Then edit the Apache PHP ini — replace `8.5` with your actual version if different:
+Then apply the limits — replace `8.5` with your actual version if different:
 ```bash
 sudo sed -i 's/^memory_limit = .*/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini
 sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini
@@ -165,7 +141,7 @@ sudo sed -i 's/^post_max_size = .*/post_max_size = 55M/' /etc/php/8.5/apache2/ph
 sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
 ```
 
-Verify the Apache ini (not the CLI ini — they are separate files):
+Verify against the Apache ini (not the CLI ini — they are separate files):
 ```bash
 grep -E "^memory_limit|^upload_max_filesize|^post_max_size|^max_execution_time" /etc/php/8.5/apache2/php.ini
 ```
@@ -182,7 +158,7 @@ sudo systemctl restart apache2
 **1. Upload the SQL dump** *(open a new Terminal tab on your Mac)*
 ```bash
 scp -i ~/.ssh/comsit-key.pem \
-  "/Users/pro/Documents/projects/arthurite/comsit/DB/uilkashdb_backup_1.sql" \
+  "/path/to/uilkashdb_backup_1.sql" \
   admin@YOUR_STATIC_IP:~/uilkashdb_backup_1.sql
 ```
 
@@ -197,7 +173,7 @@ sudo chown admin:admin /var/www/html/pictures
 **3. Upload the pictures directory** *(from your Mac)*
 ```bash
 scp -r -i ~/.ssh/comsit-key.pem \
-  "/Users/pro/Documents/projects/arthurite/comsit/pictures/" \
+  "/path/to/pictures/" \
   admin@YOUR_STATIC_IP:/var/www/html/pictures/
 ```
 
@@ -301,11 +277,13 @@ sudo chown admin:admin /var/www/html/pictures
 ### 500 Internal Server Error on first load
 **Symptom:** Browser shows 500, Apache log shows `Access denied for user 'root'@'localhost' in mysqli_class.php`
 
-**Cause:** The app has credentials hardcoded in two separate files — `connect.php` and `class/mysqli_class.php`. Both expect `root` / `YOUR_DB_PASSWORD`. On Debian, MariaDB root uses socket auth by default so password login fails.
+**Cause:** The app has credentials hardcoded in two separate files — `connect.php` and `class/mysqli_class.php`. Both expect the same `root` password. On Debian, MariaDB root uses socket auth by default so password login fails until the password is explicitly set.
 
-**Fix:** Set the MariaDB root password to match what the app expects:
+**Fix:** Set the MariaDB root password to match what the app expects (Phase 3, step 3), then make sure `connect.php` uses the same password.
+
+Check the Apache error log to confirm:
 ```bash
-sudo mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('YOUR_DB_PASSWORD'); FLUSH PRIVILEGES;"
+sudo tail -20 /var/log/apache2/error.log
 ```
 
 ---

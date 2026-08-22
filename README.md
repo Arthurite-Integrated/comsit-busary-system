@@ -35,8 +35,8 @@ See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step guide to deploying on A
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_ORG/comsit.git
-cd comsit
+git clone https://github.com/Arthurite-Integrated/comsit-busary-system.git
+cd comsit-busary-system
 ```
 
 ### 2. Configure the database connection
