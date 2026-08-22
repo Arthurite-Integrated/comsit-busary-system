@@ -9,7 +9,7 @@ Integrated Financial and Human Resources Management System for the University of
 | Layer | Technology |
 |---|---|
 | Backend | PHP (procedural, no framework) |
-| Database | MySQL (`uilkashdb_b`) |
+| Database | MySQL / MariaDB (`uilkashdb_b`) |
 | Frontend | jQuery 1.12.3, jQuery EasyUI, DataTables |
 | Excel Export | PHPExcel (bundled in `class/PHPExcel/`) |
 | SMS Alerts | SmartSMS Solutions API |
@@ -24,8 +24,8 @@ See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step guide to deploying on A
 
 ## Prerequisites
 
-- PHP 7.4+ with `mysqli` extension enabled
-- MySQL 5.7+
+- PHP 7.4+ with `mysqli` extension enabled (tested on PHP 8.5)
+- MySQL 5.7+ or MariaDB (tested on MariaDB, Debian 12)
 - Apache or Nginx web server
 
 ---
@@ -52,8 +52,9 @@ Edit `connect.php` and fill in your MySQL credentials.
 The SQL dump is **not included in the repository** (756 MB, sensitive data). Obtain it separately and import it:
 
 ```bash
-mysql -u root -p -e "CREATE DATABASE uilkashdb_b;"
-mysql -u root -p uilkashdb_b < /path/to/uilkashdb_backup_1.sql
+# On Debian/Ubuntu, MariaDB root uses socket auth — prefix with sudo
+sudo mysql -e "CREATE DATABASE uilkashdb_b;"
+sudo mysql uilkashdb_b < /path/to/uilkashdb_backup_1.sql
 ```
 
 ### 4. Upload staff photos
@@ -109,3 +110,4 @@ max_execution_time = 300
 - Passwords are stored as `base64_encode()` in `stafftb` — not cryptographically hashed. Plan to upgrade this before any public-facing deployment.
 - Most SQL queries use raw request input — review before exposing to untrusted networks.
 - PHPExcel is unmaintained (2015). Consider migrating to [PhpSpreadsheet](https://github.com/PHPOffice/PhpSpreadsheet) for PHP 8 compatibility.
+- Database credentials are hardcoded in **two** files: `connect.php` (gitignored) and `class/mysqli_class.php` (in repo). Both must use the same credentials or the app will throw a 500 error. See DEPLOY.md for the full setup approach.
