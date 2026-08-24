@@ -38,13 +38,19 @@ A staging environment was delivered on **17 August 2026** for client-side testin
 
 | Date | Milestone | Details |
 |---|---|---|
-| 13 Aug 2026 | AWS Account Created | Account ID `238086621606` provisioned. Initial Lightsail instance setup begun. |
-| 13 – 16 Aug 2026 | Environment Issues Resolved | Infrastructure, database auth, firewall, and PHP configuration issues identified and resolved. See Section 7 for full details. |
-| 17 Aug 2026 | Staging Environment Delivered | Application live at `54.172.111.28`. Database imported, staff assets uploaded, login verified. Shared with UNILORIN for testing. |
-| 17 – 23 Aug 2026 | User Acceptance Testing | Staging instance available for UNILORIN team to test all modules. |
-| 24 Aug 2026 | Production Deployment | Production instance deployed on UNILORIN's AWS account. Full migration completed. |
-| 24 Aug 2026 | DNS Coordination | Dr. Hamzat (UNILORIN IT) engaged to propagate `uilbursary.unilorin.edu.ng` to production IP `16.60.39.136`. |
-| Pending | SSL Certificate | To be provisioned once DNS has fully propagated. |
+| 20 Jul 2026 | Initial Engagement Call | First team call involving the Director of COMSIT, Mr. Abubakar Musa (Principal Programmer/Web Developer, Portal Unit), and the Arthurite Team. Scope of migration discussed. Technical Assessment Checklist (TAC) prepared and sent to the COMSIT team. |
+| 26 Jul 2026 | TAC Returned | Technical Assessment Checklist completed and submitted by Mr. Abubakar. Responses covered application architecture, database size, file storage, server environment, user projections, and access requirements. |
+| 28 Jul 2026 | TAC Acknowledged | Arthurite Team confirmed receipt of the completed TAC. Internal review of responses begun to prepare migration plan and AWS hosting cost estimate. |
+| 3 Aug 2026 | Source Code & Clarifications Requested | Arthurite requested a zip of the Bursary Application source files (excluding `upload_files/`) and a database schema dump. Clarifying questions raised on data volume, access model (campus-only vs internet), upload bandwidth, and DNS contact for subdomain setup. |
+| 5 Aug 2026 | Files Shared & DNS Contact Provided | Mr. Abubakar shared a Google Drive link to application files and provided Dr. Hamza's contact (+234 813 803 7413) as the university's DNS manager. Initial shared folder contained uploaded memo documents rather than source code; Arthurite clarified the requirement and provided specific export commands. Correct parent folder subsequently shared. |
+| 12 Aug 2026 | Sandbox Environment Shared for Early Testing | Ahead of the COMSIT-owned AWS account being finalised, Arthurite deployed a temporary sandbox at `54.172.111.28` and shared it with Mr. Musa for early functional validation against the on-premises version. |
+| 13 Aug 2026 | AWS Account Provisioned | AWS account (ID: `238086621606`) created under COMSIT/UNILORIN ownership. Account setup and billing configured. Initial Lightsail instance setup begun. |
+| 13 – 16 Aug 2026 | Infrastructure Issues Resolved | Several environment-specific issues encountered and resolved: Bitnami LAMP blueprint discontinued on Lightsail (adapted to Debian); MariaDB socket authentication; dual hardcoded credential files; SSH firewall configuration. See Section 7 for full details. |
+| 17 Aug 2026 | Staging Environment Delivered | Full staging environment live at `54.172.111.28`. Complete database imported (202 tables, ~756 MB), staff photos and signatures uploaded, application login verified. Formally shared with UNILORIN for user acceptance testing. |
+| 17 – 23 Aug 2026 | User Acceptance Testing | Staging instance made available for the UNILORIN team to test all modules against the on-premises version. |
+| 24 Aug 2026 | Production Deployment | Production instance deployed on UNILORIN's AWS account (`238086621606`). Full database migration completed, application configured and verified live at `16.60.39.136`. |
+| 24 Aug 2026 | DNS Coordination Initiated | Dr. Hamzat (UNILORIN IT/DNS) engaged to propagate `uilbursary.unilorin.edu.ng` → `16.60.39.136`. |
+| Pending | SSL Certificate | To be provisioned via Certbot once DNS has fully propagated. |
 
 ---
 
