@@ -228,9 +228,28 @@ rm ~/uilkashdb_backup_1.sql
 **Custom domain:** Create a DNS A record pointing to the static IP. Lightsail also has a built-in DNS zone manager.
 
 **HTTPS / SSL:**
+
+First, open port 443 in the Lightsail firewall:
+> Instance → **Networking** → **IPv4 Firewall** → Add rule: `HTTPS` / port `443` / All IPv4
+
+Then add `ServerName` to the default Apache vhost so Certbot can find it:
+```bash
+sudo nano /etc/apache2/sites-available/000-default.conf
+```
+Add inside `<VirtualHost *:80>`:
+```
+ServerName yourdomain.com
+```
+
+Then provision the certificate:
 ```bash
 sudo apt-get install -y certbot python3-certbot-apache
 sudo certbot --apache -d yourdomain.com
+```
+
+Verify it's working:
+```bash
+curl -I https://yourdomain.com
 ```
 
 **Future code updates:**

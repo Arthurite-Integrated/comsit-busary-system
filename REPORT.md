@@ -10,7 +10,7 @@
 | **AWS Account ID** | 238086621606 |
 | **Report Date** | 24 August 2026 |
 | **System** | COMSIT — Integrated Financial & HR Management System |
-| **Production URL** | http://uilbursary.unilorin.edu.ng *(DNS propagation in progress)* |
+| **Production URL** | https://uilbursary.unilorin.edu.ng |
 | **Production IP** | 16.60.39.136 |
 
 ---
@@ -30,7 +30,7 @@ The engagement covered end-to-end delivery:
 - Production deployment and cutover
 - DNS coordination with UNILORIN's IT team for domain assignment
 
-A staging environment was delivered on **17 August 2026** for client-side testing. Following sign-off, the production environment was deployed on **24 August 2026**. DNS propagation to `uilbursary.unilorin.edu.ng` is currently being handled by Dr. Hamzat of the university's IT/DNS team.
+A staging environment was delivered on **17 August 2026** for client-side testing. Following sign-off, the production environment was deployed on **24 August 2026**. The domain `uilbursary.unilorin.edu.ng` was propagated by Dr. Hamzat (UNILORIN IT) and an SSL certificate was provisioned via Let's Encrypt on **25 August 2026**. The system is fully live over HTTPS.
 
 ---
 
@@ -50,7 +50,8 @@ A staging environment was delivered on **17 August 2026** for client-side testin
 | 17 – 23 Aug 2026 | User Acceptance Testing | Staging instance made available for the UNILORIN team to test all modules against the on-premises version. |
 | 24 Aug 2026 | Production Deployment | Production instance deployed on UNILORIN's AWS account (`238086621606`). Full database migration completed, application configured and verified live at `16.60.39.136`. |
 | 24 Aug 2026 | DNS Coordination Initiated | Dr. Hamzat (UNILORIN IT/DNS) engaged to propagate `uilbursary.unilorin.edu.ng` → `16.60.39.136`. |
-| Pending | SSL Certificate | To be provisioned via Certbot once DNS has fully propagated. |
+| 25 Aug 2026 | SSL Certificate Provisioned | Let's Encrypt certificate issued via Certbot for `uilbursary.unilorin.edu.ng`. HTTPS port 443 opened in Lightsail firewall. Certificate auto-renews every 90 days. Expires 23 Nov 2026. |
+| 25 Aug 2026 | **Engagement Complete** | System fully live at `https://uilbursary.unilorin.edu.ng` with HTTPS. |
 
 ---
 
@@ -280,16 +281,9 @@ After DNS is confirmed working, an SSL certificate should be provisioned (see Se
 
 The following items are recommended for action after go-live.
 
-### 9.1 Provision SSL/HTTPS (High Priority)
+### 9.1 ~~Provision SSL/HTTPS~~ — Completed
 
-Once DNS has propagated, enable HTTPS using a free Let's Encrypt certificate via Certbot:
-
-```bash
-sudo apt-get install -y certbot python3-certbot-apache
-sudo certbot --apache -d uilbursary.unilorin.edu.ng
-```
-
-Certbot will automatically configure Apache to redirect HTTP to HTTPS and set up certificate auto-renewal. Accessing a financial system over plain HTTP exposes session tokens and credentials to interception.
+SSL is live. A Let's Encrypt certificate was provisioned on 25 August 2026 for `uilbursary.unilorin.edu.ng`. Certbot has configured Apache to redirect HTTP to HTTPS and set up automatic renewal. Certificate expires 23 November 2026.
 
 ### 9.2 Enable Automated Database Backups
 
@@ -324,7 +318,7 @@ The server plan provides 60 GB SSD. The database alone is ~756 MB, and the appli
 
 | Item | Detail |
 |---|---|
-| Production URL | http://uilbursary.unilorin.edu.ng *(pending DNS propagation)* |
+| Production URL | https://uilbursary.unilorin.edu.ng |
 | Production IP | 16.60.39.136 |
 | AWS Account | 238086621606 |
 | Application login | Use `fileno` and password from `stafftb`. Passwords are base64-encoded. |
