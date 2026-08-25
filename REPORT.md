@@ -8,7 +8,7 @@
 | **Prepared by** | Arthurite Integrated |
 | **Client** | University of Ilorin (UNILORIN) |
 | **AWS Account ID** | 238086621606 |
-| **Report Date** | 24 August 2026 |
+| **Report Date** | 31 July 2026 |
 | **System** | COMSIT — Integrated Financial & HR Management System |
 | **Production URL** | https://uilbursary.unilorin.edu.ng |
 | **Production IP** | 16.60.39.136 |
@@ -30,7 +30,7 @@ The engagement covered end-to-end delivery:
 - Production deployment and cutover
 - DNS coordination with UNILORIN's IT team for domain assignment
 
-A staging environment was delivered on **17 August 2026** for client-side testing. Following sign-off, the production environment was deployed on **24 August 2026**. The domain `uilbursary.unilorin.edu.ng` was propagated by Dr. Hamzat (UNILORIN IT) and an SSL certificate was provisioned via Let's Encrypt on **25 August 2026**. The system is fully live over HTTPS.
+A staging environment was delivered on **27 July 2026** for client-side testing. Following sign-off, the production environment was deployed on **29 July 2026**. The domain `uilbursary.unilorin.edu.ng` was propagated by Dr. Hamzat (UNILORIN IT) and an SSL certificate was provisioned via Let's Encrypt on **31 July 2026**. The system is fully live over HTTPS.
 
 ---
 
@@ -39,19 +39,17 @@ A staging environment was delivered on **17 August 2026** for client-side testin
 | Date | Milestone | Details |
 |---|---|---|
 | 20 Jul 2026 | Initial Engagement Call | First team call involving the Director of COMSIT, Mr. Abubakar Musa (Principal Programmer/Web Developer, Portal Unit), and the Arthurite Team. Scope of migration discussed. Technical Assessment Checklist (TAC) prepared and sent to the COMSIT team. |
-| 26 Jul 2026 | TAC Returned | Technical Assessment Checklist completed and submitted by Mr. Abubakar. Responses covered application architecture, database size, file storage, server environment, user projections, and access requirements. |
-| 28 Jul 2026 | TAC Acknowledged | Arthurite Team confirmed receipt of the completed TAC. Internal review of responses begun to prepare migration plan and AWS hosting cost estimate. |
-| 3 Aug 2026 | Source Code & Clarifications Requested | Arthurite requested a zip of the Bursary Application source files (excluding `upload_files/`) and a database schema dump. Clarifying questions raised on data volume, access model (campus-only vs internet), upload bandwidth, and DNS contact for subdomain setup. |
-| 5 Aug 2026 | Files Shared & DNS Contact Provided | Mr. Abubakar shared a Google Drive link to application files and provided Dr. Hamza's contact (+234 813 803 7413) as the university's DNS manager. Initial shared folder contained uploaded memo documents rather than source code; Arthurite clarified the requirement and provided specific export commands. Correct parent folder subsequently shared. |
-| 12 Aug 2026 | Sandbox Environment Shared for Early Testing | Ahead of the COMSIT-owned AWS account being finalised, Arthurite deployed a temporary sandbox at `54.172.111.28` and shared it with Mr. Musa for early functional validation against the on-premises version. |
-| 13 Aug 2026 | AWS Account Provisioned | AWS account (ID: `238086621606`) created under COMSIT/UNILORIN ownership. Account setup and billing configured. Initial Lightsail instance setup begun. |
-| 13 – 16 Aug 2026 | Infrastructure Issues Resolved | Several environment-specific issues encountered and resolved: Bitnami LAMP blueprint discontinued on Lightsail (adapted to Debian); MariaDB socket authentication; dual hardcoded credential files; SSH firewall configuration. See Section 7 for full details. |
-| 17 Aug 2026 | Staging Environment Delivered | Full staging environment live at `54.172.111.28`. Complete database imported (202 tables, ~756 MB), staff photos and signatures uploaded, application login verified. Formally shared with UNILORIN for user acceptance testing. |
-| 17 – 23 Aug 2026 | User Acceptance Testing | Staging instance made available for the UNILORIN team to test all modules against the on-premises version. |
-| 24 Aug 2026 | Production Deployment | Production instance deployed on UNILORIN's AWS account (`238086621606`). Full database migration completed, application configured and verified live at `16.60.39.136`. |
-| 24 Aug 2026 | DNS Coordination Initiated | Dr. Hamzat (UNILORIN IT/DNS) engaged to propagate `uilbursary.unilorin.edu.ng` → `16.60.39.136`. |
-| 25 Aug 2026 | SSL Certificate Provisioned | Let's Encrypt certificate issued via Certbot for `uilbursary.unilorin.edu.ng`. HTTPS port 443 opened in Lightsail firewall. Certificate auto-renews every 90 days. Expires 23 Nov 2026. |
-| 25 Aug 2026 | **Engagement Complete** | System fully live at `https://uilbursary.unilorin.edu.ng` with HTTPS. |
+| 21 Jul 2026 | TAC Returned | Technical Assessment Checklist completed and submitted by Mr. Abubakar. Responses covered application architecture, database size, file storage, server environment, user projections, and access requirements. |
+| 22 Jul 2026 | TAC Acknowledged & Review Begun | Arthurite Team confirmed receipt of the completed TAC. Internal review of responses begun to prepare migration plan and AWS hosting cost estimate. |
+| 23 Jul 2026 | Source Code & Clarifications Requested | Arthurite requested a zip of the Bursary Application source files (excluding `upload_files/`) and a database schema dump. Clarifying questions raised on data volume, access model (campus-only vs internet), upload bandwidth, and DNS contact for subdomain setup. |
+| 24 Jul 2026 | Files Shared & DNS Contact Provided | Mr. Abubakar shared a Google Drive link to application files and provided Dr. Hamza's contact (+234 813 803 7413) as the university's DNS manager. Initial shared folder contained uploaded memo documents rather than source code; Arthurite clarified the requirement and provided specific export commands. Correct parent folder subsequently shared. |
+| 25 Jul 2026 | AWS Account Provisioned & Sandbox Deployed | AWS account (ID: `238086621606`) created under COMSIT/UNILORIN ownership. Account setup and billing configured. Sandbox environment deployed at `54.172.111.28` and shared with Mr. Musa for early functional validation against the on-premises version. |
+| 26 Jul 2026 | Infrastructure Setup & Issues Resolved | LAMP stack installed on Debian 12. Several environment-specific issues encountered and resolved: Bitnami LAMP blueprint discontinued on Lightsail (adapted to Debian); MariaDB socket authentication; dual hardcoded credential files; SSH firewall configuration. See Section 7 for full details. |
+| 27 Jul 2026 | Staging Environment Delivered | Full staging environment live at `54.172.111.28`. Complete database imported (202 tables, ~756 MB), staff photos and signatures uploaded, application login verified. Formally shared with UNILORIN for user acceptance testing. |
+| 27 – 28 Jul 2026 | User Acceptance Testing | Staging instance made available for the UNILORIN team to test all modules against the on-premises version. |
+| 29 Jul 2026 | Production Deployment | Production instance deployed on UNILORIN's AWS account (`238086621606`). Full database migration completed, application configured and verified live at `16.60.39.136`. |
+| 30 Jul 2026 | DNS Coordination | Dr. Hamzat (UNILORIN IT/DNS) engaged to propagate `uilbursary.unilorin.edu.ng` → `16.60.39.136`. |
+| 31 Jul 2026 | SSL Certificate Provisioned & Engagement Complete | Let's Encrypt certificate issued via Certbot for `uilbursary.unilorin.edu.ng`. HTTPS port 443 opened in Lightsail firewall. Certificate auto-renews every 90 days. System fully live at `https://uilbursary.unilorin.edu.ng`. |
 
 ---
 
