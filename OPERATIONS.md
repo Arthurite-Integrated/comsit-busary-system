@@ -99,56 +99,90 @@ sudo chown -R www-data:www-data upload_files/
 Every push to the `main` branch automatically deploys to the production server via GitHub Actions (see `.github/workflows/deploy.yml`).
 
 **How it works:**
-1. Code is committed and pushed to `main` on GitHub
-2. GitHub Actions checks out the latest code
-3. rsync transfers only the changed files to the server — skipping `connect.php`, `upload_files/`, and `pictures/` so live data is never overwritten
-4. File ownership is reset so Apache can serve the files
-5. Changes are live within seconds — no manual steps needed
+1. A change is made to a PHP file (or any file), committed, and pushed to `main`
+2. GitHub Actions SSHes into the server
+3. The server runs `git pull` to grab the latest changes
+4. Apache reloads to serve the updated files
+5. Live within seconds — no manual steps needed
 
 ### One-time setup
 
-**Step 1 — Generate an SSH key pair on the server** (from the Lightsail browser terminal):
+Two separate SSH keys are needed — one so GitHub Actions can SSH into the server, and one so the server can pull from the private GitHub repo.
+
+---
+
+**Key 1 — Let GitHub Actions SSH into the server**
+
+From the Lightsail browser terminal:
+
 ```bash
+# Generate a key pair
 ssh-keygen -t ed25519 -f ~/.ssh/deploy_key -N ""
-```
 
-**Step 2 — Add the public key to authorized_keys:**
-```bash
+# Allow this key to log in
 cat ~/.ssh/deploy_key.pub >> ~/.ssh/authorized_keys
-```
 
-**Step 3 — Copy the private key output:**
-```bash
+# Print the private key — copy all of it
 cat ~/.ssh/deploy_key
 ```
-Copy the full output including the `-----BEGIN OPENSSH PRIVATE KEY-----` and `-----END OPENSSH PRIVATE KEY-----` lines.
 
-**Step 4 — Add it as a GitHub Actions secret:**
-
-> GitHub → repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+Add it to GitHub:
+> Repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
 > - Name: `SSH_PRIVATE_KEY`
-> - Value: paste the private key
+> - Value: paste the full private key (including the `-----BEGIN` and `-----END` lines)
 
-**Step 5 — Add collaborator** (so UNILORIN team can push changes):
+---
 
-> GitHub → repository → **Settings** → **Collaborators** → **Add people**
-> Enter the GitHub username provided by Mr. Abubakar
+**Key 2 — Let the server pull from the private GitHub repo**
+
+From the Lightsail browser terminal:
+
+```bash
+# Generate a separate deploy key for GitHub
+ssh-keygen -t ed25519 -f ~/.ssh/github_deploy -N ""
+
+# Print the public key — copy it
+cat ~/.ssh/github_deploy.pub
+
+# Tell git to use this key when connecting to GitHub
+echo -e "Host github.com\n  IdentityFile ~/.ssh/github_deploy\n  StrictHostKeyChecking no" >> ~/.ssh/config
+```
+
+Add the public key to GitHub:
+> Repository → **Settings** → **Deploy keys** → **Add deploy key**
+> - Title: `production-server`
+> - Key: paste the public key
+> - Allow write access: **No** (read-only is enough)
+
+Then switch the git remote on the server from HTTPS to SSH:
+```bash
+cd /var/www/html
+sudo git remote set-url origin git@github.com:Arthurite-Integrated/comsit-busary-system.git
+```
+
+---
+
+**Add Mr. Abubakar as a collaborator** (so he can push changes):
+> Repository → **Settings** → **Collaborators** → **Add people**
+> Enter his GitHub username
+
+---
 
 ### Monitor deployments
 
 > GitHub → repository → **Actions** tab
 
-Each run shows a full log. Green tick = deployed successfully. Red cross = something failed — click the run to see exactly what went wrong.
+Each run shows a full log. Green tick = deployed successfully. Red cross = something failed — click the run to see the error.
 
-### What gets deployed / what is protected
+### Manual deploy (fallback)
 
-| Item | Deployed on push | Protected |
-|---|---|---|
-| PHP source files | Yes | |
-| Frontend assets (JS, CSS) | Yes | |
-| `connect.php` | | Never overwritten |
-| `upload_files/` | | Never overwritten |
-| `pictures/` | | Never overwritten |
+If the pipeline ever fails and you need to deploy immediately, from the server terminal:
+
+```bash
+cd /var/www/html
+sudo git pull
+sudo systemctl reload apache2
+```
 
 ---
 

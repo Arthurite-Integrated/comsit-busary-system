@@ -10,25 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Sync files to server
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avz --delete --exclude='.git' --exclude='connect.php' --exclude='upload_files/' --exclude='pictures/'
-          path: ./
-          remote_path: /var/www/html/
-          remote_host: 16.60.39.136
-          remote_user: admin
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Fix file ownership
+      - name: Pull latest code and reload Apache
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 16.60.39.136
           username: admin
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo chown -R www-data:www-data /var/www/html
-            sudo chown admin:admin /var/www/html/connect.php
+            cd /var/www/html
+            sudo git pull
+            sudo systemctl reload apache2
