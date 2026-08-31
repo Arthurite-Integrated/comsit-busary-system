@@ -20,6 +20,8 @@ Integrated Financial and Human Resources Management System for the University of
 
 See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step guide to deploying on AWS Lightsail — from GitHub push to live database import.
 
+For day-to-day operations — server access, database management, file uploads, and CI/CD — see **[OPERATIONS.md](OPERATIONS.md)**.
+
 ---
 
 ## Prerequisites
