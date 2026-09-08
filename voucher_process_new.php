@@ -364,11 +364,11 @@ if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST
 			
 						 
 			$r=@strtolower($r_vals);
-			if($r=="super admin"  or $r=="administrator" or $r=="prepared officer")
+			if($r=="prepared officer")
 			$sql="SELECT * from vouchertb where dept_code='".$_SESSION['userunit']."' or prepared_by = '".$login_id."' and checked_action != 'Queried' AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' order by voucher_date desc";
 				
-			elseif($r=="super admin" or $r=="checked by officer" or $r=="administrator")
-				$sql="SELECT * from vouchertb where (dept_code='{$_SESSION['userunit']}' or prepared_by = '{$login_id}') and (checked_action='Queried' OR checked_action='' OR checked_action Is Null OR authorized_action='Queried') AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' OR dept_vou IN ({$fac})  order by voucher_date desc";
+			elseif($r=="checked by officer")
+					$sql="SELECT * from vouchertb where (dept_code='{$_SESSION['userunit']}' or prepared_by = '{$login_id}') and (checked_action='Queried' OR checked_action='' OR checked_action Is Null OR authorized_action='Queried') AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}'  order by voucher_date desc";
 		
 			elseif($r=="authorized officer"){
 				/*if($_SESSION['userunit']=='306'){
@@ -378,18 +378,21 @@ if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST
 				//}
 			}
 
-			elseif($r=="super admin" or $r=="administrator" or $r=="expenditure control")
+			elseif($r=="expenditure control")
 			$sql="SELECT * from vouchertb where (checked_by!='' OR checked_by Is Not Null) AND checked_action='Approved' and (authorized_by!='' OR authorized_by Is Not Null) and authorized_action!='Approved' and (controlled_action='Queried' OR controlled_action='' OR controlled_action Is Null OR authorized_action2='Queried') AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}'  order by voucher_date desc";
 
-			elseif($r=="super admin" or $r=="final authorized officer")
+			elseif($r=="final authorized officer")
 			$sql="SELECT * from vouchertb where (checked_by!='' OR checked_by Is Not Null) AND checked_action='Approved' and (controlled_by!='' OR controlled_by Is Not Null) AND controlled_action='Approved' and (authorized_by!='' OR authorized_by Is Not Null) AND authorized_action='Approved' AND (authorized_action2='Queried' OR authorized_action2='' OR authorized_action2 Is Null OR audit_action='Queried') AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}'  order by voucher_date desc";
 				
-			elseif($r=="super admin" or $r=="auditor")
+			elseif($r=="auditor")
 			$sql="SELECT * from vouchertb where (checked_by!='' OR checked_by Is Not Null) AND checked_action='Approved' and (controlled_by!='' OR controlled_by Is Not Null) AND controlled_action='Approved' and (authorized_by!='' OR authorized_by Is Not Null) AND authorized_action='Approved' AND (authorized_by2!='' OR authorized_by2 Is Not Null) AND authorized_action2='Approved' and controlled_action='Approved' and (audit_action='Queried' OR audit_action='' OR audit_action Is Null OR paid_action='Queried') AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}'  order by voucher_date";
 
-			elseif($r=="super admin" or $r=="cash officer" or $r=="final account")
+			elseif($r=="cash officer" or $r=="final account")
 			$sql="SELECT * FROM vouchertb WHERE (paid_by='' OR paid_by Is Null) AND (paid_action='' OR paid_action Is Null) AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' order by voucher_date";
-				
+			/*if($_SESSION['login_id']=="S3471"){
+				echo $sql;
+				exit;
+			}*/
 			$sql;
 			$res_v=@mysqli_query($con, $sql);
 			$sn=0;
