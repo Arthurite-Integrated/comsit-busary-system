@@ -210,7 +210,7 @@ $(document).ready(function() { //parent.jQuery.colorbox.close();
                                 }
                                 //echo $facUsercheck;
                               if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST['dTo']!='' && isset($_POST['btn'])){
-                                        echo "<h2>LIST OF VOUCHER RAISED BETWEEN {$dFrm} AND {$dTo}</h2>";
+                                        echo "<h2>LIST OF VOUCHERS RAISED BETWEEN {$dFrm} AND {$dTo}</h2>";
 
                                         if($r=="prepared officer") {
                                             $sql="SELECT * FROM vouchertb WHERE (paid_action='Queried' OR pre_pvno = '' OR pre_pvno Is Null) AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' AND (paid_action='' OR paid_action Is Null) AND pvno NOT LIKE '%\_%' AND dept_vou IN ({$fac}) order by voucher_date desc";
@@ -218,7 +218,7 @@ $(document).ready(function() { //parent.jQuery.colorbox.close();
                                             $sql="SELECT * FROM vouchertb WHERE (paid_action='Queried' OR pre_pvno = '' OR pre_pvno Is Null) AND voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' AND (paid_action='' OR paid_action Is Null) AND pvno NOT LIKE '%\_%' order by voucher_date desc";
                                         }
                               }elseif(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST['dTo']!='' && isset($_POST['btnX'])){
-                                        echo "<h2>LIST OF VOUCHER AUDITED BETWEEN {$dFrm} AND {$dTo}</h2>";
+                                        echo "<h2>LIST OF VOUCHERS AUDITED BETWEEN {$dFrm} AND {$dTo}</h2>";
 
                                         if($r=="prepared officer") {
                                             $sql="SELECT * FROM vouchertb WHERE (pre_pvno = '' OR pre_pvno Is Null) AND audit_date BETWEEN '{$dFrm}' AND '{$dTo}' AND (paid_action='Queried' OR paid_action='' OR paid_action Is Null) AND pvno NOT LIKE '%\_%' AND dept_vou IN ({$fac}) order by audit_date desc";
