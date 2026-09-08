@@ -39,12 +39,27 @@ if($id=='getLastPV')
      $typeSub = $_REQUEST['typeSub'];
      $year = $_REQUEST['year'];
      $yr=date('y', strtotime($year."-01-01"));
+
      //echo  "SELECT MAX(pre_pvno) FROM vouchertb WHERE (pre_pvno LIKE '%{$type}%' OR pvno_paid LIKE '%{$type}%') AND YEAR(date_prepared)='{$year}'";  OR pvno_paid LIKE '%{$type}%'
      $sq=mysqli_query($con, "SELECT MAX(pre_pvserial) FROM vouchertb WHERE pre_pvtype = '{$type}' AND pre_pvyear = '{$year}'"); //AND YEAR(date_prepared)='{$year}'");
      $rec=mysqli_fetch_array($sq, 3);
      //echo "<span style='font-size:18px; font-weight:bold;'> {$rec[0]} </span>";
      $pvserial = str_pad($rec[0], 4, '0', STR_PAD_LEFT);
-     if($rec[0]>0) echo "<span style='font-size:18px; font-weight:bold;'> {$yr}/{$type}{$typeSub}{$pvserial} </span>";
+
+	$p="{$yr}/{$type}{$typeSub}{$pvserial}";
+	$pCheck = "SELECT MAX(pvno_paid) as pvno_paid FROM vouchertb WHERE pvno_paid LIKE '{$yr}/{$type}%'";
+	$pq = mysqli_query($con, $pCheck);
+	$pd = mysqli_fetch_array($pq, 3);
+     $pcount = mysqli_num_rows($pq);
+     $skey=array("{$yr}/{$type}", "BUILD", "CONF", "F", "U", "C", "D", " ", "/", ".", "-", "S");
+     $pre_arr=str_replace($skey, "@", $pd['pvno_paid']);
+	$parr = explode("@", $pre_arr);
+     //print_r($parr);
+	$pnum = $parr[count($parr)-1];
+	if($pnum > $pvserial) $pvserial = $pnum;
+
+
+     if($rec[0]>0 && $pcount>0) echo "<span style='font-size:18px; font-weight:bold;'> {$yr}/{$type}{$typeSub}{$pvserial} </span>";
      else echo "<span style='font-size:18px; font-weight:bold;'> No $type assigned </span>";
 }
 
@@ -72,7 +87,8 @@ if($id=='save_pre_pvno')
           echo "<script>alert('Either the PVNO is empty or it is not in a correct format.');</script>";
           exit;
      }
-     $sq=mysqli_query($con, "SELECT * FROM vouchertb WHERE pre_pvserial = '{$pvserial}' AND pre_pvtype = '{$type}' AND pre_pvyear = '{$year}'");
+	
+     $sq=mysqli_query($con, "SELECT * FROM vouchertb WHERE (pre_pvserial = '{$pvserial}' AND pre_pvtype = '{$type}' AND pre_pvyear = '{$year}') OR pvno_paid='{$pvno}'");
      if(mysqli_num_rows($sq) <= 0){
           $pv = $pvno;
           $vpvno=$bursary->get_any_value("pvno", "vouchertb", "id", $vid);
@@ -7121,7 +7137,7 @@ TestArea:
                $res_p=@mysqli_query($con, "SELECT count(*) as total from vouchertb where month(date_paid)='{$month_no}' and year(date_paid)='$year'");
                $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d",$rs_p['total'] + 1);
                
-               $d=@mysqli_query($con, "SELECT * FROM transtb where pvno='{$pvno_paid}' and transdate like '%{$pay_date}%'");
+               $d=@mysqli_query($con, "SELECT * FROM transtb where pvno='{$pvno_paid}'");// and transdate like '%{$pay_date}%'");
                $countpv = @mysqli_num_rows($d);
                if($countpv > 0)
                {
