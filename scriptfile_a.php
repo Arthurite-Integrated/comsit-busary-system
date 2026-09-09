@@ -4969,7 +4969,7 @@ if($id=='voucher_section_entry')
                     }
                     $log .= $queryString;
                }//end if $dend_pv
-
+               echo $autocreate; exit;
                if($autocreate=='yes')
                {
                     if(count($vcode)>0)
