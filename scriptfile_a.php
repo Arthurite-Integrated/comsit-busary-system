@@ -5069,11 +5069,11 @@ if($id=='voucher_section_entry')
                if($flag==true and  mysqli_query($con, "update memo_assigntb set status='Completed',datecompleted=CURDATE() WHERE memo_id='{$memo_id}'"))
                {
                     $queryString = "update memo_movementtb set read_status = 'Read' where memo_id = '$memo_id'";
-                    mysqli_query($con, $queryString);
+                    @mysqli_query($con, $queryString);
                     $bursary->commit();
                     echo "<script>alert('Payment Voucher saved successfully');</script>";
                     $log .= $queryString;
-                    $bursary->writeLogFile($log);
+                    //$bursary->writeLogFile($log);
                }
                else
                {
