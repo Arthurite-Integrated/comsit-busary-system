@@ -5062,7 +5062,7 @@ if($id=='voucher_section_entry')
                     */
                }//end of else part of autocreate is not ==yes
 
-               echo "I'm still working..."; exit;
+               //echo "I'm still working..."; exit;
 
                //logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
 
