@@ -354,7 +354,7 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
                          <?php
 						   $r=@strtolower($r_vals);
 						   if($r=="super admin" or $r=="budget officer" or $r=="administrator")
-						       $sql="select * from vouchertb where (controlled_by != '' OR controlled_by Is Not Null) and controlled_action = 'Approved' order by voucher_date desc LIMIT 500";
+						       $sql="SELECT * FROM vouchertb where controlled_by != '' and controlled_action = 'Approved' order by date_controlled desc LIMIT 500";
 							$res_v=@mysqli_query($con, $sql);
 							$sn=0;
 							$tb="<table id='MyTable2' width='98%' align='center' border='1' cellpadding='5' cellspacing='5' rules='rows' frame='box'>
