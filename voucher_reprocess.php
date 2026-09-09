@@ -766,7 +766,7 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
                                                   </tr>
                                                   <tr>
                                                        <th height="50" align="left" valign="middle" bgcolor="#F1F1F1">
-                                                            <b>Certified By</b> <br/>
+                                                            <b>Authorized By</b> <br/>
                                                             <select class='txt' style='width:90%' name='authorized_by' id='authorized_by'>
                                                                  <option selected value='<?=$rs_v['authorized_by']?>'>
                                                                       <?=strtoupper(@get_staff_name($rs_v['authorized_by']))?>
@@ -785,7 +785,7 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
                                                        </th>
                                                        <th height="50" align="left" valign="middle" bgcolor="#F1F1F1">&nbsp;</th>
                                                        <th height="50" align="left" valign="middle" bgcolor="#F1F1F1">
-                                                            <b>Authorized By</b> <br/>
+                                                            <b>Controlled By</b> <br/>
                                                             <select class='txt' style='width:90%' name='authorized_by2' id='authorized_by2'>
                                                                  <option selected value='<?=$rs_v['authorized_by2']?>'>
                                                                       <?=strtoupper(@get_staff_name($rs_v['authorized_by2']))?>
@@ -824,7 +824,7 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
                                                        </th>
                                                        <th height="50" align="left" valign="middle" bgcolor="#F1F1F1">&nbsp;</th>
                                                        <th height="50" align="left" valign="middle" bgcolor="#F1F1F1">
-                                                            <b>Controlled By</b> <br/>
+                                                            <b>Committed By</b> <br/>
                                                             <select class='txt' style='width:90%' name='controlled_by' id='controlled_by'>
                                                                  <option selected value='<?=$rs_v['controlled_by']?>'>
                                                                       <?=strtoupper(@get_staff_name($rs_v['controlled_by']))?>

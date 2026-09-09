@@ -283,10 +283,10 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
                        <!-- end of pending tab-->
                        <div style="padding:10px"> <!-- QUERIED tab  -->
                         <?php
-		    if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST['dTo']!=''){
-			$dFrm = $_POST['dFrm'];
-			$dTo = $_POST['dTo'];
-			echo "<h2>VOUCHER LIST FROM {$dFrm} TO {$dTo}</h2>";
+						if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST['dTo']!=''){
+							$dFrm = $_POST['dFrm'];
+							$dTo = $_POST['dTo'];
+							echo "<h2>VOUCHER LIST FROM {$dFrm} TO {$dTo}</h2>";
 						   $r=@strtolower($r_vals);							
 							   $yr = date('Y');
 							   $sql="SELECT * FROM vouchertb WHERE voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' order by voucher_date desc"; //where  prepared_by='".$login_id."'  or dept_code='".$_SESSION['userunit']."'
@@ -348,7 +348,7 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
 								if(count($pv) <= 1){
 									$net = number_format($rs_v['amount_paid'], 2);
 								}
-											//$pvGross=$pvGross[0];
+								//$pvGross=$pvGross[0];
 								$gross = read_gross($pvno);
 								
 								//$tb.="<tr><td>$sn</td><td>$pvno</td><!--<td>$pvno_paid</td>--><td>$payee_name</td><td>$payee_acct_no</td><td>$payee_bank_name</td><td>".date('d/m/Y',strtotime($voucher_date))."</td><td><a class='iframe' href='voucher_report.php?p=$p'>VIEW</a></tr>";
@@ -373,7 +373,7 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
 								//if($r=="prepared officer" or $r=="budget officer" and ($checked == '' or $checked_action == 'Queried') and ($prepared == $login_id or $r=="super admin" or $r=="administrator"))
 								$tb.="  | <a class='iframe' href='voucher_resubmit.php?p={$p}&r_val={$_REQUEST['r_val']}' >EDIT</a>";
 								//$tb.="  | <a href='x.php?pv=$pvno' target='_blank' >AUDIT</a> | <a href='x.php?pv2=$pvno' target='_blank' >CONTROL</a>";
-								$tb.=" | <a href='voucher_reprocess.php?p={$p}' target='_blank'>PROCESS</a>";
+								if($role_cap=="TREASURY") $tb.=" | <a href='voucher_reprocess.php?p={$p}' target='_blank'>PROCESS</a>";
 								$tb.="</td></tr>";
 								//else $tb.=" | <a href=\"javascript:swapcontent('display_voucher_process','$pvno','$r_vals');\">PROCESS</a></td></tr>";
 
