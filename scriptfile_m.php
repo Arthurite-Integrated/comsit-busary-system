@@ -3604,7 +3604,7 @@ if($id=='commit_budget')
 
 	if($controlFLAG){
 		commit();
-		logs("$login_id","Expenditure Control","$login_id controlled voucher expenditure. PVNo: $pvno");
+		//logs("$login_id","Expenditure Control","$login_id controlled voucher expenditure. PVNo: $pvno");
 		echo "<script>alert('Operation Successful!'); $('#display').window('close');</script>";
 	}else{
 		rollback();
