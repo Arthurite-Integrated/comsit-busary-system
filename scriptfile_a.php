@@ -4711,7 +4711,7 @@ if($id=='voucher_section_entry')
                     goto TestArea1;
                }
                //folio_code='$folio',
-               //echo $process_type; exit;
+               echo $process_type; exit;
                if(count($folio)==1){
                     if($process_type=="Pending") {
                          $queryString="INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='No'";
