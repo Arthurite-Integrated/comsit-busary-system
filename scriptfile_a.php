@@ -4769,7 +4769,7 @@ if($id=='voucher_section_entry')
                          }
                     }
                }
-               echo "I'm still working."; exit;
+               
 
                /*if($vat_incl != "yes" and $dvat > 0)*/
                {
@@ -4969,6 +4969,7 @@ if($id=='voucher_section_entry')
                     }
                     $log .= $queryString;
                }//end if $dend_pv
+
                if($autocreate=='yes')
                {
                     if(count($vcode)>0)
@@ -5058,6 +5059,8 @@ if($id=='voucher_section_entry')
 
                     }// end of folio code is not empty for tax deduction
                }//end of else part of autocreate is not ==yes
+
+               echo "I'm still working..."; exit;
 
                //logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
 

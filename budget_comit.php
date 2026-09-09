@@ -388,7 +388,7 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
 						 ?>
                        </div> <!-- End of proccessed tab -->
                        
-                       <div title="Queried Voucher" style="padding:10px">  <!-- Queried tab  -->
+                       <div title="Queried Vouchers" style="padding:10px">  <!-- Queried tab  -->
                          <?php
 						   $r=@strtolower($r_vals);
 						   if($r=="super admin" or $r=="budget officer" or $r=="administrator")
