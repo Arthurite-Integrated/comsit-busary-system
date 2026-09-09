@@ -1254,8 +1254,8 @@ input[type="radio"] {
                <td align="center" valign="middle" class="deduction" id="dendowment_val">0</td>
                </tr>
             <tr>
-              <th height="36" align="left" nowrap="nowrap">Stamp Duty (%):</th>
-              <td height="36"><input type="number" id="dstamp" name="dstamp" value="0" min="0" max="100" onChange="
+              <th height="36" align="left" nowrap="nowrap">Stamp Duty:</th>
+              <td height="36"><input type="number" id="dstamp" name="dstamp" value="0" min="0" style="width:50px" onChange="
               var dvat=$('#dvat').val()*1;
               var dstamp=$('#dstamp').val()*1;
 				var amt=$('#vamount').val()*1;
@@ -1264,10 +1264,10 @@ input[type="radio"] {
                 
                 if(dstamp >= 0){
                     if($('#dvat_inc').prop('checked') == true){
-                        val_calc=(dstamp/(dvat + 100))*amt;
+                        val_calc=dstamp; //(dstamp/(dvat + 100))*amt;
                     }
                     else if($('#dtax_inc').prop('checked') == false){
-                        val_calc=(dstamp/100)*amt;
+                        val_calc=dstamp; //(dstamp/100)*amt;
                     }
                     $('#dstamp_val').html(val_calc.toFixed(2));	
                     total_stamp = (amt - (($('#dendowment_val').html() * 1) + ($('#dtax_val').html() * 1) + ($('#dvat_val').html() * 1) + ($('#dstamp_val').html() * 1)));
@@ -1337,7 +1337,7 @@ input[type="radio"] {
                     //compute endowment
                     end_calc=(dend/(dvat + 100))*amt;
                     //compute Stamp Duty
-                    stamp_calc=(dstamp/(dvat + 100))*amt;
+                    stamp_calc=dstamp; //(dstamp/(dvat + 100))*amt;
             	}else if($(this).prop('checked') == false){
                 	//compute VAT
             		val_calc=(dvat/100)*amt;
@@ -1346,7 +1346,7 @@ input[type="radio"] {
                     //compute endowment
                     end_calc=(dend/100)*amt;
                     //compute Stamp Duty
-                    stamp_calc=(dstamp/100)*amt;
+                    stamp_calc=dstamp; //(dstamp/100)*amt;
             	}
                 //VAT output
                 $('#dvat_val').html(val_calc.toFixed(2));

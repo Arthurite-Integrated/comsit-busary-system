@@ -4672,13 +4672,13 @@ if($id=='voucher_section_entry')
                if($dvat_pv == "yes" and $dvat > 0) $vat_amount = ($dvat/($dvat + 100)) * $vamount;
                if($dtax_pv == "yes" and $dtax > 0) $tax_amount = ($dtax/($dvat + 100)) * $vamount;
                if($dend_pv == "yes" and $dend > 0) $end_amount = ($dend/($dvat + 100)) * $vamount;
-               if($dstamp_pv == "yes" and $dstamp > 0) $stamp_amount = ($dstamp/($dvat + 100)) * $vamount;
+               if($dstamp_pv == "yes" and $dstamp > 0) $stamp_amount = $dstamp; //($dstamp/($dvat + 100)) * $vamount;
 
           }elseif($vat_incl != "yes"){
                if($dvat_pv == "yes" and $dvat > 0) $vat_amount = ($dvat/100) * $vamount;
                if($dtax_pv == "yes" and $dtax > 0) $tax_amount = ($dtax/100) * $vamount;
                if($dend_pv == "yes" and $dend > 0) $end_amount = ($dend/100) * $vamount;
-               if($dstamp_pv == "yes" and $dstamp > 0) $stamp_amount = ($dstamp/100) * $vamount;
+               if($dstamp_pv == "yes" and $dstamp > 0) $stamp_amount = $dstamp; //($dstamp/100) * $vamount;
           }
 
           $total_tax = $stamp_amount + $vat_amount + $tax_amount + $end_amount;
@@ -4925,7 +4925,7 @@ if($id=='voucher_section_entry')
                if($dstamp_pv == "yes" and $dstamp > 0){
                     $pvno_stamp = $pvno."_SD";
                     //$stamp_amount = (($vamount/100) * $dstamp);
-                    $queryString = "INSERT INTO vouchertb SET pvno='{$pvno_stamp}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', payee_name='{$stamp_payee}', payee_acct_no='{$stamp_acct}', payee_bank_name='{$stamp_bank}', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of {$dstamp}% Stamp-Duty for {$desc}', amount_approved='{$stamp_amount}', amount_paid='{$stamp_amount}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_type='STAMP DUTY', memo_id='{$memo_id}', dept_vou='{$roledept}'";
+                    $queryString = "INSERT INTO vouchertb SET pvno='{$pvno_stamp}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', payee_name='{$stamp_payee}', payee_acct_no='{$stamp_acct}', payee_bank_name='{$stamp_bank}', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of Stamp-Duty for {$desc}', amount_approved='{$stamp_amount}', amount_paid='{$stamp_amount}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_type='STAMP DUTY', memo_id='{$memo_id}', dept_vou='{$roledept}'";
                     //$r4[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
                     if(!mysqli_query($con, $queryString))
                     {
@@ -5059,7 +5059,7 @@ if($id=='voucher_section_entry')
                     }// end of folio code is not empty for tax deduction
                }//end of else part of autocreate is not ==yes
 
-               logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
+               //logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
 
 
                $sql="select v.*, fc.folio_code as item_code FROM vouchertb v INNER JOIN voucher_folio_codetb fc ON v.pvno=fc.pvno WHERE prepared_by='$login_id' AND checked_by='' ORDER BY voucher_date,folio_code,pvno";
