@@ -4970,7 +4970,7 @@ if($id=='voucher_section_entry')
                     $log .= $queryString;
                }//end if $dend_pv
                
-               if($autocreate=='yes')
+               /*if($autocreate=='yes')
                {
                     if(count($vcode)>0)
                     {
@@ -5031,10 +5031,11 @@ if($id=='voucher_section_entry')
 
                     }// end of folio code is not empty for tax deduction
                }// end of autocreate tax record is yes
-               else{
+               else{*/
                     $i=0;
                     $j=0;
-                    /*if(count($vcode)>0){
+                    //echo $vcode; exit;
+                    if(count($vcode)>0){
                          foreach($vcode as $codeval){  //code for tax
                               $line=$i+1;
                               if($codeval !=""){
@@ -5056,11 +5057,11 @@ if($id=='voucher_section_entry')
                               }//end of amount is not empty
                               $i++;
 
-                         }// end of foreach folio code
+                         }// end of foreach folio code*/
 
                     }// end of folio code is not empty for tax deduction
-                    */
-               }//end of else part of autocreate is not ==yes
+                    
+               ///}//end of else part of autocreate is not ==yes
 
                //echo "I'm still working..."; exit;
 
