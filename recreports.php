@@ -686,7 +686,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 		$byear=$bnk['ryear'];
 		$desc=$bnk['paymentid'];
 		
-		print_r($bnk); exit;
+		
 		$total_remita += $rs['remita_amount'];
 		if($bnkc >= 1) {
 			$total_remita_matched += $rs['remita_amount'];
@@ -740,9 +740,9 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 			$total_remita_leftover += $rs['remita_amount'];
 			$brl1x = "<td bgcolor='#F8F8F8' colspan='6' rowspan='{$sn2}' valign='top'>";
 		}
-	} exit;
+	}
 	//===============> BANK LEFT-OVER 
-	$sqlb="SELECT * FROM recon_banktb WHERE rmonth='".$_SESSION['r_m']."' and ryear='".$_SESSION['r_y']."' and Ref != '2' AND paytype='Debit'";
+	echo $sqlb="SELECT * FROM recon_banktb WHERE rmonth='".$_SESSION['r_m']."' and ryear='".$_SESSION['r_y']."' and Ref != '2' AND paytype='Debit'"; exit;
 	$qryb= mysqli_query($con, $sqlb); $sn=0; $lefttotal=0; $nm= mysqli_num_rows($qryb);
 	$brl1x .= "<TABLE width='90%' border='1' rules='rows' align='center'>
 	<tr><td><strong>SN</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>AMOUNT</strong></td><td>PERIOD</td></tr>";
