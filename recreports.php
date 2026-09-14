@@ -643,14 +643,14 @@ if(isset($_POST['btn_pblo']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='
 
 //====================> OUTFLOW - (REMITA WITH BANK STATEMENT) Monthly Report <========================
 if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='' and isset($_SESSION['r_y']) and $_SESSION['r_y']!='' ){
-	echo $bxh = "<TABLE width='100%' border='1' rules='rows'>
+	$bxh = "<TABLE width='100%' border='1' rules='rows'>
 		<tr><th colspan='4'><strong>REMITA STATEMENT</strong></th>
 		<th colspan='3' bgcolor='#F8F8F8'><strong>BANK STATEMENT</strong></th></tr>
 		
 		<tr><td><strong>SN</strong></td><td><strong>DEBIT REF.</strong></td><td><strong>FUNDING: COUNT</strong></td><td><strong>AMOUNT</strong></td><td><strong>PERIOD</strong></td>
 		<td bgcolor='#F8F8F8'><strong>TRANS. REF.</strong></td><td bgcolor='#F8F8F8'><strong>DESCRIPTION</strong></td><td bgcolor='#F8F8F8'><strong>AMOUNT</strong></td><td><strong>PERIOD</strong></td>
 		<td>UN-CREDITED</td><td>BANK EXCESS</td>
-		</tr>"; exit;
+		</tr>";
 	if($_POST['inacct']=='') $fund='';
 	else $fund=" AND funding='{$_POST['inacct']}' ";
 	$sq="SELECT special_ref, SUM(amount) AS remita_amount, count(special_ref) AS sCount  FROM recon_remitatb WHERE rmonth='".$_SESSION['r_m']."' AND ryear='".$_SESSION['r_y']."' AND paytype='Debit' AND (special_ref != '' OR special_ref IS NOT NULL) {$fund} GROUP BY special_ref ORDER BY funding";
@@ -698,9 +698,11 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 			}
 			++$sn;
 			$s1="UPDATE recon_remitatb SET matched='2', special_ref='{$rs['special_ref']}', Ref='2' WHERE special_ref = '{$rs['special_ref']}' AND paytype='Debit'";
-                         	@mysqli_query($con, $s1);
+            @mysqli_query($con, $s1);
+
 			$s2="UPDATE recon_banktb SET matched='2', special_ref='{$rs['special_ref']}', Ref='2' WHERE paymentid LIKE '%{$rs['special_ref']}%' AND paytype='Debit'";
-                         	@mysqli_query($con, $s2);
+            @mysqli_query($con, $s2);
+
 			//=========> REMITA OUTFLOW
 			$xTrial = false;
 			if($rmon==$bmonth && $ryea==$byear){
@@ -754,7 +756,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 
 	$total_remita_matched = number_format($total_remita_matched, 2);
 	$total_remita = number_format($total_remita, 2);
-	$total_bank = abs($bursary->get_any_value('sum(abs(amount)) AS bSum', 'recon_banktb', 'rmonth', $_SESSION['r_m'], " AND ryear = '".$_SESSION['r_y']."' AND paytype='Debit'"));
+	$total_bank = 100000000000; //abs($bursary->get_any_value('sum(abs(amount)) AS bSum', 'recon_banktb', 'rmonth', $_SESSION['r_m'], " AND ryear = '".$_SESSION['r_y']."' AND paytype='Debit'"));
 	$total_bank_matched = number_format($total_bank_matched, 2);
 	$total_bank = number_format($total_bank, 2);
 		
