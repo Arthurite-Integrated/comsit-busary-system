@@ -668,7 +668,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 
 		$rmon=$_SESSION['r_m'];
 		$ryea=$_SESSION['r_y'];
-		echo "SELECT rrr, purpose, narration AS 'batchno', funding FROM recon_remitatb WHERE special_ref = '{$rs['special_ref']}' AND paytype='Debit' {$fund} LIMIT 1<br>";
+		
 		$iqry=mysqli_query($con, "SELECT rrr, purpose, narration AS 'batchno', funding FROM recon_remitatb WHERE special_ref = '{$rs['special_ref']}' AND paytype='Debit' {$fund} LIMIT 1");
 		$inner = mysqli_fetch_array($iqry, 3);
 		$rrr=$inner['rrr']; 
@@ -686,7 +686,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 		$byear=$bnk['ryear'];
 		$desc=$bnk['paymentid'];
 		
-
+		print_r($bnk); exit;
 		$total_remita += $rs['remita_amount'];
 		if($bnkc >= 1) {
 			$total_remita_matched += $rs['remita_amount'];
