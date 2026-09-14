@@ -659,6 +659,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 	$sn=0; 
 	$total_remita=0; 
 	$unremittedTotal=0;	$bankExcessTotal=0;
+	$rs= mysqli_fetch_array($qq, 3);
 	print_r($rs); exit;
 	while($rs= mysqli_fetch_array($qq, 3)){
 		if($rs['special_ref']=='') continue;
