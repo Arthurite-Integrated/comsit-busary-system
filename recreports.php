@@ -659,7 +659,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 	$sn=0; 
 	$total_remita=0; 
 	$unremittedTotal=0;	$bankExcessTotal=0;
-	
+	print_r($rs); exit;
 	while($rs= mysqli_fetch_array($qq, 3)){
 		if($rs['special_ref']=='') continue;
 		$unremitted=0;
@@ -702,7 +702,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 
 			$s2="UPDATE recon_banktb SET matched='2', special_ref='{$rs['special_ref']}', Ref='2' WHERE paymentid LIKE '%{$rs['special_ref']}%' AND paytype='Debit'";
             @mysqli_query($con, $s2);
-
+			
 			//=========> REMITA OUTFLOW
 			$xTrial = false;
 			if($rmon==$bmonth && $ryea==$byear){
@@ -756,7 +756,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 
 	$total_remita_matched = number_format($total_remita_matched, 2);
 	$total_remita = number_format($total_remita, 2);
-	$total_bank = 100000000000; //abs($bursary->get_any_value('sum(abs(amount)) AS bSum', 'recon_banktb', 'rmonth', $_SESSION['r_m'], " AND ryear = '".$_SESSION['r_y']."' AND paytype='Debit'"));
+	$total_bank = abs($bursary->get_any_value('sum(abs(amount)) AS bSum', 'recon_banktb', 'rmonth', $_SESSION['r_m'], " AND ryear = '".$_SESSION['r_y']."' AND paytype='Debit'"));
 	$total_bank_matched = number_format($total_bank_matched, 2);
 	$total_bank = number_format($total_bank, 2);
 		
