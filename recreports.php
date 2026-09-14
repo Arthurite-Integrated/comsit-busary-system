@@ -659,10 +659,11 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 	$sn=0; 
 	$total_remita=0; 
 	$unremittedTotal=0;	$bankExcessTotal=0;
-	$rs= mysqli_fetch_array($qq, 3);
-	print_r($rs); exit;
+	//$rs= mysqli_fetch_array($qq, 3);
+	//print_r($rs); exit;
 	while($rs= mysqli_fetch_array($qq, 3)){
-		if($rs['special_ref']=='') continue;
+		echo $rs['special_ref']."<br>";
+		/* if($rs['special_ref']=='') continue;
 		$unremitted=0;
 		$bankExcess=0;
 
@@ -738,8 +739,8 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 			}
 			$total_remita_leftover += $rs['remita_amount'];
 			$brl1x = "<td bgcolor='#F8F8F8' colspan='6' rowspan='{$sn2}' valign='top'>";
-		}
-	}
+		} */
+	} exit;
 	//===============> BANK LEFT-OVER 
 	$sqlb="SELECT * FROM recon_banktb WHERE rmonth='".$_SESSION['r_m']."' and ryear='".$_SESSION['r_y']."' and Ref != '2' AND paytype='Debit'";
 	$qryb= mysqli_query($con, $sqlb); $sn=0; $lefttotal=0; $nm= mysqli_num_rows($qryb);
