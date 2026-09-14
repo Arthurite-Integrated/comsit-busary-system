@@ -37,7 +37,7 @@ $val=explode("***",get_company());
 echo "<center><img src='$val[1]' width='50' height='50' style='float:center'/></center><b><p align='center'>FINANCIAL RECONCILLIATION REPORT FOR ".strtoupper($_SESSION['r_m']).", {$_SESSION['r_y']}</p></b><hr><p>";
 
 ///////////////////////////////////////////////////// End of header ////////////////////////////////////////////
-print_r($_POST); exit;
+//print_r($_POST); exit;
   ?>
 <center>
   <?php
@@ -643,14 +643,14 @@ if(isset($_POST['btn_pblo']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='
 
 //====================> OUTFLOW - (REMITA WITH BANK STATEMENT) Monthly Report <========================
 if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='' and isset($_SESSION['r_y']) and $_SESSION['r_y']!='' ){
-	$bxh = "<TABLE width='100%' border='1' rules='rows'>
+	echo $bxh = "<TABLE width='100%' border='1' rules='rows'>
 		<tr><th colspan='4'><strong>REMITA STATEMENT</strong></th>
 		<th colspan='3' bgcolor='#F8F8F8'><strong>BANK STATEMENT</strong></th></tr>
 		
 		<tr><td><strong>SN</strong></td><td><strong>DEBIT REF.</strong></td><td><strong>FUNDING: COUNT</strong></td><td><strong>AMOUNT</strong></td><td><strong>PERIOD</strong></td>
 		<td bgcolor='#F8F8F8'><strong>TRANS. REF.</strong></td><td bgcolor='#F8F8F8'><strong>DESCRIPTION</strong></td><td bgcolor='#F8F8F8'><strong>AMOUNT</strong></td><td><strong>PERIOD</strong></td>
 		<td>UN-CREDITED</td><td>BANK EXCESS</td>
-		</tr>";
+		</tr>"; exit;
 	if($_POST['inacct']=='') $fund='';
 	else $fund=" AND funding='{$_POST['inacct']}' ";
 	$sq="SELECT special_ref, SUM(amount) AS remita_amount, count(special_ref) AS sCount  FROM recon_remitatb WHERE rmonth='".$_SESSION['r_m']."' AND ryear='".$_SESSION['r_y']."' AND paytype='Debit' AND (special_ref != '' OR special_ref IS NOT NULL) {$fund} GROUP BY special_ref ORDER BY funding";
