@@ -37,7 +37,7 @@ $val=explode("***",get_company());
 echo "<center><img src='$val[1]' width='50' height='50' style='float:center'/></center><b><p align='center'>FINANCIAL RECONCILLIATION REPORT FOR ".strtoupper($_SESSION['r_m']).", {$_SESSION['r_y']}</p></b><hr><p>";
 
 ///////////////////////////////////////////////////// End of header ////////////////////////////////////////////
-
+print_r($_POST); exit;
   ?>
 <center>
   <?php
