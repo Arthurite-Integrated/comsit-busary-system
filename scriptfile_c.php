@@ -1844,14 +1844,10 @@ if($id=='taxrate_section')
 /////////////////////Allocaterole section ////////////////////
 if($id=='allocaterole_section')
 {
-     $j=json_decode(stripslashes(@$_REQUEST['mydata']));
-     //$code=$j->code;
-     //$name=@mysqli_real_escape_string($con, $j->name);
-     //$status=$j->status;
+     $j=json_decode(@$_REQUEST['mydata']);
      $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];  //for row id to be deleted/edited
      $login_id=@$_SESSION['login_id'];
-     //echo "COde: $code Name: $name Status:$status Action: $action  R_ID: $r_id";
      if($action=='save')
      {
           @mysqli_query($con, "INSERT INTO users_roletb set fileno='{$j->fileno}', role='{$j->role}',dept_acctcode='{$j->dept_acctcode}',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='{$login_id}'");
@@ -1922,7 +1918,7 @@ if($id=='allocaterole_section')
 
 if($id=='assign_faculty')
 {
-     $j=json_decode(stripslashes(@$_REQUEST['mydata']));
+     $j=json_decode(@$_REQUEST['mydata']);
      $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];
      $rid=@$_REQUEST['rid'];
