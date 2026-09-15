@@ -44,14 +44,14 @@
           <thead>
                <tr>
                     <th>SN</th>
-                    <th>ID</th>
+                    <!--th>ID</th-->
                     <th>FROM</th>
                     <th>ADDRESS/UNIT</th>
                     <th>DESCRIPTION</th>
                     <th>AMOUNT</th>
                     <th>DEPT/UNIT</th>
                     <th>DATE</th>
-                    <th>STATUS</th>
+                    <!--th>STATUS</th-->
                </tr>
           </thead>
           <tbody>
@@ -66,7 +66,7 @@
                while ($row = mysqli_fetch_array($r, 3)) { ?>
                <tr>
                <td><?=++$sn; ?></td>
-               <td><?=$row['memo_id']; ?></td>
+               <!--td><?=$row['memo_id']; ?></td-->
                <td><?=$row['memo_from']; ?></td>
                <td><?php  if(is_numeric($row['address_unit'])) echo $cls->getRecord('dept_name', 'departmenttb', "dept_code", $row['address_unit']);
                else echo $row['address_unit']; ?></td>
@@ -75,7 +75,7 @@
                <td><?php if(is_numeric($row['dept_unit'])) echo $cls->getRecord('unit_name', 'unittb', "unit_code", $row['dept_unit']);
                else echo $row['dept_unit']; ?></td>
                <td><?=$row['datein']." ".$row['entry_time']; ?></td>
-               <td><?=$row['memo_status']; ?></td>
+               <!--td><?=$row['memo_status']; ?></td-->
                </tr>
                <?php } ?>
                </tbody>
