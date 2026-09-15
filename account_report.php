@@ -1534,6 +1534,11 @@ if($option=='trialbalance')
 							if($sn%2==1) $rowclass="row-a"; else $rowclass="row-b";
 							$transdate=@$rs_trans['transdate'];
 							$amt = $rs_trans['amount'];
+							$padding = $bursary->get_any_value('amount', 'note_pad', 'folio_code', $folio_code, " AND transyear='{$tyear}'");
+							if($padding>0) {
+								if($amt>=0) $amt += $padding;
+								else $amt -= $padding;
+							}
 							
 							$sqllx = mysqli_query($con, "SELECT sum(t.amount) AS amount from transtb t INNER JOIN foliotb f ON t.folio_code=f.folio_code WHERE t.transdate between '{$dFrom}' and '{$to}' AND t.acctcode = '{$folio_code}' AND t.transtype = 'Credit'") or die( mysqli_error($con));
 							$rstransx=mysqli_fetch_array($sqllx, 3);
@@ -1543,10 +1548,7 @@ if($option=='trialbalance')
 							$sqlly = mysqli_query($con, "SELECT sum(t.amount) AS amount from transtb t INNER JOIN foliotb f ON t.folio_code=f.folio_code WHERE t.transdate between '{$dFrom}' and '{$to}' AND t.acctcode = '{$folio_code}' AND t.transtype = 'Debit'") or die( mysqli_error($con));
 							$rstransy=mysqli_fetch_array($sqlly, 3);
 							$debt = $rstransy['amount'];
-							$amt -= $rstransy['amount'];
-
-							$padding = $bursary->get_any_value('amount', 'note_pad', 'folio_code', $folio_code, " AND transyear='{$tyear}'");
-							if($padding>0) $amt += $padding;
+							$amt -= $rstransy['amount'];							
 
 							if($rs_trans['transtype'] == 'Credit') {
 								$b_lance = $b_lance - $rs_trans['amount'];
