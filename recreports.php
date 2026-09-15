@@ -274,7 +274,7 @@ if(isset($_POST['btn_debit']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!=
 	while($r= mysqli_fetch_array($qryb, 3 )){
 		++$snx; 
 		$lefttotal += $r['amount'];
-		$brl1x .= "<tr><td>{$snx}</td><td>".$r['credit_reference']."</td><td style='font-size:10px;'>{$r[paymentid]}</td><td>".number_format($r['amount'], 2)."</td><td>{$r['rmonth']}/{$r['ryear']}</td></tr>";
+		$brl1x .= "<tr><td>{$snx}</td><td>".$r['credit_reference']."</td><td style='font-size:10px;'>{$r['paymentid']}</td><td>".number_format($r['amount'], 2)."</td><td>{$r['rmonth']}/{$r['ryear']}</td></tr>";
 	}
 	$lefttotal = number_format($lefttotal, 2);
 	$brl1x .= "<tr><th colspan=3>TOTAL</th><th><h5>{$lefttotal}</h5></th><td></td></tr></TABLE>";
@@ -410,7 +410,7 @@ if(isset($_POST['btn_clo']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!=''
 	<tr><td><strong>SN</strong></td><td>PERIOD</td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryb, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['uncreadited_lodgment'].=
-		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r[paymentid]}</td><td>".$r['credit_reference']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r['paymentid']}</td><td>".$r['credit_reference']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['uncreadited_lodgment'].=
@@ -746,13 +746,13 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 	$qryb= mysqli_query($con, $sqlb); $sn=0; $lefttotal=0; $nm= mysqli_num_rows($qryb);
 	$brl1x .= "<TABLE width='90%' border='1' rules='rows' align='center'>
 	<tr><td><strong>SN</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>AMOUNT</strong></td><td>PERIOD</td></tr>";
-	$r= mysqli_fetch_array($qryb, 3 );print_r($r);exit;
+	
 	while($r= mysqli_fetch_array($qryb, 3 )){
 		++$snx; 
 		$lefttotal += abs($r['amount']);
-		echo $brl1x2 .= "<tr><td>{$snx}</td><td>".$r['credit_reference']."</td><td style='font-size:10px;'>{$r[paymentid]}</td><td>".number_format(abs($r['amount']), 2)."</td><td>{$r['rmonth']}/{$r['ryear']}</td></tr>";
+		$brl1x .= "<tr><td>{$snx}</td><td>".$r['credit_reference']."</td><td style='font-size:10px;'>{$r['paymentid']}</td><td>".number_format(abs($r['amount']), 2)."</td><td>{$r['rmonth']}/{$r['ryear']}</td></tr>";
 	}
-	exit;
+	echo $brl1x; exit;
 	$lefttotal = number_format($lefttotal, 2);
 	$brl1x .= "<tr><th colspan=3>TOTAL</th><th><h5>{$lefttotal}</h5></th><td></td></tr></TABLE>";
 	//====================================================================================>
@@ -823,7 +823,7 @@ if(isset($_POST['btn_orlo']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='
 	while($r= mysqli_fetch_array($qryb, 3 )){
 		++$sn; 
 		$total += $r['amount'];
-		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r[paymentid]}</td><td>".$r['special_ref']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r['paymentid']}</td><td>".$r['special_ref']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	echo "<tr><th colspan=3>TOTAL</th><th><h5>{$total}</h5></th></tr></TABLE>";
@@ -842,7 +842,7 @@ if(isset($_POST['btn_oblo']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='
 	while($r= mysqli_fetch_array($qryb, 3 )){
 		++$sn; 
 		$total += abs($r['amount']);
-		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r[paymentid]}</td><td>".$r['credit_reference']."</td><td>".number_format(abs($r['amount']), 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r['paymentid']}</td><td>".$r['credit_reference']."</td><td>".number_format(abs($r['amount']), 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	echo "<tr><th colspan=3>TOTAL</th><th><h5>{$total}</h5></th></tr></TABLE>";
@@ -1493,7 +1493,7 @@ if(isset($_POST['btn_ucr']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!=''
 	<tr><td><strong>SN</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryb, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['uncreadited_lodgment'].=
-		echo "<tr><td>{$sn}</td><td>{$r[paymentid]}</td><td>".str_replace('\\\\', '\\', $r['special_ref'])."</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['paymentid']}</td><td>".str_replace('\\\\', '\\', $r['special_ref'])."</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['uncreadited_lodgment'].=
@@ -1511,7 +1511,7 @@ if(isset($_POST['btn_ctrl']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='
 	<tr><td><strong>SN</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryr, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['control_report'].=
-		echo "<tr><td>{$sn}</td><td>{$r[paymentid]}</td><td>{$r[special_ref]}</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['paymentid']}</td><td>{$r[special_ref]}</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['control_report'].=
@@ -1542,7 +1542,7 @@ if(isset($_POST['btn_ctrl_ref']) and isset($_SESSION['r_m']) and $_SESSION['r_m'
 		if($bref=='' or $bref=='Error!') continue;
 		$total_remita += $r['amount'];
 		$bx .= "<tr><td>{$sn}</td>
-		<td>{$r[credit_reference]}</td><td>{$r[paymentid]}</td><td align='right'>".number_format($r['amount'], 2)."</td>";
+		<td>{$r[credit_reference]}</td><td>{$r['paymentid']}</td><td align='right'>".number_format($r['amount'], 2)."</td>";
 		
 		///$bank_amount=$bursary->get_any_value('amount', 'recon_banktb', 'matched', '0', " AND credit_reference = '".addcslashes($r['credit_reference'], '\\\\')."' AND amount!={$r['amount']}");
 		$bank_amount=$bursary->get_any_value('amount', 'recon_banktb', 'matched', '0', " AND special_ref = '".$r['special_ref']."'");
