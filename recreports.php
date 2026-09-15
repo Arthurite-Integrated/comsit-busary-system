@@ -744,8 +744,8 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 	//===============> BANK LEFT-OVER 
 	$sqlb="SELECT * FROM recon_banktb WHERE rmonth='".$_SESSION['r_m']."' and ryear='".$_SESSION['r_y']."' and Ref != '2' AND paytype='Debit'";
 	$qryb= mysqli_query($con, $sqlb); $sn=0; $lefttotal=0; $nm= mysqli_num_rows($qryb);
-	$brl1x .= "<TABLE width='90%' border='1' rules='rows' align='center'>
-	<tr><td><strong>SN</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>AMOUNT</strong></td><td>PERIOD</td></tr>";
+	echo $brl1x .= "<TABLE width='90%' border='1' rules='rows' align='center'>
+	<tr><td><strong>SN</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>AMOUNT</strong></td><td>PERIOD</td></tr>";exit;
 	while($r= mysqli_fetch_array($qryb, 3 )){
 		++$snx; 
 		$lefttotal += abs($r['amount']);
