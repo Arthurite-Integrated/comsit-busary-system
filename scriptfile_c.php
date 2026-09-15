@@ -1854,10 +1854,10 @@ if($id=='allocaterole_section')
      //echo "COde: $code Name: $name Status:$status Action: $action  R_ID: $r_id";
      if($action=='save')
      {
-          @mysqli_query($con, "insert into users_roletb set fileno='{$j->fileno}',role='{$j->role}',dept_acctcode='{$j->dept_acctcode}',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='{$login_id}'");
+          @mysqli_query($con, "INSERT INTO users_roletb set fileno='{$j->fileno}', role='{$j->role}',dept_acctcode='{$j->dept_acctcode}',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='{$login_id}'");
           echo "<script>alert('Record saved successfully');</script>";
 
-          $sql="select * from users_roletb where fileno='{$j->fileno}'";
+          $sql="SELECT * from users_roletb where fileno='{$j->fileno}'";
      }
 
      /////////
@@ -1888,7 +1888,7 @@ if($id=='allocaterole_section')
 
      $res_v=@mysqli_query($con, $sql);
      $sn=0;
-     $tb="<center><table id='MyTable' class='table display' style='border: groove 1px #C90' border='1' frame='hsides' rules='rows' width='100%'>
+     ?><center><table id='MyTable' class='table display' style='border: groove 1px #C90' border='1' frame='hsides' rules='rows' width='100%'>
      <thead>
           <tr>
                <th>S/NO</th>
@@ -1899,25 +1899,24 @@ if($id=='allocaterole_section')
                <th>ENTRY TIME</th>
                <th>ACTION</th>
           </tr>
-     </thead><tbody>";
+     </thead><tbody><?php
      while($rs_v=@mysqli_fetch_array($res_v))
      {
           ++$sn;
           $id2=@$rs_v['id'];
           $f_code=@$rs_v['bank_name'];
-          $tb.="<tr>
-                    <td>$sn</td>
-                    <td>{$rs_v['fileno']}: ".@get_staff_name($rs_v['fileno'])."</td>
-                    <td>{$rs_v['caption']}</td>
-                    <td>{$rs_v['role']}</td>
-                    <td>{$rs_v['entry_date']}</td>
-                    <td>{$rs_v['entry_time']}</td>
-                    <td><a href=\"javascript:swapcontent('allocaterole_section','delete','$id2')\">DELETE</a> | <a href=\"javascript:swapcontent('assign_faculty', 'view', '{$rs_v['fileno']}')\">FACULTY</a></td>
-               </tr>";
+          ?><tr>
+                    <td><?=$sn?></td>
+                    <td><?=$rs_v['fileno'].": ".@get_staff_name($rs_v['fileno'])?></td>
+                    <td><?=$rs_v['caption']?></td>
+                    <td><?=$rs_v['role']?></td>
+                    <td><?=$rs_v['entry_date']?></td>
+                    <td><?=$rs_v['entry_time']?></td>
+                    <td><a href="javascript:swapcontent('allocaterole_section','delete','$id2')">DELETE</a> | <a href="javascript:swapcontent('assign_faculty', 'view', '<?=$rs_v['fileno']?>')">FACULTY</a></td>
+               </tr><?php
      } //end of while
 
-     $tb.="</tbody></table></center>";
-     echo $tb;
+     echo "</tbody></table></center>";
      ///////////////////////////
 }// end allocaterole section
 
@@ -1949,14 +1948,14 @@ if($id=='assign_faculty')
      $res_v=@mysqli_query($con, $sql);
      $sn=0;
      $staff=strtoupper(@get_staff_name($r_id));
-     $tb="<h4>FACULTY ASSIGNMENT: {$staff}</h4>
+     ?><h4>FACULTY ASSIGNMENT: <?=$staff?></h4>
           <select name='dept_acctcode2' id='dept_acctcode2' style='width:350px'>
-               <option value='' selected='selected'>--Select Item--</option>";
+               <option value='' selected='selected'>--Select Item--</option><?php
                $q =  mysqli_query($con, "SELECT * FROM unittb WHERE status='Active' ORDER BY unit_name");
                while($r= mysqli_fetch_array($q, 3 )){
-                    $tb .= "<option value='{$r['unit_code']}'>{$r['unit_name']}</option>";
-               }
-               $tb .= "</select> <input type='button' name='assign' id='assign' value='ASSIGN' class='btn' onclick=\"swapcontent('assign_faculty', 'save', '{$r_id}', $('#dept_acctcode2').val());\"/>
+                    echo "<option value='{$r['unit_code']}'>{$r['unit_name']}</option>";
+               }?>
+          </select> <input type='button' name='assign' id='assign' value='ASSIGN' class='btn' onclick="swapcontent('assign_faculty', 'save', '<?=$r_id?>', $('#dept_acctcode2').val());"/>
      <center>
      <table id='MyTable' class='table display' style='border: groove 1px #C90' border='1' frame='hsides' rules='rows' width='100%'>
      <thead>
@@ -1968,24 +1967,23 @@ if($id=='assign_faculty')
                <th>DATE</th>
                <th>ACTION</th>
           </tr>
-     </thead><tbody>";
+     </thead><tbody><?php
      while($rs_v=@mysqli_fetch_array($res_v))
      {
           ++$sn;
           $id2=@$rs_v['id'];
           $filen=@$rs_v['fileno'];
-          $tb.="<tr>
-                    <td>$sn</td>
-                    <td>{$rs_v['fileno']}</td>
-                    <td>{$rs_v['names']}</td>
-                    <td>{$rs_v['unit_name']}</td>
-                    <td>".date('d-M-Y', strtotime($rs_v['entrydate']))."</td>
-                    <td><a href=\"javascript:swapcontent('assign_faculty','delete','$filen', '', '$id2')\">REMOVE</a></td>
-               </tr>";
+          ?><tr>
+                    <td><?=$sn?></td>
+                    <td><?=$rs_v['fileno']?></td>
+                    <td><?=$rs_v['names']?></td>
+                    <td><?=$rs_v['unit_name']?></td>
+                    <td><?=date('d-M-Y', strtotime($rs_v['entrydate']))?></td>
+                    <td><a href="javascript:swapcontent('assign_faculty','delete','<?=$filen?>', '', '<?=$id2?>')">REMOVE</a></td>
+               </tr><?php
      } //end of while
 
-     $tb.="</tbody></table></center>";
-     echo $tb;
+     echo "</tbody></table></center>";
      ///////////////////////////
 }// end allocaterole section
 
