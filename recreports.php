@@ -764,10 +764,10 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 	$total_bank_matched = number_format($total_bank_matched, 2);
 	$total_bank = number_format($total_bank, 2);
 		
-		$btx .= "<tr><td></td><th colspan='2'>TOTAL MATCHED IN THE MONTH:</th><th align='left'>".number_format($amtrx, 2)."</th><td></td>
+		echo $btx .= "<tr><td></td><th colspan='2'>TOTAL MATCHED IN THE MONTH:</th><th align='left'>".number_format($amtrx, 2)."</th><td></td>
 		<td bgcolor='#F8F8F8'></td><th bgcolor='#F8F8F8'></th><th bgcolor='#F8F8F8' align='left'>".number_format($amtbx, 2)."</th><td></td>
 		<th align='left'>".number_format($unremitax, 2)."</th><th align='left'>".number_format($unbankx, 2)."</th>
-		</tr>";
+		</tr>";exit;
 		if($xTrial === true){
 			$bty .= "<tr><td></td><th colspan='2'>IN OTHER MONTH(S):</th><th align='left'>".number_format($amtry, 2)."</th><td></td>
 			<td bgcolor='#F8F8F8'></td><th bgcolor='#F8F8F8'></th><th bgcolor='#F8F8F8' align='left'>".number_format($amtby, 2)."</th><td></td>
