@@ -1623,6 +1623,11 @@ if($option=='trialbalance')
 							if($sn%2==1) $rowclass="row-a"; else $rowclass="row-b";
 							$transdate=@$rs_trans['transdate'];
 							$amt = $a = $rs_trans['amount'];
+							$padding = $bursary->get_any_value('amount', 'note_pad', 'folio_code', $folio_code, " AND transyear='{$tyear}'");
+							if($padding>0) {
+								if($amt>=0) $amt += $padding;
+								else $amt -= $padding;
+							}
 
 							$sqllxa = mysqli_query($con, "SELECT sum(t.amount) AS amount from transtb t INNER JOIN foliotb f ON t.folio_code=f.folio_code WHERE t.transdate = '{$aFrom}' AND t.folio_code = '{$folio_code}' AND t.transtype = 'Credit'") or die( mysqli_error($con));
 							$rstransxa=mysqli_fetch_array($sqllxa, 3);
