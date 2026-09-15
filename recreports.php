@@ -716,7 +716,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 				$rssCount += $rs['sCount'];
 			}else{	
 				$xTrial = true;
-				$by .= "<tr><td>{$sn}</td><td>{$rs[special_ref]}</td><td nowrap align='left'>{$funding}: <a href='recreport-mini.php?tid=special_ref&productcode=".sha1($rs['special_ref'])."&month={$_SESSION['r_m']}&year={$_SESSION['r_y']}&paytype=Debit' target='_blank'>{$rs['sCount']}</a></td><td>".number_format($rs['remita_amount'], 2)."</td><td>{$rmon}/{$ryea}</td>";
+				$by .= "<tr><td>{$sn}</td><td>{$rs['special_ref']}</td><td nowrap align='left'>{$funding}: <a href='recreport-mini.php?tid=special_ref&productcode=".sha1($rs['special_ref'])."&month={$_SESSION['r_m']}&year={$_SESSION['r_y']}&paytype=Debit' target='_blank'>{$rs['sCount']}</a></td><td>".number_format($rs['remita_amount'], 2)."</td><td>{$rmon}/{$ryea}</td>";
 				$amtry += $rs['remita_amount'];
 				$amtby += $bank_amount;
 				$unremitay += $unremitted;
@@ -752,7 +752,7 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 		$lefttotal += abs($r['amount']);
 		$brl1x .= "<tr><td>{$snx}</td><td>".$r['credit_reference']."</td><td style='font-size:10px;'>{$r['paymentid']}</td><td>".number_format(abs($r['amount']), 2)."</td><td>{$r['rmonth']}/{$r['ryear']}</td></tr>";
 	}
-	echo $brl1x; exit;
+	
 	$lefttotal = number_format($lefttotal, 2);
 	$brl1x .= "<tr><th colspan=3>TOTAL</th><th><h5>{$lefttotal}</h5></th><td></td></tr></TABLE>";
 	//====================================================================================>
@@ -1511,7 +1511,7 @@ if(isset($_POST['btn_ctrl']) and isset($_SESSION['r_m']) and $_SESSION['r_m']!='
 	<tr><td><strong>SN</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryr, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['control_report'].=
-		echo "<tr><td>{$sn}</td><td>{$r['paymentid']}</td><td>{$r[special_ref]}</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['paymentid']}</td><td>{$r['special_ref']}</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['control_report'].=
@@ -1542,7 +1542,7 @@ if(isset($_POST['btn_ctrl_ref']) and isset($_SESSION['r_m']) and $_SESSION['r_m'
 		if($bref=='' or $bref=='Error!') continue;
 		$total_remita += $r['amount'];
 		$bx .= "<tr><td>{$sn}</td>
-		<td>{$r[credit_reference]}</td><td>{$r['paymentid']}</td><td align='right'>".number_format($r['amount'], 2)."</td>";
+		<td>{$r['credit_reference']}</td><td>{$r['paymentid']}</td><td align='right'>".number_format($r['amount'], 2)."</td>";
 		
 		///$bank_amount=$bursary->get_any_value('amount', 'recon_banktb', 'matched', '0', " AND credit_reference = '".addcslashes($r['credit_reference'], '\\\\')."' AND amount!={$r['amount']}");
 		$bank_amount=$bursary->get_any_value('amount', 'recon_banktb', 'matched', '0', " AND special_ref = '".$r['special_ref']."'");
