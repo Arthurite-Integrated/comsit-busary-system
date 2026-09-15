@@ -1545,6 +1545,9 @@ if($option=='trialbalance')
 							$debt = $rstransy['amount'];
 							$amt -= $rstransy['amount'];
 
+							$padding = $bursary->get_any_value('amount', 'note_pad', 'folio_code', $folio_code, " AND transyear='{$tyear}'");
+							if($padding>0) $amt += $padding;
+
 							if($rs_trans['transtype'] == 'Credit') {
 								$b_lance = $b_lance - $rs_trans['amount'];
 							}
