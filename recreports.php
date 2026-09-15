@@ -749,9 +749,9 @@ if(isset($_POST['btn_outflow']) and isset($_SESSION['r_m']) and $_SESSION['r_m']
 	while($r= mysqli_fetch_array($qryb, 3 )){
 		++$snx; 
 		$lefttotal += abs($r['amount']);
-		$brl1x .= "<tr><td>{$snx}</td><td>".$r['credit_reference']."</td><td style='font-size:10px;'>{$r[paymentid]}</td><td>".number_format(abs($r['amount']), 2)."</td><td>{$r['rmonth']}/{$r['ryear']}</td></tr>";
+		echo $brl1x .= "<tr><td>{$snx}</td><td>".$r['credit_reference']."</td><td style='font-size:10px;'>{$r[paymentid]}</td><td>".number_format(abs($r['amount']), 2)."</td><td>{$r['rmonth']}/{$r['ryear']}</td></tr>";
 	}
-	echo $brl1x; exit;
+	exit;
 	$lefttotal = number_format($lefttotal, 2);
 	$brl1x .= "<tr><th colspan=3>TOTAL</th><th><h5>{$lefttotal}</h5></th><td></td></tr></TABLE>";
 	//====================================================================================>
