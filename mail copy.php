@@ -681,7 +681,7 @@ if(cv=='out_query') // out query
                     //if(strtolower($r_vals) == "administrator" || strtolower($r_vals) == "super admin")
                     //$sql="SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit from memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id where mm.memo_status='IN' and  mm.read_status='Unread' order by mm.id desc";
                     //else
-                    $sql="SELECT `mm`.`memo_id`, `m`.`memo_from`, `m`.`description`, `m`.`amount`, `m`.`memo_status`, `m`.`datein`, `mm`.`read_status`, `mm`.`deptunit_to`, `m`.`entry_time`, `m`.`address_unit`, mm.id FROM `memo_movementtb` `mm` INNER JOIN `memotb` `m` ON `mm`.`memo_id`=`m`.`memo_id` WHERE `mm`.`memo_status`='IN' AND  `mm`.`read_status`='Unread' AND (`mm`.`dept_unit`='".@$_SESSION['userunit']."' OR m.`entry_by`='".$_SESSION['login_id']."') ORDER BY mm.id DESC LIMIT 500";
+                    $sql="SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, mm.deptunit_to from memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id where read_status='Read' AND m.entry_date order by mm.id desc LIMIT 100";
                     //`m`.`datein`, `m`.`entry_time`
                     $rq=mysqli_query($con, $sql);
                     //$r=mysqli_fetch_array($rq, 3);
