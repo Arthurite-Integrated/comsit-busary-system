@@ -40,10 +40,8 @@ if($id=='getLastPV')
      $year = $_REQUEST['year'];
      $yr=date('y', strtotime($year."-01-01"));
 
-     //echo  "SELECT MAX(pre_pvno) FROM vouchertb WHERE (pre_pvno LIKE '%{$type}%' OR pvno_paid LIKE '%{$type}%') AND YEAR(date_prepared)='{$year}'";  OR pvno_paid LIKE '%{$type}%'
      $sq=mysqli_query($con, "SELECT MAX(pre_pvserial) FROM vouchertb WHERE pre_pvtype = '{$type}' AND pre_pvyear = '{$year}'"); //AND YEAR(date_prepared)='{$year}'");
      $rec=mysqli_fetch_array($sq, 3);
-     //echo "<span style='font-size:18px; font-weight:bold;'> {$rec[0]} </span>";
      $pvserial = str_pad($rec[0], 4, '0', STR_PAD_LEFT);
 
 	$p="{$yr}/{$type}{$typeSub}{$pvserial}";
@@ -668,42 +666,15 @@ if($action=='view')
 }
 
 /////////////////////view section ////////////////////
-/*$sn=0;
-$res_v=@mysqli_query($con, $sql);
-$g_total=0;
-$tb="<table border='1' rules='all' frame='box'><tr><th colspan='8' align='center'>Prepared Voucher</th></tr><tr><th>S/N</th><th>PV NO.</th><!--<th>PV NO.</th>--><th>FOLIO</th><th>DEPARTMENT</th><th>DATE</th><th>PAYEE</th><th>AMOUNT</th><th>ACTION</th></tr>";
-if(@mysqli_num_rows($res_v)>=1)
-{
-
-while($rs_v=@mysqli_fetch_array($res_v))
-{
-++$sn;
-$r_id=$rs_v['id'];
-$g_total+=$rs_v['amount_paid'];
-$tb.="<tr><td>$sn</td><td>{$rs_v['pvno']}</td><!--<td>{$rs_v['pvno_paid']}</td>--><td>".@get_folio_name($rs_v['item_code'])."</td><td>".@get_dept_name_act($rs_v['dept_code'])."</td><td nowrap>{$rs_v['voucher_date']}</td><td>{$rs_v['payee_name']}</td><td>N".number_format($rs_v['amount_paid'],2)."</td><td><a href=\"javascript:if(confirm('Are you sure you want to perform this operation')==true) swapcontent('voucher_section_entry','delete','$r_id');\">DELETE</a></td></tr>";
-}//end of while
-
-$tb_s="<center><span align='center'><b>TOTAL AMOUNT: N". @number_format($g_total,2)."</b></span></center>";
-$tb.="<tr><td colspan='6' align='right'><b>TOTAL AMOUNT:</b></td><td colspan='2'><b>N".@number_format($g_total,2)."</b></td></tr>";
-$tb.="</table>";
-echo $tb_s.$tb;
-}
-else
-echo "<b>No record to display</b>";*/
-
 exit;
 }// end of voucher_section
 
 if($id=='journal_voucher_section')
 {
 
-     //$mydata=@$_REQUEST['mydata'];
      $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];
      $login_id=@$_SESSION['login_id'];
-     //$j=@json_decode(stripslashes($mydata)); //encode the json data
-     //$dept_code=explode("***",$j->dept_code);
-
      if($r_id !="")
      {
           $d=@mysqli_query($con, "SELECT * FROM vouchertb where id = '$r_id'");
@@ -1000,11 +971,8 @@ if($id=='journal_voucher_section')
 
 if($id=='getJVNo'){
      $junit=explode("***", $_REQUEST['junit']);
-     //$accountCode=$_REQUEST['account'];
-     //$uprefix=array(3=>"AJV", 4=>"BESTJV", 5=>"BJV", 7=>"SJV", 8=>"TJV", 9=>"CJV", 10=>"FJV", 11=>"SLAJV", 12=>"RJV", 13=>"CPUJV");
      $year=@date('y',strtotime(@$_REQUEST['pay_date']));
      $year2=@date('Y',strtotime(@$_REQUEST['pay_date']));
-     //$month=strtoupper(@date('M',strtotime(@$_REQUEST['pay_date'])));
      $prefix = $junit[2]; //$bursary->get_any_value("jv_code", "journal_code", "unit_code", $accountCode);
      $rs="SELECT count(*) as cnum FROM journaltb WHERE YEAR(journal_date) = '{$year2}' AND dept_code = '{$junit[0]}'";// AND pvno_paid != '' AND pvno NOT LIKE '%\_%'";
      $qr= mysqli_query($con, $rs);
@@ -1519,28 +1487,6 @@ if($action=='view')
 }
 
 /////////////////////view section ////////////////////
-/*$sn=0;
-$res_v=@mysqli_query($con, $sql);
-$g_total=0;
-$tb="<table border='1' rules='all' frame='box'><tr><th colspan='8' align='center'>Prepared Journal</th></tr><tr><th>S/N</th><th>Jornal NO.</th><th>FOLIO</th><th>DEPARTMENT</th><th>DATE</th><th>AMOUNT</th><th>ACTION</th></tr>";
-if(@mysqli_num_rows($res_v)>=1)
-{
-
-while($rs_v=@mysqli_fetch_array($res_v))
-{
-++$sn;
-$r_id=$rs_v['id'];
-$g_total+=$rs_v['amount_paid'];
-$tb.="<tr><td>$sn</td><td>{$rs_v['journalno']}</td><td>".@get_folio_name($rs_v['item_code'])."</td><td>".@get_dept_name_act($rs_v['dept_code'])."</td><td nowrap>{$rs_v['voucher_date']}</td><td>{$rs_v['payee_name']}</td><td>N".number_format($rs_v['amount_paid'],2)."</td><td><a href=\"javascript:if(confirm('Are you sure you want to perform this operation')==true) swapcontent('voucher_section_entry','delete','$r_id');\">DELETE</a></td></tr>";
-}//end of while
-
-$tb_s="<center><span align='center'><b>TOTAL AMOUNT: N". @number_format($g_total,2)."</b></span></center>";
-$tb.="<tr><td colspan='6' align='right'><b>TOTAL AMOUNT:</b></td><td colspan='2'><b>N".@number_format($g_total,2)."</b></td></tr>";
-$tb.="</table>";
-echo $tb_s.$tb;
-}
-else
-echo "<b>No record to display</b>";*/
 exit;
 
 }// end of voucher_section
@@ -1569,11 +1515,6 @@ if($id=='folio_code_breakdown_journal')
                     <td width='5%'><input type='text' class='amt2' name='dr_bamt[]' onblur=\"sum2('amt2')\" style='background-color: #FEFFB0;font-weight: bold;text-align: right;'></td>
                     <td width='5%'><input type='text' class='amt3' name='cr_bamt[]' onblur=\"sum2('amt3')\" style='background-color: #FEFFB0;font-weight: bold;text-align: right;'></td></tr>";
                }
-               /*echo "<tr><td colspan='5'><label for='pvno'><strong>(PA) PV. No.: </strong> <input type='text' id='pvno' name='pvno' style='width: 300px'>
-               <input type='hidden' id='lsn' name='lsn' value='".$sn."'>
-               </label> ".'<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" onclick="swapcontent(\'get_pv_detail_journal\');"><strong><font color="#000099">GET PV</font></strong></a>'."</td>
-               </tr>";
-               echo '<div id="get_pv_detail_journal"></div>';*/
                echo "<tr><th></th><th></th><th>TOTAL AMOUNT (&#8358;)</th>
                <th width='5%'><input type='number' class='t_amt2' name='dr_vamount' id='dr_vamount' value='' size='20' style='background-color: #FEFFB0;font-weight: bold;text-align: right;' ></th>
                <th width='5%'><input type='number' class='t_amt3' name='cr_vamount' id='cr_vamount' value='' size='20' style='background-color: #FEFFB0;font-weight: bold;text-align: right;' ></th>
@@ -1968,28 +1909,6 @@ if($id=='save_loan_repayment')
      }
 
      /////////////////////view section ////////////////////
-     /*$sn=0;
-     $res_v=@mysqli_query($con, $sql);
-     $g_total=0;
-     $tb="<table border='1' rules='all' frame='box'><tr><th colspan='8' align='center'>Prepared Journal</th></tr><tr><th>S/N</th><th>Jornal NO.</th><th>FOLIO</th><th>DEPARTMENT</th><th>DATE</th><th>AMOUNT</th><th>ACTION</th></tr>";
-     if(@mysqli_num_rows($res_v)>=1)
-     {
-
-     while($rs_v=@mysqli_fetch_array($res_v))
-     {
-     ++$sn;
-     $r_id=$rs_v['id'];
-     $g_total+=$rs_v['amount_paid'];
-     $tb.="<tr><td>$sn</td><td>{$rs_v['journalno']}</td><td>".@get_folio_name($rs_v['item_code'])."</td><td>".@get_dept_name_act($rs_v['dept_code'])."</td><td nowrap>{$rs_v['voucher_date']}</td><td>{$rs_v['payee_name']}</td><td>N".number_format($rs_v['amount_paid'],2)."</td><td><a href=\"javascript:if(confirm('Are you sure you want to perform this operation')==true) swapcontent('voucher_section_entry','delete','$r_id');\">DELETE</a></td></tr>";
-}//end of while
-
-$tb_s="<center><span align='center'><b>TOTAL AMOUNT: N". @number_format($g_total,2)."</b></span></center>";
-$tb.="<tr><td colspan='6' align='right'><b>TOTAL AMOUNT:</b></td><td colspan='2'><b>N".@number_format($g_total,2)."</b></td></tr>";
-$tb.="</table>";
-echo $tb_s.$tb;
-}
-else
-echo "<b>No record to display</b>";*/
 
 exit;
 }
@@ -4964,101 +4883,6 @@ if($id=='voucher_section_entry')
                     $log .= $queryString;
                }//end if $dend_pv
                
-               /*if($autocreate=='yes')
-               {
-                    if(count($vcode)>0)
-                    {
-
-                         foreach($vcode as $codeval){  //code for tax
-                              $line=$i+1;
-                              if($codeval !=""){
-                                   $code=@explode("***",$codeval);
-                                   $tax_folio_code=$code[0];
-                                   $amount=$vamt[$code[2]];
-                                   $total_tax+=$amount;
-                                   $j++;
-                                   $pvno2=$pvno."/$j";
-                                   $tax_detail=@get_tax_detail($tax_folio_code);
-
-                                   if($process_type=="pending") $queryString="INSERT INTO vouchertb SET pvno='{$pvno2}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$tax_detail[4]}', payee_name='{$tax_detail[5]}', payee_acct_no='{$tax_detail[6]}', payee_bank_name='{$tax_detail[7]}', payee_address='{$tax_detail[8]}', payee_tin_number='{$tax_detail[9]}', payee_sort_code='{$tax_detail[10]}', description='Deduction for: {$desc}', amount_approved='{$amount}', amount_paid='{$amount}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_type='Final', memo_id='{$memo_id}', purchase_advance='{$isPA}', dept_vou='{$roledept}'";
-                                   else if($process_type=="final") $queryString = "INSERT INTO vouchertb SET pvno='{$pvno2}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$tax_detail[4]}', payee_name='{$tax_detail[5]}', payee_acct_no='{$tax_detail[6]}', payee_bank_name='{$tax_detail[7]}', payee_address='{$tax_detail[8]}', payee_tin_number='{$tax_detail[9]}', payee_sort_code='{$tax_detail[10]}', description='Deduction for: {$desc}', amount_approved='{$amount}', amount_paid='{$amount}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', checked_by='{$login_id}', date_checked=CURDATE(), time_checked=CURTIME(), checked_action='Approved', controlled_by='{$login_id}', date_controlled=CURDATE(), time_controlled=CURTIME(), controlled_action='Approved', authorized_by='{$login_id}', date_authorized=CURDATE(), time_authorized=CURTIME(), authorized_action='Approved', paid_by='{$login_id}', date_paid=CURDATE(), time_paid=CURTIME(), paid_action='Approved', final_approval_by='{$login_id}', final_approval_date=CURDATE(), final_approval='Approved', audit_by='{$login_id}', audit_date=CURDATE(), audit_time=CURTIME(), audit_action='Approved', memo_id='{$memo_id}', purchase_advance='{$isPA}', dept_vou='{$roledept}'";
-
-                                   //$r4[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                                   if(!mysqli_query($con, $queryString))
-                                   {
-                                        echo "21.  ".mysqli_error($con);
-                                        $bursary->rollback();
-                                        $flag=false;
-                                        goto TestArea1;
-                                   }
-                                   $log .= $queryString;
-
-                                   //folio_code='$tax_folio_code',
-                                   $queryString = "INSERT INTO voucher_parent_child_taxtb set parent_pvno='$pvno',child_pvno='$pvno2'";
-                                   //$r5[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                                   if(!mysqli_query($con, $queryString))
-                                   {
-                                        echo "22.  ".mysqli_error($con);
-                                        $bursary->rollback();
-                                        $flag=false;
-                                        goto TestArea1;
-                                   }
-                                   $log .= $queryString;
-
-                                   if($process_type=="pending") $queryString = "INSERT INTO voucher_folio_codetb SET pvno='{$pvno2}',folio_code='{$tax_folio_code}',amount='{$amount}', paid='No'";
-                                   else if($process_type=="final") $queryString = "INSERT INTO voucher_folio_codetb SET pvno='{$pvno2}',folio_code='{$tax_folio_code}',amount='{$amount}', paid='Yes'";
-
-                                   //$r7[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                                   if(!mysqli_query($con, $queryString))
-                                   {
-                                        echo "23.  ".mysqli_error($con);
-                                        $bursary->rollback();
-                                        $flag=false;
-                                        goto TestArea1;
-                                   }
-                                   $log .= $queryString;
-
-                              }//end of amount is not empty
-                              $i++;
-
-                         }// end of foreach folio code
-
-                    }// end of folio code is not empty for tax deduction
-               }// end of autocreate tax record is yes
-               else{
-                    $i=0;
-                    $j=0;
-                    //echo $vcode; exit;
-                    if(count($vcode)>0){
-                         foreach($vcode as $codeval){  //code for tax
-                              $line=$i+1;
-                              if($codeval !=""){
-                                   $code=@explode("***",$codeval);
-                                   $tax_folio_code=$code[0];
-                                   $amount=$vamt[$code[2]];
-                                   $total_tax+=$amount;
-                                   $j++;
-                                   $queryString="INSERT INTO voucher_taxtb SET pvno='{$pvno}', folio_code='{$tax_folio_code}', amount='{$amount}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
-                                   //$r6[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                                   if(!mysqli_query($con, $queryString))
-                                   {
-                                        echo "24.  ".mysqli_error($con);
-                                        $bursary->rollback();
-                                        $flag=false;
-                                        goto TestArea1;
-                                   }
-                                   $log .= $queryString;
-                              }//end of amount is not empty
-                              $i++;
-
-                         }// end of foreach folio code
-
-                    }// end of folio code is not empty for tax deduction
-                    
-               }//end of else part of autocreate is not ==yes
-               */
-               //echo "I'm still working..."; exit;
-
                //logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
 
 
@@ -5979,395 +5803,6 @@ if($id=='voucher_section_entry_final')
                }//end if $dvat_pv
           }
 
-          /*
-                    $bursary->begin();
-                    //stepping down budget check at this point
-                    ////if( ($amount_paid <= $total_budget) or $total_budget=='' )
-                    {
-                         $queryString = "INSERT INTO vouchertb set pvno='$pvno', pvno_paid='$pvno_final', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', fileno='$fileno', payee_name='$name', payee_acct_no='$act_no', payee_bank_name='$bank', payee_address='$address', payee_tin_number='$payee_tin_number', payee_sort_code='$payee_sort_code', description='Being $desc', amount_approved='$amount_approved', total_tax='$total_tax', amount_paid='$amount_paid', prepared_by='$prepared_by', date_prepared='$pay_date', entry_date='$pay_date', entry_by='$login_id', entry_type='Final', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date', authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved', memo_id='$memo_id', purchase_advance='$isPA'";
-
-                         //$r1=@mysqli_query($con, $queryString) or die( "1.". mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "1.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         if( count($folio)==1 ){
-                              $queryString="INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'";
-
-                              $log=$queryString.";";
-                              //$r2[]=@mysqli_query($con, $queryString) or die( "2.". mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "2.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-
-                              $queryString="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$amount_paid', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
-                              $log=$queryString.";";
-                              //$r8[]=@mysqli_query($con, $queryString) or die( "4.". mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "3.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-                              ///mysqli_query($con, "UNLOCK TABLES;");
-                              $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
-                              $log=$queryString.";";
-                              //$r9[]=@mysqli_query($con, $queryString) or die( "5.". mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "4.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-                         }else{
-                              if(count($bcode)>1){
-                                   foreach($bcode as $v){
-                                        $queryString = "INSERT INTO voucher_folio_codetb set pvno='$pvno',folio_code='$v',amount='$bamt[$s]', paid='Yes'";
-                                        //$r2[]=@mysqli_query($con, $queryString) or die( "6.". mysqli_error($con));
-                                        if(!mysqli_query($con, $queryString))
-                                        {
-                                             echo "5.  ".mysqli_error($con);
-                                             $bursary->rollback();
-                                             $flag=false;
-                                             goto TestArea;
-                                        }
-
-                                        $queryString="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$v', transtype='Debit', transdate='$pay_date', amount='".$bamt[$s]."', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
-                                        $log=$queryString.";";
-                                        //$r8[]=@mysqli_query($con, $queryString) or die( "7.". mysqli_error($con));
-                                        if(!mysqli_query($con, $queryString))
-                                        {
-                                             echo "6.  ".mysqli_error($con);
-                                             $bursary->rollback();
-                                             $flag=false;
-                                             goto TestArea;
-                                        }
-
-                                        $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$v."', budget_folio_code = '".$v."', amount = ".$bamt[$s].", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
-                                        $log=$queryString.";";
-                                        //$r9[]=@mysqli_query($con, $queryString) or die( "8.". ysqli_error($con));
-                                        if(!mysqli_query($con, $queryString))
-                                        {
-                                             echo "7.  ".mysqli_error($con);
-                                             $bursary->rollback();
-                                             $flag=false;
-                                             goto TestArea;
-                                        }
-
-                                        $s++;
-                                   }
-                              }
-                         }
-                         //exit;
-
-                         //if($vat_incl != "yes" and $dvat > 0)
-                         {
-                         if($dvat_pv == "yes" and $dvat > 0){
-                              $pvno_tax = $pvno."_VAT";
-
-                              //if($vat_incl == "yes") $vat_amount = ($dvat/($dvat + 100)) * $vamount;
-                              else $vat_amount = ($dvat/100) * $vamount;
-
-                              $queryString="INSERT INTO vouchertb set pvno='$pvno_tax', pvno_paid='{$pvno_final}A', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', payee_name='$vat_payee', payee_acct_no='$vat_acct', payee_bank_name='$vat_bank', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of $dvat% VAT for $desc', amount_approved='$vat_amount', amount_paid='$vat_amount', entry_date=CURDATE(), entry_time=CURTIME(), entry_type='VAT', memo_id='$memo_id',
-                              prepared_by='$prepared_by', date_prepared='$pay_date', entry_by='$login_id', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date',  authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved' ";
-
-                              $log=$queryString.";";
-                              //$r4[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "8.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-
-                              $queryString="INSERT INTO voucher_parent_child_taxtb SET parent_pvno='{$pvno}',child_pvno='{$pvno_tax}'";
-                              $log=$queryString.";";
-                              //$r5[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "9.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-
-                              $queryString="INSERT INTO voucher_taxtb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$vat_amount}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
-                              $log=$queryString.";";
-                              //$r6[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "10.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-
-                              $queryString="INSERT INTO voucher_folio_codetb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$vat_amount}', paid='Yes'";
-                              $log=$queryString.";";
-                              //$r7[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "11.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-
-                              $queryString="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$vat_amount', paybatch='$batchno', pvno='{$pvno_final}A', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                              $log=$queryString.";";
-                              //$r8[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "12.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-
-                              $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$vat_amount.", voucher_pvno = '".$pvno_final."A', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
-                              $log=$queryString.";";
-                              //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                              if(!mysqli_query($con, $queryString))
-                              {
-                                   echo "13.  ".mysqli_error($con);
-                                   $bursary->rollback();
-                                   $flag=false;
-                                   goto TestArea;
-                              }
-                         }//end if $dvat_pv
-                    }//end if $vat_incl
-
-                    if($dtax_pv == "yes" and $dtax > 0){
-                         $pvno_tax = $pvno."_WHT";
-                         //$tax_amount = (($vamount/100) * $dtax);
-                         $queryString="INSERT INTO vouchertb set pvno='$pvno_tax', pvno_paid='{$pvno_final}B', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', payee_name='{$tax_payee}', payee_acct_no='{$tax_acct}', payee_bank_name='{$tax_bank}', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of {$dtax}% WHT for $desc', amount_approved='$tax_amount', amount_paid='$tax_amount', entry_date=CURDATE(), entry_time=CURTIME(), entry_type='TAX', memo_id='$memo_id',
-                         prepared_by='$prepared_by', date_prepared='$pay_date', entry_by='$login_id', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date',  authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved' ";
-                         $log=$queryString.";";
-                         //$r4[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "14.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_parent_child_taxtb SET parent_pvno='{$pvno}',child_pvno='{$pvno_tax}'";
-                         $log=$queryString.";";
-                         //$r5[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "15.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_taxtb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$tax_amount}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $log=$queryString.";";
-                         //$r6[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "16.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_folio_codetb set pvno='$pvno_tax',folio_code='$folio[0]',amount='$tax_amount', paid='Yes'";
-                         $log=$queryString.";";
-                         //$r7[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-
-                         $queryString="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$tax_amount', paybatch='$batchno', pvno='{$pvno_final}B', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $log=$queryString.";";
-                         //$r8[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "17.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$tax_amount.", voucher_pvno = '".$pvno_final."B', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
-                         $log=$queryString.";";
-                         //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "10.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                    }//end if $dtax_pv
-
-                    if($dend_pv == "yes" and $dend > 0){
-                         $pvno_tax = $pvno."_END";
-                         //$end_amount = (($vamount/100) * $dend);
-                         $queryString="INSERT INTO vouchertb set pvno='$pvno_tax', pvno_paid='{$pvno_final}C', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', payee_name='{$end_payee}', payee_acct_no='{$end_acct}', payee_bank_name='{$end_bank}', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of {$dend}% Endowment for $desc', amount_approved='$end_amount', amount_paid='$end_amount', entry_date=CURDATE(), entry_time=CURTIME(), entry_type='ENDOWMENT', memo_id='$memo_id',
-                         prepared_by='$prepared_by', date_prepared='$pay_date', entry_by='$login_id', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date',  authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved' ";
-                         $log=$queryString.";";
-                         //$r4[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "19.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_parent_child_taxtb SET parent_pvno='{$pvno}',child_pvno='{$pvno_tax}'";
-                         $log=$queryString.";";
-                         //$r5[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "20.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_taxtb SET pvno='{$pvno_tax}',folio_code='{$folio[0]}',amount='{$end_amount}',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'";
-                         $log=$queryString.";";
-                         //$r6[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "21.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_folio_codetb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$end_amount}',  paid='Yes'";
-                         $log=$queryString.";";
-                         //$r7[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "22.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$end_amount', paybatch='$batchno', pvno='{$pvno_final}C', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $log=$queryString.";";
-                         //$r8[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "23.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$end_amount.", voucher_pvno = '".$pvno_final."C', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
-                         $log=$queryString.";";
-                         //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "24.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                    }//end if $dend_pv
-
-                    if($dstamp_pv == "yes" and $dstamp > 0){
-                         $pvno_stamp = $pvno."_SD";
-                         //$stamp_amount = (($vamount/100) * $dstamp);
-                         $queryString="INSERT INTO vouchertb set pvno='$pvno_stamp', pvno_paid='{$pvno_final}D', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', payee_name='$stamp_payee', payee_acct_no='$stamp_acct', payee_bank_name='$stamp_bank', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of {$dstamp}% Stamp-Duty for $desc', amount_approved='$stamp_amount', amount_paid='$stamp_amount', entry_date=CURDATE(), entry_time=CURTIME(), entry_type='STAMP DUTY', memo_id='$memo_id',
-                         prepared_by='$prepared_by', date_prepared='$pay_date', entry_by='$login_id', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date',  authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved' ";
-                         $log=$queryString.";";
-                         //$r4[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "25.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_parent_child_taxtb SET parent_pvno='{$pvno}',child_pvno='{$pvno_stamp}'";
-                         $log=$queryString.";";
-                         //$r5[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "26.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_taxtb SET pvno='{$pvno_stamp}', folio_code='{$folio[0]}', amount='{$stamp_amount}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $log=$queryString.";";
-                         //$r6[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "27.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO voucher_folio_codetb set pvno='$pvno_stamp',folio_code='$folio[0]',amount='$stamp_amount', paid='Yes'";
-                         $log=$queryString.";";
-                         //$r7[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "28.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$stamp_amount', paybatch='$batchno', pvno='{$pvno_final}D', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $log=$queryString.";";
-                         //$r8[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "29.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                         $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$stamp_amount.", voucher_pvno = '".$pvno_final."D', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
-                         $log=$queryString.";";
-                         //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
-                         if(!mysqli_query($con, $queryString))
-                         {
-                              echo "30.  ".mysqli_error($con);
-                              $bursary->rollback();
-                              $flag=false;
-                              goto TestArea;
-                         }
-
-                    }//end if $dend_pv
-          */
-
-
-         // $sql="select v.*, fc.folio_code as item_code FROM vouchertb v INNER JOIN voucher_folio_codetb fc ON v.pvno=fc.pvno WHERE prepared_by='$login_id' AND checked_by='' ORDER BY voucher_date,folio_code,pvno";
-
 TestArea:
           if($flag==true){
                //// mysqli_query($con, "update memo_movementtb set read_status = 'Read' where memo_id = '$memo_id'");
@@ -6385,11 +5820,6 @@ TestArea:
 
 
      }// end of save
-
-
-
-
-     ///$sql="select v.*, fc.folio_code as item_code FROM vouchertb v INNER JOIN voucher_folio_codetb fc ON v.pvno=fc.pvno WHERE prepared_by='$login_id' ORDER BY voucher_date, folio_code, pvno DESC LIMIT 5";
 
      $sql="select v.*, fc.folio_code as item_code FROM vouchertb v INNER JOIN voucher_folio_codetb fc ON v.pvno=fc.pvno ORDER BY id DESC LIMIT 10 ";
 
@@ -6755,8 +6185,7 @@ TestArea:
                     <input type='hidden' name='r_vals' id='r_vals' value='$r_vals'/>
                     <input type='hidden' name='pvno' id='pvno' value='$pvno'/></td></tr>";
 
-                    //$pvno_paid = $prefix.$px."/".date('Y')."/".str_pad(($bursary->get_any_value("count(*) as cnum", "vouchertb", "acctcode", $rs_d['acctcode'], " and pvno_paid != ''") + 1), '6', '0', STR_PAD_LEFT);
-                    $pvno_paid = ''; ///$prefix.$pf.str_pad(($bursary->get_any_value("count(*) as cnum", "vouchertb", "acctcode", $rs_d['acctcode'], " and pvno_paid != ''") + 1), '3', '0', STR_PAD_LEFT);
+                    $pvno_paid = ''; 
 
                     $tb .= "
                     <tr><th>P.V. NO.: </th><td><!--input type='hidden' name='acctcode' id='acctcode' value='".$rs_d['acctcode']."'-->
@@ -6999,17 +6428,11 @@ TestArea:
                $isPA=$bursary->get_any_value("purchase_advance", "vouchertb", "pvno", $pvno);
                mysqli_query($con, $sql) or die( mysqli_error($con));
 
-               //$queryStringB="INSERT INTO transtb set dept_acctcode='', acctcode='$acctcode', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$amount_paid', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
-
                $sql2 = "update `budget_votebooktb` set status = 'PAID' WHERE voucher_pvno = '{$pvno}'";
                
                
                $sqq= mysqli_query($con, "SELECT * FROM vouchertb WHERE pvno='{$pvno}'");
                if($rr= mysqli_fetch_array($sqq, 3 )){
-                    /*if($rr['audit_action']!='Approved' && $opt=='Approved'){
-                         $sql_b="UPDATE vouchertb SET audit_by='{$login_id}', audit_action='{$opt}', audit_remark='{$comment}', audit_date='{$pay_date}', audit_time=CURTIME() WHERE pvno='{$pvno}'";
-                         @mysqli_query($con, $sql_b) or die( mysqli_error($con));
-                    }*/
                     $sqq2 = mysqli_query($con, "SELECT * FROM voucher_folio_codetb WHERE pvno='{$pvno}'");
                     while($rr2= mysqli_fetch_array($sqq2, 3 )){
                          $adv = $bursary->get_any_value("folio_code", "advancetb", "folio_code", $rr2['folio_code']);
@@ -7301,7 +6724,6 @@ TestArea:
      $r_vals=$_REQUEST['r_vals'];
      $r=strtolower($r_vals);
      $comment=$_REQUEST['comment'];
-     /*echo "<script>alert('$pvno_paid');</script>"; exit;*/
      if(!isset($_SESSION['login_id']) or $_SESSION['login_id'] == ''){
      echo "<script>alert('Session timeout. You will have login again!'); window.location='index.php';</script>"; exit;
      }

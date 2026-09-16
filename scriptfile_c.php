@@ -2553,7 +2553,7 @@ if($action!='compute'){
           {
                ++$sn;
                $id2=@$rs_v['id'];
-               $tb.="<tr><td>$sn</td><td>{$rs_v[fileno]}</td><td>".@get_staff_name($rs_v[fileno])."</td><td>{$rs_v['no_of_days']}</td><td>".@number_format($rs_v['amount'],2)."</td><td>".@get_month_name($rs_v['month'])."</td><td>".$rs_v[year]."</td><td><a href=\"javascript:swapcontent('prorata_section','delete','$id2');\">DELETE</a></td></tr>";
+               $tb.="<tr><td>$sn</td><td>{$rs_v['fileno']}</td><td>".@get_staff_name($rs_v['fileno'])."</td><td>{$rs_v['no_of_days']}</td><td>".@number_format($rs_v['amount'],2)."</td><td>".@get_month_name($rs_v['month'])."</td><td>".$rs_v['year']."</td><td><a href=\"javascript:swapcontent('prorata_section','delete','$id2');\">DELETE</a></td></tr>";
           }//end of while
           $tb.="</table>";
           echo $tb;
