@@ -11,32 +11,13 @@ $db->connect();
 @require_once "myclass_m.php"; $bursary=new myclass_m();
 $id=@$_REQUEST['contentvar'];
 $contentvar=$_REQUEST['contentvar'];
-echo  'here   is     '.$contentvar; exit;
+//echo  'here   is     '.$contentvar; exit;
 function smsalert($msg,$phoneno){
      $msg=@rawurlencode($msg);
      $phoneno="+234".@substr($phoneno,-10);
      $sender=@rawurlencode('UNILORIN');
      $r=@file_get_contents("http://api.smartsmssolutions.com/smsapi.php?username=jmklaru&password=0712764&sender=$sender&recipient=$phoneno&message=$msg");
 }
-
-///////////////////####################### GENERAL PARAMETER SECTION ////////////////////////////////////////////////
-//get the current post jamb session, data and money
-$res_jamb=@mysqli_query($con, "select * from settingstb where parameter='post_utme_payment'");
-$rs_jamb=@mysqli_fetch_array($res_jamb);
-$putme_payment_type=@$rs_jamb['parameter'];
-$putme_payment_desc=@$rs_jamb['parameter_desc'];
-$putme_payment_item_id=@$rs_jamb['pay_item_id'];
-$putme_amount=@$rs_jamb['amount'];
-$putme_other_charges=@$rs_jamb['other_charges'];
-$putme_session=@$rs_jamb['session'];
-$putme_start_date=@$rs_jamb['start_date'];
-$putme_end_date=@$rs_jamb['end_date'];
-$_SESSION['putme_pay_item_id']=$putme_payment_item_id;
-///////////////////####################### END OF GENERAL PARAMETER SECTION ////////////////////////////////////////////////
-
-
-
-
 
 if($id=='folio_section')
 {
@@ -814,12 +795,6 @@ if($id=='logout') //logout section
 {
      $ref=@$_REQUEST['ref']; //this is the page to redirect to
      $login_status=@$_SESSION['login_status'];
-
-     if($login_status=='candidate')
-     {
-          $jamb_no=@$_SESSION['putme_regno'];
-          @mysqli_query($con, "update candidatetb set online_status='Off' where regno='$jamb_no' limit 1");
-     } //end of candidate logout
 
      if($login_status=='staff' or $login_status=='student')
      {
