@@ -1844,10 +1844,8 @@ if($id=='taxrate_section')
 /////////////////////Allocaterole section ////////////////////
 if($id=='allocaterole_section')
 {
+     echo "<script>alert('Im here!');</script>";exit;
      $j=json_decode(stripslashes(@$_REQUEST['mydata']));
-     //$code=$j->code;
-     //$name=@mysqli_real_escape_string($con, $j->name);
-     //$status=$j->status;
      $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];  //for row id to be deleted/edited
      $login_id=@$_SESSION['login_id'];
