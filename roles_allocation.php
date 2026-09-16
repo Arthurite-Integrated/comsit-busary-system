@@ -43,7 +43,14 @@ $staff_category=@$_SESSION['staff_category'];
                          exit;
                     }
                }
-               var mydata=JSON.stringify($('#frm').serializeObject());
+               ////var mydata=JSON.stringify($('#frm').serializeObject());
+               var serialized = $('#frm').serializeArray();
+                var s = '';
+                var data = {};
+                for(s in serialized){
+                    data[serialized[s]['name']] = serialized[s]['value']
+                }
+                var mydata = JSON.stringify(data);
 
                $.post(url,{contentvar:cv,mydata:mydata,action:v,r_id:a},function(data){
                     $(divid).html(data).show();
@@ -66,7 +73,14 @@ $staff_category=@$_SESSION['staff_category'];
                          exit;
                     }
                }*/
-               var mydata=JSON.stringify($('#frm').serializeObject());
+               ////var mydata=JSON.stringify($('#frm').serializeObject());
+               var serialized = $('#frm').serializeArray();
+                var s = '';
+                var data = {};
+                for(s in serialized){
+                    data[serialized[s]['name']] = serialized[s]['value']
+                }
+                var mydata = JSON.stringify(data);
 
                $.post(url,{contentvar:cv, mydata:mydata, action:v, r_id:a, unitcode:b, rid:c},function(data){
                     $(divid).html(data).show();

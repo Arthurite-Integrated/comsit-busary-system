@@ -1848,7 +1848,7 @@ if($id=='allocaterole_section')
      //$code=$j->code;
      //$name=@mysqli_real_escape_string($con, $j->name);
      //$status=$j->status;
-     echo $action=@$_REQUEST['action'];exit;
+     $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];  //for row id to be deleted/edited
      $login_id=@$_SESSION['login_id'];
      //echo "COde: $code Name: $name Status:$status Action: $action  R_ID: $r_id";
@@ -1885,7 +1885,7 @@ if($id=='allocaterole_section')
                $sql .= " order by u.role ";
           }
      }
-echo $sql; exit;
+
      $res_v=@mysqli_query($con, $sql);
      $sn=0;
      ?><center><table id='MyTable' class='table display' style='border: groove 1px #C90' border='1' frame='hsides' rules='rows' width='100%'>
