@@ -51,7 +51,7 @@ $staff_category=@$_SESSION['staff_category'];
                     data[serialized[s]['name']] = serialized[s]['value']
                 }
                 var mydata = JSON.stringify(data);
-
+alert(mydata);
                $.post(url,{contentvar:cv,mydata:mydata,action:v,r_id:a},function(data){
                     $(divid).html(data).show();
 
