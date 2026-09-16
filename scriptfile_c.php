@@ -1,7 +1,5 @@
 <?php
 @session_start();
-//@ini_set('max_execution_time', 60000000000);
-//@ini_set("memory_limit", "51200M");
 @require_once('connect.php');
 @require_once('function_c.php');
 
@@ -26,8 +24,6 @@ if($id=='folio_section')
      $r_id=@$_REQUEST['r_id'];
      //$stat = $_REQUEST['status'];
      $j=@json_decode(stripslashes($mydata)); //encode the json data
-     //$dept_code=explode("***",$j->dept_code);
-     //echo 'Sno    '.$mydata. $action; exit;
      $stat=$j->status;
      if($r_id != "")
      {
@@ -60,8 +56,6 @@ if($id=='folio_section')
           }
           else
           {
-               //$err=@mysqli_real_escape_string($con,  mysqli_error($con));
-               //echo $err=@mysqli_error($con);
                echo "<script>alert('Unable to save record');</script>";
 
           }
@@ -79,9 +73,6 @@ if($id=='folio_section')
           }
           else
           {
-               //$err=@mysqli_real_escape_string($con,  mysqli_error($con));
-               //$err=@mysqli_error($con);
-               //echo "$err";
                echo "<script>alert('Unable to save record');</script>";
 
           }
@@ -93,11 +84,6 @@ if($id=='folio_section')
           $ss="SELECT f.*, c.folio_category FROM foliotb f INNER JOIN folio_categorytb c ON f.category=c.id WHERE f.id='{$r_id}'";
           $qr=mysqli_query($con, $ss);
           $rec=mysqli_fetch_array($qr, 3);
-          //"INSERT INTO foliotb SET folio_code='{$j->folio_code}', title='{$j->title}', category='{$j->category}', fundcenter = '{$fundcenter}', deptcode = '{$deptcode}', itemcode = '{$itemcode}', exp='{$j->cgroup}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'"
-          //$json_val=@array(folio_code=>$rec['folio_code'], title=>$rec['title'], category=>$rec['category'], cgroup=>$rec['exp'], id=>$rec['id'], status=>$rec['status']);
-          //$json_val=@json_encode($json_val);
-          //echo $json_val;
-          //exit;
           ?>
           <span id="edit_span" style="background-color:red;">
           <hr>

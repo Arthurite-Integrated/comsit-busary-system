@@ -577,27 +577,7 @@ exit;
 } 
 
 if($id=="inmails")
-{
-	/*echo "<script>alert('am here!'); </script>";
-	echo "<p style='color:red;'>am here!'</p>";
-	echo $_REQUEST['contentvar']."<br>";
-	echo $_REQUEST['memo_from']."<br>";
-	echo $_REQUEST['desc']."<br>";
-	echo $_REQUEST['amount'];*/
-	//exit;
-	
 	$index = $_REQUEST['tabindex'];
-	//$fno=@$_REQUEST['regno'];
-	//echo $fno; exit;
-	//$formcontent=@$_REQUEST['formcontent'];
-	//$referee = json_decode($formcontent);
-	/*$town=@$_REQUEST['town'];
-	$from_date=@$_REQUEST['p_fromdate'];
-	$to_date=@$_REQUEST['p_todate'];
-	$category=@$_REQUEST['category'];
-	$added_date=@date('Y-m-d'); $added_time=@date('h:s:i a'); 
-	$session=@$_SESSION['putme_session'];*/
-
 
 	echo "<script>
 		$('#tt').tabs('select', $index);</script>";	

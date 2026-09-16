@@ -2089,12 +2089,6 @@ if($id=='logout') //logout section
      $ref=@$_REQUEST['ref']; //this is the page to redirect to
      $login_status=@$_SESSION['login_status'];
 
-     if($login_status=='candidate')
-     {
-          $jamb_no=@$_SESSION['putme_regno'];
-          @mysqli_query($con, "update candidatetb set online_status='Off' where regno='$jamb_no' limit 1");
-     } //end of candidate logout
-
      if($login_status=='staff' or $login_status=='student')
      {
 

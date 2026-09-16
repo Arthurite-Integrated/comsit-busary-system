@@ -1,7 +1,5 @@
 <?php
 @session_start();
-@ini_set('max_execution_time', 60000000000);
-@ini_set("memory_limit", "51200M");
 @require_once('connect.php');
 @require_once('function.php');
 @require_once('gencode.php');
@@ -22,20 +20,6 @@ function smsalert($msg,$phoneno){
      $r=@file_get_contents("http://api.smartsmssolutions.com/smsapi.php?username=jmklaru&password=0712764&sender=$sender&recipient=$phoneno&message=$msg");
 }
 
-///////////////////####################### GENERAL PARAMETER SECTION ////////////////////////////////////////////////
-//get the current post jamb session, data and money
-$res_jamb=@mysqli_query($con, "select * from settingstb where parameter='post_utme_payment'");
-$rs_jamb=@mysqli_fetch_array($res_jamb);
-$putme_payment_type=@$rs_jamb['parameter'];
-$putme_payment_desc=@$rs_jamb['parameter_desc'];
-$putme_payment_item_id=@$rs_jamb['pay_item_id'];
-$putme_amount=@$rs_jamb['amount'];
-$putme_other_charges=@$rs_jamb['other_charges'];
-$putme_session=@$rs_jamb['session'];
-$putme_start_date=@$rs_jamb['start_date'];
-$putme_end_date=@$rs_jamb['end_date'];
-$_SESSION['putme_pay_item_id']=$putme_payment_item_id;
-///////////////////####################### END OF GENERAL PARAMETER SECTION ////////////////////////////////////////////////
 if($id=='getnextmemo')
 {
      //get next memo count for ID
@@ -183,40 +167,6 @@ if($id=='forget_password')
      </form>";
 
 }  //end of login
-
-if($id=='app_main_login')
-{
-     $login_id=@mysqli_real_escape_string($con, @$_REQUEST['username']); //application number
-     $password=@mysqli_real_escape_string($con, @$_REQUEST['password']); //surname
-
-     $res_acad=@mysqli_query($con, "select distinct * from current_settingstb s1, semestertb s2 where s1.semester = s2.semester");
-     $rs_acad=@mysqli_fetch_array($res_acad);
-     if(@mysqli_num_rows($res_acad)>=1) { $_SESSION['cur_session']=$rs_acad['session']; $_SESSION['cur_semester']=$rs_acad['semester']; $_SESSION['cur_semester_desc']=$rs_acad['semester_desc']; }
-
-     $res_l=@mysqli_query($con, "select * from candidatetb where regno='$login_id' and surname='$password'");
-     $rs_l=@mysqli_fetch_array($res_l);
-     if(@mysqli_num_rows($res_l)>=1)
-     {
-          $login_status="Active";
-          $_SESSION['title']=@$rs_l['title'];
-          $_SESSION['surname']=@$rs_l['surname'];
-          $_SESSION['first_name']=@$rs_l['first_name']; $_SESSION['other_name']=@$rs_l['other_name'];
-          $_SESSION['last_login_date']=@$rs_l['last_login_date'];$_SESSION['last_login_time']=@$rs_l['last_login_time'];
-          $_SESSION['login_status']='applicant'; $_SESSION['role']='Applicant'; $_SESSION['userLogin']='ok';
-
-          $_SESSION['login_id']=$login_id;
-          $log_date=date('Y-m-d');$log_time=date('h:i:s a');$log_date2=date('l, F d, Y');
-          @mysqli_query($con, "insert into portal_logstb set regno='$login_id',log_type='Portal Login',log_desc='$login_id Login',log_date='$log_date',log_date_desc='$log_date2',log_time='$log_time',entry_by='$login_id'");
-
-          $log_date=date('l, F d, Y');$log_time=date('h:i:s a');$log_date2=date('Y-m-d');
-          echo "<script>location='app_main.php';</script>";exit;
-
-     }
-     else
-     {
-          echo "<br/><font color='red'><b>Applicant details does not exist.</b></font>";exit;
-     }
-}
 
 if($id=='main_login')
 {
@@ -381,12 +331,6 @@ if($id=='logout') //logout section
 {
      $ref=@$_REQUEST['ref']; //this is the page to redirect to
      $login_status=@$_SESSION['login_status'];
-
-     if($login_status=='candidate')
-     {
-          $jamb_no=@$_SESSION['putme_regno'];
-          @mysqli_query($con, "update candidatetb set online_status='Off' where regno='$jamb_no' limit 1");
-     } //end of candidate logout
 
      if($login_status=='staff' or $login_status=='student')
      {
@@ -4178,25 +4122,8 @@ if($id=='assumption_section')
 
 if($id=="inmails")
 {
-     /*echo "<script>alert('am here!'); </script>";
-     echo "<p style='color:red;'>am here!'</p>";
-     echo $_REQUEST['contentvar']."<br>";
-     echo $_REQUEST['memo_from']."<br>";
-     echo $_REQUEST['desc']."<br>";
-     echo $_REQUEST['amount'];*/
-     //exit;
 
      $index = $_REQUEST['tabindex'];
-     //$fno=@$_REQUEST['regno'];
-     //echo $fno; exit;
-     //$formcontent=@$_REQUEST['formcontent'];
-     //$referee = json_decode($formcontent);
-     /*$town=@$_REQUEST['town'];
-     $from_date=@$_REQUEST['p_fromdate'];
-     $to_date=@$_REQUEST['p_todate'];
-     $category=@$_REQUEST['category'];
-     $added_date=@date('Y-m-d'); $added_time=@date('h:s:i a');
-     $session=@$_SESSION['putme_session'];*/
      echo "<script>
      $('#tt').tabs('select', $index);</script>";
 
@@ -4547,8 +4474,8 @@ if($id=="treats") //////////////////// delete vourcher created by Expenditure
           //exit;
           if($numrow2 == 0)
           {
-               $rs_jamb= mysqli_fetch_array($res_check2);
-               $pvno = $rs_jamb['pvno'];
+               $rs_pv= mysqli_fetch_array($res_check2);
+               $pvno = $rs_pv['pvno'];
 
                mysqli_query($con, "delete from voucher_taxtb where  pvno='$pvno'") or die ( mysqli_error('Could not delete from voucher_taxtb'));
                mysqli_query($con, "delete from voucher_parent_child_taxtb where  parent_pvno='$pvno'") or die ( mysqli_error('Could not delete from voucher_parent_child_taxtb'));

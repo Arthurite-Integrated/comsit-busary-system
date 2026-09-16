@@ -45,11 +45,6 @@ $login_id= $_SESSION['login_id'];
 
 @require_once "myclass_m.php";
 	@$bursary = new myclass_m();
-/*$db->select("current_settingstb","*",null);
-$j_current=@json_decode($db->getResult());$j_current_data=@json_decode($j_current->data);
-$cursession=@$j_current_data->session;$cursemester=@$j_current_data->semester;
- * 
- */
 function smsalert($msg,$phoneno){
 	$msg=@rawurlencode($msg);
 	$phoneno="+234".@substr($phoneno,-10);
@@ -62,12 +57,6 @@ function smsalert($msg,$phoneno){
   {
 	  $ref=@$_REQUEST['ref']; //this is the page to redirect to
 	  $login_status=@$_SESSION['login_status'];
-	  
-	  if($login_status=='candidate')
-	   {
-		   $jamb_no=@$_SESSION['putme_regno'];
-		   @mysqli_query($con, "update candidatetb set online_status='Off' where regno='$jamb_no' limit 1");
-	   } //end of candidate logout
 	  
 	  if($login_status=='staff' or $login_status=='student')
 	  {
