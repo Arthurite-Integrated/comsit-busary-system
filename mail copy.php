@@ -683,7 +683,8 @@ if(cv=='out_query') // out query
                     //else
                     $sql="SELECT `mm`.`memo_id`, `m`.`memo_from`, `m`.`description`, `m`.`amount`, `m`.`memo_status`, `m`.`datein`, `mm`.`read_status`, `mm`.`memo_to`, `m`.`entry_time`, `m`.`address_unit`, mm.id FROM `memo_movementtb` `mm` INNER JOIN `memotb` `m` ON `mm`.`memo_id`=`m`.`memo_id` WHERE `mm`.`memo_status`='IN' AND  `mm`.`read_status`='Unread' AND (`mm`.`memo_from`='".@$_SESSION['userunit']."' OR m.`entry_by`='".$_SESSION['login_id']."') ORDER BY mm.id DESC LIMIT 500";
                     //`m`.`datein`, `m`.`entry_time`
-                    $r=pdoSelect($sql, array());
+                    $rq=mysqli_query($con, $sql);
+                    $r=mysqli_fetch_array($rq, 3);
                     $sn= 0;
                     ?>
                     <?php foreach($r as $row) { ?>
@@ -691,7 +692,7 @@ if(cv=='out_query') // out query
                         <td><?=++$sn;?></td>
                         <td><span class="text-primary font-w600"><?=$row['memo_id']?></span></td>
                         <td>
-                            <h6 class="mb-0"><?=fetchRecord("surname", 'stafftb', "fileno", $row['memo_from']);?> <?=fetchRecord("first_name", 'stafftb', "fileno", $row['memo_from']);?> <?=fetchRecord("other_name", 'stafftb', "fileno", $row['memo_from']);?></h6>
+                            <h6 class="mb-0"><?=$bursary->get_any_value("surname", 'stafftb', "fileno", $row['memo_from']);?> <?=$bursary->get_any_value("first_name", 'stafftb', "fileno", $row['memo_from']);?> <?=$bursary->get_any_value("other_name", 'stafftb', "fileno", $row['memo_from']);?></h6>
                         </td>
                         <td>
                             <div class="doller font-w600">
@@ -699,7 +700,7 @@ if(cv=='out_query') // out query
                             </div>
                         </td>
                         <td>
-                            <?=fetchRecord("surname", 'stafftb', "fileno", $row['memo_to']);?> <?=fetchRecord("first_name", 'stafftb', "fileno", $row['memo_to']);?> <?=fetchRecord("other_name", 'stafftb', "fileno", $row['memo_to']);?>
+                            <?=$bursary->get_any_value("surname", 'stafftb', "fileno", $row['memo_to']);?> <?=$bursary->get_any_value("first_name", 'stafftb', "fileno", $row['memo_to']);?> <?=$bursary->get_any_value("other_name", 'stafftb', "fileno", $row['memo_to']);?>
                         </td>
                         <td><?=$row['description']?></td>
                         <td>
