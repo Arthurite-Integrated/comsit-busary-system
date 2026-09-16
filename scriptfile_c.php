@@ -1848,7 +1848,7 @@ if($id=='allocaterole_section')
      //$code=$j->code;
      //$name=@mysqli_real_escape_string($con, $j->name);
      //$status=$j->status;
-     $action=@$_REQUEST['action'];
+     echo $action=@$_REQUEST['action'];exit;
      $r_id=@$_REQUEST['r_id'];  //for row id to be deleted/edited
      $login_id=@$_SESSION['login_id'];
      //echo "COde: $code Name: $name Status:$status Action: $action  R_ID: $r_id";

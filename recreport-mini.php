@@ -75,7 +75,7 @@ if(isset($_REQUEST['month']) and $_REQUEST['month']!='' and isset($_REQUEST['yea
 		///echo "</td><td>";
 	$_SESSION['input_method']="direct bank debit";
 
-		echo "<center><h5>ITEMS WITH DESCRIPTION FROM ITEM-CODE RECONCILLIATION FOR ".strtoupper($rmonth).", {$_SESSION[r_y]}</h5></center><hr><table><tr><td valign='top'>";
+		echo "<center><h5>ITEMS WITH DESCRIPTION FROM ITEM-CODE RECONCILLIATION FOR ".strtoupper($rmonth).", {$_SESSION['r_y']}</h5></center><hr><table><tr><td valign='top'>";
 			echo $bx;
 		echo "</td><td>";
 			echo $by;
@@ -109,7 +109,7 @@ if(isset($_REQUEST['month']) and $_REQUEST['month']!='' and isset($_REQUEST['yea
 		///echo "</td><td>";
 	$_SESSION['input_method']="direct bank debit";
 
-		echo "<center><h5>ITEMS WITHOUT DESCRIPTION FROM ITEM-CODE RECONCILLIATION FOR ".strtoupper($rmonth).", {$_SESSION[r_y]}</h5></center><hr><table><tr><td valign='top'>";
+		echo "<center><h5>ITEMS WITHOUT DESCRIPTION FROM ITEM-CODE RECONCILLIATION FOR ".strtoupper($rmonth).", {$_SESSION['r_y']}</h5></center><hr><table><tr><td valign='top'>";
 			echo $bx;
 		echo "</td><td>";
 			echo $by;
@@ -262,11 +262,11 @@ if(isset($_POST['btn_rlo']) and isset($rmonth) and $rmonth!='' and isset($ryear)
 	$qryb= mysqli_query($con, $sqlb); $sn=0; $total=0; $nm= mysqli_num_rows($qryb);
 	//$_SESSION['uncreadited_lodgment']=
 	echo "<TABLE width='100%' border='1' rules='rows'>
-	<tr><th colspan='4'><h5>{$_SESSION[r_m]}, {$_SESSION[r_y]} REMITA LEFT-OVER [{$nm}]</h5></th></tr>
+	<tr><th colspan='4'><h5>{$_SESSION['r_m']}, {$_SESSION['r_y']} REMITA LEFT-OVER [{$nm}]</h5></th></tr>
 	<tr><td><strong>SN</strong></td><td>PERIOD</td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryb, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['uncreadited_lodgment'].=
-		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r[paymentid]}</td><td>".$r['special_ref']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r['paymentid']}</td><td>".$r['special_ref']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['uncreadited_lodgment'].=
@@ -280,11 +280,11 @@ if(isset($_POST['btn_clo']) and isset($rmonth) and $rmonth!='' and isset($ryear)
 	$qryb= mysqli_query($con, $sqlb); $sn=0; $total=0; $nm= mysqli_num_rows($qryb);
 	//$_SESSION['uncreadited_lodgment']=
 	echo "<TABLE width='100%' border='1' rules='rows'>
-	<tr><th colspan='4'><h5>{$_SESSION[r_m]}, {$_SESSION[r_y]} BANK LEFT-OVER [{$nm}]</h5></th></tr>
+	<tr><th colspan='4'><h5>{$_SESSION['r_m']}, {$_SESSION['r_y']} BANK LEFT-OVER [{$nm}]</h5></th></tr>
 	<tr><td><strong>SN</strong></td><td>PERIOD</td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryb, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['uncreadited_lodgment'].=
-		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r[paymentid]}</td><td>".$r['credit_reference']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r['paymentid']}</td><td>".$r['credit_reference']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['uncreadited_lodgment'].=
@@ -359,7 +359,7 @@ if(isset($_POST['btn_pcr']) and isset($rmonth) and $rmonth!='' and isset($ryear)
 		///echo "</td><td>";
 	$_SESSION['input_method']="direct bank debit";
 
-		echo "<center><h5>CONTROL REPORT FOR ".strtoupper($rmonth).", {$_SESSION[r_y]}</h5></center><hr><table><tr><td valign='top'>";
+		echo "<center><h5>CONTROL REPORT FOR ".strtoupper($rmonth).", {$_SESSION['r_y']}</h5></center><hr><table><tr><td valign='top'>";
 			echo $bx;
 		echo "</td><td>";
 			echo $by;
@@ -420,7 +420,7 @@ if(isset($_POST['btn_apcr']) and isset($ryear) and $ryear!='' ){
 		///echo "</td><td>";
 	$_SESSION['input_method']="direct bank debit";
 
-		echo "<center><h5>CONTROL REPORT FOR ".strtoupper($rmonth).", {$_SESSION[r_y]}</h5></center><hr><table><tr><td valign='top'>";
+		echo "<center><h5>CONTROL REPORT FOR ".strtoupper($rmonth).", {$_SESSION['r_y']}</h5></center><hr><table><tr><td valign='top'>";
 			echo $bx;
 		echo "</td><td>";
 			echo $by;
@@ -440,7 +440,7 @@ if(isset($_POST['btn_prlo']) and isset($rmonth) and $rmonth!='' and isset($ryear
 	$nm= mysqli_num_rows($qryb);
 	//$_SESSION['uncreadited_lodgment']=
 	echo "<TABLE width='100%' border='1' rules='rows'>
-	<tr><th colspan='4'><h5>{$_SESSION[r_m]}, {$_SESSION[r_y]} REMITA LEFT-OVER [{$nm}]</h5></th></tr>
+	<tr><th colspan='4'><h5>{$_SESSION['r_m']}, {$_SESSION['r_y']} REMITA LEFT-OVER [{$nm}]</h5></th></tr>
 	<tr><td><strong>SN</strong></td><!--td><strong>PERIOD</strong></td--><td><strong>PURPOSE</strong></td><td><strong>PAYER</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>RRR</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryb, 3 )){
 		++$sn; $color='';
@@ -484,7 +484,7 @@ if(isset($_POST['btn_pblo']) and isset($rmonth) and $rmonth!='' and isset($ryear
 	$nm= mysqli_num_rows($qryb);
 	//$_SESSION['uncreadited_lodgment']=
 	echo "<TABLE width='100%' border='1' rules='rows'>
-	<tr><th colspan='4'><h5>{$_SESSION[r_m]}, {$_SESSION[r_y]} BANK LEFT-OVER [{$nm}]</h5></th></tr>
+	<tr><th colspan='4'><h5>{$_SESSION['r_m']}, {$_SESSION['r_y']} BANK LEFT-OVER [{$nm}]</h5></th></tr>
 	<tr><td><strong>SN</strong></td><td>PERIOD</td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryb, 3 )){++$sn; $total += $r['amount'];
 		echo "<tr><td>{$sn}</td><td>{$r['rmonth']}/{$r['ryear']}</td><td>{$r['paymentid']}</td><td>".$r['credit_reference']."</td><td>".number_format($r['amount'], 2)."</td></tr>";
@@ -500,11 +500,11 @@ if(isset($_POST['btn_ucr']) and isset($rmonth) and $rmonth!='' and isset($ryear)
 	$qryb= mysqli_query($con, $sqlb); $sn=0; $total=0; $nm= mysqli_num_rows($qryb);
 	//$_SESSION['uncreadited_lodgment']=
 	echo "<TABLE width='100%' border='1' rules='rows'>
-	<tr><th colspan='4'><h5>{$_SESSION[r_m]}, {$_SESSION[r_y]} UNCREDITED LODGMENT [{$nm}]</h5></th></tr>
+	<tr><th colspan='4'><h5>{$_SESSION['r_m']}, {$_SESSION['r_y']} UNCREDITED LODGMENT [{$nm}]</h5></th></tr>
 	<tr><td><strong>SN</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryb, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['uncreadited_lodgment'].=
-		echo "<tr><td>{$sn}</td><td>{$r[paymentid]}</td><td>".str_replace('\\\\', '\\', $r['special_ref'])."</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['paymentid']}</td><td>".str_replace('\\\\', '\\', $r['special_ref'])."</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['uncreadited_lodgment'].=
@@ -518,11 +518,11 @@ if(isset($_POST['btn_ctrl']) and isset($rmonth) and $rmonth!='' and isset($ryear
 	$qryr= mysqli_query($con, $sqlr); $sn=0; $total=0; $nm= mysqli_num_rows($qryr);
 	//$_SESSION['control_report']=
 	echo "<TABLE width='100%' border='1' rules='rows'>
-	<tr><th colspan='4'><h5>{$_SESSION[r_m]}, {$_SESSION[r_y]} CONTROL REPORT [{$nm}]</h5></th></tr>
+	<tr><th colspan='4'><h5>{$_SESSION['r_m']}, {$_SESSION['r_y']} CONTROL REPORT [{$nm}]</h5></th></tr>
 	<tr><td><strong>SN</strong></td><td><strong>DESCRIPTION</strong></td><td><strong>TRANS. REF.</strong></td><td><strong>AMOUNT</strong></td></tr>";
 	while($r= mysqli_fetch_array($qryr, 3 )){++$sn; $total += $r['amount'];
 		//$_SESSION['control_report'].=
-		echo "<tr><td>{$sn}</td><td>{$r[paymentid]}</td><td>{$r[special_ref]}</td><td>".number_format($r['amount'], 2)."</td></tr>";
+		echo "<tr><td>{$sn}</td><td>{$r['paymentid']}</td><td>{$r['special_ref']}</td><td>".number_format($r['amount'], 2)."</td></tr>";
 	}
 	$total = number_format($total, 2);
 	//$_SESSION['control_report'].=
@@ -553,7 +553,7 @@ if(isset($_POST['btn_ctrl_ref']) and isset($rmonth) and $rmonth!='' and isset($r
 		if($bref=='' or $bref=='Error!') continue;
 		$total_r += $r['amount'];
 		$bx .= "<tr><td>{$sn}</td>
-		<td>{$r[credit_reference]}</td><td>{$r[paymentid]}</td><td align='right'>".number_format($r['amount'], 2)."</td>";
+		<td>{$r['credit_reference']}</td><td>{$r['paymentid']}</td><td align='right'>".number_format($r['amount'], 2)."</td>";
 		
 		///$bamount=$bursary->get_any_value('amount', 'recon_banktb', 'matched', '0', " AND credit_reference = '".addcslashes($r['credit_reference'], '\\\\')."' AND amount!={$r['amount']}");
 		$bamount=$bursary->get_any_value('amount', 'recon_banktb', 'matched', '0', " AND special_ref = '".$r['special_ref']."'");
@@ -573,7 +573,7 @@ if(isset($_POST['btn_ctrl_ref']) and isset($rmonth) and $rmonth!='' and isset($r
 		///echo "</td><td>";
 	$_SESSION['input_method']="direct bank debit";
 
-		echo "<center><h5>REPORT FOR SAME REFERENCE/DIFFERENT AMOUNT FOR ".strtoupper($rmonth).", {$_SESSION[r_y]}</h5></center><hr><table><tr><td valign='top'>";
+		echo "<center><h5>REPORT FOR SAME REFERENCE/DIFFERENT AMOUNT FOR ".strtoupper($rmonth).", {$_SESSION['r_y']}</h5></center><hr><table><tr><td valign='top'>";
 			echo $bx;
 		echo "</td><td>";
 			echo $by;
