@@ -1819,12 +1819,10 @@ if($id=='taxrate_section')
 /////////////////////Allocaterole section ////////////////////
 if($id=='allocaterole_section')
 {
-     echo "<script>alert('Im here!');</script>";exit;
      $j=json_decode(stripslashes(@$_REQUEST['mydata']));
      $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];  //for row id to be deleted/edited
      $login_id=@$_SESSION['login_id'];
-     //echo "COde: $code Name: $name Status:$status Action: $action  R_ID: $r_id";
      if($action=='save')
      {
           @mysqli_query($con, "INSERT INTO users_roletb set fileno='{$j->fileno}', role='{$j->role}',dept_acctcode='{$j->dept_acctcode}',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='{$login_id}'");
