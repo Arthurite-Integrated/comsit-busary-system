@@ -671,7 +671,7 @@ if(cv=='out_query') // out query
                         <th>AMOUNT</th>
                         <th>TO</th>
                         <th>DESCRIPTION</th>
-                        <th>DATE</th>
+                        <th>DATE.</th>
                         <!-- <th>STATUS</th> -->
                     </tr>
                 </thead>
@@ -684,10 +684,10 @@ if(cv=='out_query') // out query
                     $sql="SELECT `mm`.`memo_id`, `m`.`memo_from`, `m`.`description`, `m`.`amount`, `m`.`memo_status`, `m`.`datein`, `mm`.`read_status`, `mm`.`memo_to`, `m`.`entry_time`, `m`.`address_unit`, mm.id FROM `memo_movementtb` `mm` INNER JOIN `memotb` `m` ON `mm`.`memo_id`=`m`.`memo_id` WHERE `mm`.`memo_status`='IN' AND  `mm`.`read_status`='Unread' AND (`mm`.`memo_from`='".@$_SESSION['userunit']."' OR m.`entry_by`='".$_SESSION['login_id']."') ORDER BY mm.id DESC LIMIT 500";
                     //`m`.`datein`, `m`.`entry_time`
                     $rq=mysqli_query($con, $sql);
-                    $r=mysqli_fetch_array($rq, 3);
+                    //$r=mysqli_fetch_array($rq, 3);
                     $sn= 0;
                     ?>
-                    <?php foreach($r as $row) { ?>
+                    <?php while($row = mysqli_fetch_array($rq, 3)) { ?>
                     <tr>
                         <td><?=++$sn;?></td>
                         <td><span class="text-primary font-w600"><?=$row['memo_id']?></span></td>
