@@ -655,67 +655,84 @@ if(cv=='out_query') // out query
 		</div>
 	</form>
 
-                    <table id="dg" title="" style="width:680px;" data-options="
-                    singleSelect:true,
-                url: 'scriptfile_m.php?contentvar=incoming_mail&sdate=$(\'#dFrm\').val()&edate=$(\'#dTo\').val()',
-                rownumbers:true,method:'get',toolbar:'#tb', pagination:true,
-                pageSize:10,
-				rowStyler: function(index,row){
-					if (row.read_status == 'Unread'){
-						return 'color:#900;font-weight:bold;';
-					}
-				}
-            ">
-        <thead>
-            <tr>
-            	<th data-options="field:'ck',checkbox:true"></th>
-                <th data-options="field:'memo_id',width:100">ID</th>
-                <th data-options="field:'memo_from',width:100">FROM</th>
-                <th data-options="field:'address_unit',width:100,hidden:'false'">ADDRESS/UNIT</th>
-                <th data-options="field:'description',width:180,align:'left'">DESCRIPTION</th>
-                <th data-options="field:'amount',width:100,align:'left'">AMOUNT</th>
-                <th data-options="field:'dept_unit',width:100,align:'left'">DEPT/UNIT</th>
-                <th data-options="field:'datein',width:90">DATE</th>
-                <th data-options="field:'memo_status',width:80,align:'center'">STATUS</th>
-            </tr>
-        </thead>
-    </table>
-        <div id="tb" style="padding:2px 5px;">
-		<?php /*if(strtolower($role) == "bursar")*/{ ?>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected(); $('#xwin').window('open'); ">Process</a>
-        <?php } ?>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-tip" onClick="getSelected(); $('#mupdate').hide(); $('#mupdate_r').hide(); $('#vwin').window('open'); ">View</a>
-        <?php /*if(strtolower($role) != "bursar")*/{ ?>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onClick="getSelected(); $('#mupdate').show(); $('#mupdate_r').show(); $('#vwin').window('open'); ">Edit</a>
-		<?php } ?>
-                <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected(); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Raise Voucher</a>
-        <?php } //echo $role; ?> 
-        <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected(); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='journal_entry2.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Journal</a>
-        <?php } //echo $role; ?>
-        <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected(); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher_sal.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Voucher (PAYE)</a>
-        <?php } //echo $role; ?> 
-		    </div>
-            <div id="tb_2g" style="padding:2px 5px;">
-        <a href="#" class="easyui-linkbutton" iconCls="icon-tip" onClick="getSelected_treated(); $('#mupdate').hide(); $('#mupdate_r').hide(); $('#vwin').window('open'); ">View</a>   
-            <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onClick="getSelected_treated();           if(document.getElementById('vmemoaction').innerHTML!='Queried'){
-            $('#mupdate').hide(); 
-            $('#mupdate_r').hide();
-          }else{
-            $('#mupdate').show(); 
-            $('#mupdate_r').show();
-          } $('#vwin').window('open'); ">Re-Submit</a>  
-          
-          <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected_treated(); if($('#vmemoid_x').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#vmemoid_x').val()); }">Raise Voucher</a>
-                 
-          <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected_treated(); if($('#vmemoid_x').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher_sal.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#vmemoid_x').val()); }">Voucher (PAYE)</a>
-				
-		  <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected_treated(); if($('#vmemoid_x').val() == ''){ alert('No mail has been selected!'); }else{window.location='journal_entry2.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#vmemoid_x').val()); }">Journal</a>
+        
+<table id="MyTable1" class="table display dataTable table-sm mb-0 table-striped order-table">
+            <!-- <table class="table table-sm mb-0 table-striped order-table"> -->
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <!-- <th>
+                            <input type="checkbox" class="form-check-input" id="checkAll" required="">
+                        </th>
+                        <th>ACTION</th-->
+                        <th>ID</th>
+                        <th>FROM</th>
+                        <!-- <th>ADDRESS/UNIT</th> -->
+                        <th>AMOUNT</th>
+                        <th>TO</th>
+                        <th>DESCRIPTION</th>
+                        <th>DATE</th>
+                        <!-- <th>STATUS</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $r_vals=base64_decode($_REQUEST['r_val']);
+                    //if(strtolower($r_vals) == "administrator" || strtolower($r_vals) == "super admin")
+                    //$sql="SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit from memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id where mm.memo_status='IN' and  mm.read_status='Unread' order by mm.id desc";
+                    //else
+                    $sql="SELECT `mm`.`memo_id`, `m`.`memo_from`, `m`.`description`, `m`.`amount`, `m`.`memo_status`, `m`.`datein`, `mm`.`read_status`, `mm`.`memo_to`, `m`.`entry_time`, `m`.`address_unit`, mm.id FROM `memo_movementtb` `mm` INNER JOIN `memotb` `m` ON `mm`.`memo_id`=`m`.`memo_id` WHERE `mm`.`memo_status`='IN' AND  `mm`.`read_status`='Unread' AND (`mm`.`memo_from`='".@$_SESSION['userunit']."' OR m.`entry_by`='".$_SESSION['login_id']."') ORDER BY mm.id DESC LIMIT 500";
+                    //`m`.`datein`, `m`.`entry_time`
+                    $r=pdoSelect($sql, array());
+                    $sn= 0;
+                    ?>
+                    <?php foreach($r as $row) { ?>
+                    <tr>
+                        <td><?=++$sn;?></td>
+                        <td><span class="text-primary font-w600"><?=$row['memo_id']?></span></td>
+                        <td>
+                            <h6 class="mb-0"><?=fetchRecord("surname", 'stafftb', "fileno", $row['memo_from']);?> <?=fetchRecord("first_name", 'stafftb', "fileno", $row['memo_from']);?> <?=fetchRecord("other_name", 'stafftb', "fileno", $row['memo_from']);?></h6>
+                        </td>
+                        <td>
+                            <div class="doller font-w600">
+                                &#8358;<?=number_format($row['amount'], 2)?>
+                            </div>
+                        </td>
+                        <td>
+                            <?=fetchRecord("surname", 'stafftb', "fileno", $row['memo_to']);?> <?=fetchRecord("first_name", 'stafftb', "fileno", $row['memo_to']);?> <?=fetchRecord("other_name", 'stafftb', "fileno", $row['memo_to']);?>
+                        </td>
+                        <td><?=$row['description']?></td>
+                        <td>
+                            <div class="date"><?=date('m-d-Y',strtotime($row['datein']))." ".$row['entry_time'];?></div>
+                        </td>
+                        <!-- <td>
+                            <span class="badge badge-sm badge-warning light"><?=$row['memo_status']?></span>
+                        </td> -->
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="text-wrap" nowrap colspan="6">
+                            <a href="#" id="myBtn3" class="btn btn-xs btn-outline-primary mb-2" data-bs-toggle="modal" data-bs-target="#myModal"  onClick="var modal = document.getElementById('myModal'); var btn = document.getElementById('myBtn3');
+                            sendRequest('viewMails', 'mailProcess','<?=$row['memo_id']?>'); modal.style.display = 'block'; $('.mailModalTitle').html('VIEW MEMO');" title="View Mail"><i class="fa fa-eye"></i>View</a>
+                            <?php /*if(strtolower($role) == "bursar")*/{ ?>
+                            <a href="#" id="myBtn" class="btn btn-xs btn-outline-success mb-2" data-bs-toggle="modal" data-bs-target="#myModal" onClick="sendRequest('readMails', 'mailProcess','<?=$row['memo_id']?>'); $('.mailModalTitle').html('FORWARD MEMO');" title="Process Mail"><i class="fa fa-pen-clip"></i>Forward</a>
+                            <?php } ?>
+                            <?php if(strtolower($r_vals) == "clerk"){ ?>
+                            <a href="#" id="myBtn2" class="btn btn-xs btn-outline-secondary mb-2" data-bs-toggle="modal" data-bs-target="#myModal" onClick="sendRequest('editMails', 'mailProcess','<?=$row['memo_id']?>'); $('.mailModalTitle').html('EDIT MEMO');" title="Edit Mail"><i class="fa fa-edit"></i>Edit</a>
+                            <?php }?>
 
-		    </div>
-            <div id="tb_2s" style="padding:2px 5px;">
+                            <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
+                            <a href="#" class="btn btn-xs btn-outline-info mb-2" onClick="window.location='<?=baseurl?>?voucher&r_val=<?$r_val?>&id='+btoa('<?=$row['memo_id']?>'); " title="Raise Voucher"><i class="fa fa-bank"></i>Voucher</a>
+                            <?php } //echo $role; ?>
+                            <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
+                            <a href="#" class="btn btn-xs btn-outline-primary mb-2" onClick="window.location='<?=baseurl?>?journal&entry2&r_val=<?=$r_val?>&id='+btoa('<?=$row['memo_id']?>'); " title="Journal"><i class="fa fa-book-journal-whills"></i>Journal</a>
+                            <?php } //echo $role; ?>
+                            <a href="#" class="btn btn-xs btn-outline-danger mb-2" onClick="sendRequest('deleteMails', 'deleteMails','<?=$row['memo_id']?>');" title="DELETE MAIL"><i class="fa fa-trash"></i>Delete</a>
+                        </td>
+                    </tr>
+                    <?php }?>
+                </tbody>
+            </table>            <div id="tb_2s" style="padding:2px 5px;">
         <a href="#" class="easyui-linkbutton" iconCls="icon-tip" onClick="getSelected_search(); $('#mupdate').hide(); $('#mupdate_r').hide(); $('#vwin').window('open'); ">View</a>                
 		    </div>
             
