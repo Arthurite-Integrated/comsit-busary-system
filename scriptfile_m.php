@@ -577,6 +577,7 @@ exit;
 } 
 
 if($id=="inmails")
+{	
 	$index = $_REQUEST['tabindex'];
 
 	echo "<script>
