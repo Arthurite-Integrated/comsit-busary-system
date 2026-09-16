@@ -1,7 +1,7 @@
 <?php
 @session_start();
-@ini_set('max_execution_time', 60000000000);
-@ini_set("memory_limit", "51200M");
+//@ini_set('max_execution_time', 60000000000);
+//@ini_set("memory_limit", "51200M");
 @require_once('connect.php');
 @require_once('function_c.php');
 
@@ -11,7 +11,7 @@ $db->connect();
 @require_once "myclass_m.php"; $bursary=new myclass_m();
 $id=@$_REQUEST['contentvar'];
 $contentvar=$_REQUEST['contentvar'];
-//echo  'here   is     '.$contentvar; exit;
+echo  'here   is     '.$contentvar; exit;
 function smsalert($msg,$phoneno){
      $msg=@rawurlencode($msg);
      $phoneno="+234".@substr($phoneno,-10);
