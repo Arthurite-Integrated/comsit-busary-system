@@ -136,7 +136,7 @@ $(function(){
         </div> <!-- end of tooplate_menu -->
         
         <div id="content_title_box">
-	        <h2>COMPARE MANUAL CASHBOOK AND REMITA PAYMENT ENTRIES</h2>
+	        <h2>COMPARE AUTOMATION CASHBOOK AND REMITA PAYMENT ENTRIES</h2>
                 <p><?php echo $role_cap; ?></p>
         </div><!-- end of content_title_box -->
    
@@ -206,7 +206,8 @@ $(function(){
                     ///if(mysqli_num_rows($s) > 0) continue;
 				++$sn;
                     $tid=$rs_v['id'];
-				$pvno=str_replace('/', '', $rs_v['pvno']);
+				//$pvno=str_replace('/', '', $rs_v['pvno']);
+                    $pvno=trim(str_replace(' ', '', $rs_v['pvno']));
                     $p=base64_encode($pvno);
 				//$acct=$rs_v['acctcode'];
                     $amount=$rs_v['amount'];
