@@ -184,16 +184,17 @@ $(function(){
 	     $r=@strtolower(base64_decode($_REQUEST['r_val']));
 		//if($r=="super admin" or $r=="accountant" or $r=="administrator")
 		$from = $_POST['rmonth']; $to = $_POST['ryear'];
-		$sql="SELECT sum(amount) as amount, pvno, rmonth, ryear FROM cashbook_s WHERE rmonth = '{$from}' AND ryear = '{$to}' GROUP BY pvno, rmonth, ryear ORDER BY pvno";
+		//$sql="SELECT sum(amount) as amount, pvno, rmonth, ryear FROM cashbook_s WHERE rmonth = '{$from}' AND ryear = '{$to}' GROUP BY pvno, rmonth, ryear ORDER BY pvno";
+          $sql="SELECT sum(amount) as amount, pvno, monthname(transdate) AS rmonth, year(transdate) AS ryear FROM transtb WHERE monthname(transdate) = '{$from}' AND year(transdate) = '{$to}' AND pvno!='' AND NOT pvno IS NULL GROUP BY pvno, rmonth, ryear ORDER BY pvno";
 		//distinct pvno, transdate, amount, dept_acctcode, acctcode
 		$res_v=@mysqli_query($con, $sql);
 		$sn=0;
 		echo "<center><h1>{$from}/{$to} Reconciliation</h1></center>
           <table align='left' border='1' cellpadding='5' cellspacing='0' rules='rows' frame='box' width='100%' class='displayX' id='dTableX'> 
-		<thead>
-          <tr><th colspan='3'>MANUAL CASHBOOK</th><td style='background-color: black;'>&nbsp;</td><th colspan='3'>REMITA</th></tr>
-		<tr><!--th><input type='checkbox' id='checkAll' name='checkAll' value='{$rs_v['pvno']}'></th-->
-          <th>S/NO</th>
+               <thead>
+               <tr><th colspan='3'>MANUAL CASHBOOK</th><td style='background-color: black;'>&nbsp;</td><th colspan='3'>REMITA</th></tr>
+               <tr><!--th><input type='checkbox' id='checkAll' name='checkAll' value='{$rs_v['pvno']}'></th-->
+                    <th>S/NO</th>
                     <th>PV. NO.</th><th>AMOUNT</th>
                     <th style='background-color: black;'>&nbsp;</th><th>AMOUNT</th><th>MONTH</th><th>DIFFERENCE</th></tr></thead><tbody>";
 	     if(@mysqli_num_rows($res_v) >= 1){
