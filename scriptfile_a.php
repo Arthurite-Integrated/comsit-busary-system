@@ -5649,7 +5649,7 @@ if($id=='voucher_section_entry_final')
           $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;
           // transaction begins
           
-          begin();
+          $bursary->begin();
           //now save to voucher table
 
           $stamp_amount = 0; $vat_amount = 0; $tax_amount = 0;  $vat_amount = 0;
@@ -5808,13 +5808,13 @@ if($id=='voucher_section_entry_final')
 TestArea:
           if($flag==true){
                //// mysqli_query($con, "update memo_movementtb set read_status = 'Read' where memo_id = '$memo_id'");
-               commit();
+               $bursary->commit();
                ///logs($login_id, "Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
                echo "<script>alert('Payment Voucher saved successfully');</script>";
                $log .= $queryString;
                ///$bursary->writeLogFile($log);
           }else{
-               rollback();
+               $bursary->rollback();
                echo "<script>alert('Operation Failed! Transaction was canceled. ". mysqli_error($con)."');</script>";
           }
 
