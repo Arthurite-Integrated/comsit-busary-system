@@ -5616,7 +5616,7 @@ if($id=='voucher_section_entry_final')
      $pvno_final = $_REQUEST['pvno_final'];			$batchno = $_REQUEST['batchno'];
 
      //$scalename=@$_REQUEST['scalename'];$category=@$_REQUEST['category'];$level=@$_REQUEST['level'];$step=@$_REQUEST['step'];
-     //echo "$vcode ==> $vamt===>$mydata";exit;
+     echo "$vcode ==> $vamt===>$mydata";exit;
      if($action=='save')
      {
 
@@ -5670,7 +5670,7 @@ if($id=='voucher_section_entry_final')
           $amount_approved=$vamount;
           $amount_paid=$amount_approved - $total_tax;  //after tax deduction
           $year=@date('Y',strtotime(@$_REQUEST['pay_date']));
-
+          print_r($folio); exit;
           //$total_budget=@get_budget($folio, $year);
           $flag=true;
           $queryString = "INSERT INTO vouchertb set pvno='$pvno', pvno_paid='$pvno_final', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', fileno='$fileno', payee_name='$name', payee_acct_no='$act_no', payee_bank_name='$bank', payee_address='$address', payee_tin_number='$payee_tin_number', payee_sort_code='$payee_sort_code', description='Being $desc', amount_approved='$amount_approved', total_tax='$total_tax', amount_paid='$amount_paid', prepared_by='$prepared_by', date_prepared='$pay_date', entry_date='$pay_date', entry_by='$login_id', entry_type='Final', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date', authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved', memo_id='$memo_id', purchase_advance='$isPA', pre_pvno='{$pvno}'";
