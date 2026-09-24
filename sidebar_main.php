@@ -932,6 +932,7 @@ if($login_status=='staff')
                                    <li><a href='voucher_payment_analysis.php?r_val=<?php echo $r_val; ?>'>Payment Analysis</a></li>
 
                                    <li><a href='voucher_edit.php?r_val=<?php echo $r_val; ?>'>Edit Posted Entries</a></li>
+                                   <li><a href='voucher_y.php?r_val=<?php echo $r_val; ?>'> Post Payment</a></li>
                                    <li><a href='journal_entry2.php?r_val=<?php echo $r_val; ?>'>Raise Journal</a></li>
                                    <li><a href='journal_process.php?r_val=<?php echo $r_val; ?>'>Journal Processing</a></li>
                                    <li><a href='voucher_process_pv.php?r_val=<?php echo $r_val; ?>'>Edit Voucher PV</a></li>
