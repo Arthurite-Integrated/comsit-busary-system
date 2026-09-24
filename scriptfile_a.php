@@ -5675,7 +5675,7 @@ if($id=='voucher_section_entry_final')
           $total_budget=@get_budget($folio, $year);
           $flag=true;
           $queryString = "INSERT INTO vouchertb set pvno='$pvno', pvno_paid='$pvno_final', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', fileno='$fileno', payee_name='$name', payee_acct_no='$act_no', payee_bank_name='$bank', payee_address='$address', payee_tin_number='$payee_tin_number', payee_sort_code='$payee_sort_code', description='Being $desc', amount_approved='$amount_approved', total_tax='$total_tax', amount_paid='$amount_paid', prepared_by='$prepared_by', date_prepared='$pay_date', entry_date='$pay_date', entry_by='$login_id', entry_type='Final', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date', authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved', memo_id='$memo_id', purchase_advance='$isPA', pre_pvno='{$pvno}'";
-          echo count($folio); exit;
+          //echo count($folio); exit;
           if(mysqli_query($con, $queryString)){
                if( count($folio)==1 ){
                     $queryStringA="INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'";
@@ -5808,13 +5808,13 @@ if($id=='voucher_section_entry_final')
 TestArea:
           if($flag==true){
                //// mysqli_query($con, "update memo_movementtb set read_status = 'Read' where memo_id = '$memo_id'");
-               $bursary->commit();
+               commit();
                ///logs($login_id, "Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
                echo "<script>alert('Payment Voucher saved successfully');</script>";
                $log .= $queryString;
                ///$bursary->writeLogFile($log);
           }else{
-               $bursary->rollback();
+               rollback();
                echo "<script>alert('Operation Failed! Transaction was canceled. ". mysqli_error($con)."');</script>";
           }
 
