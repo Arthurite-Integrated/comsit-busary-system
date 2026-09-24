@@ -5804,7 +5804,7 @@ if($id=='voucher_section_entry_final')
                     }
                }//end if $dvat_pv
           }
-
+echo $queryString; exit;
 TestArea:
           if($flag==true){
                //// mysqli_query($con, "update memo_movementtb set read_status = 'Read' where memo_id = '$memo_id'");
