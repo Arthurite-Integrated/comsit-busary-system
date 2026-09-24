@@ -5649,7 +5649,7 @@ if($id=='voucher_section_entry_final')
           $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;
           // transaction begins
           
-          begin();print_r($folio); exit;
+          begin();
           //now save to voucher table
 
           $stamp_amount = 0; $vat_amount = 0; $tax_amount = 0;  $vat_amount = 0;
@@ -5666,7 +5666,7 @@ if($id=='voucher_section_entry_final')
                if($dend_pv == "yes" and $dend > 0) $end_amount = ($dend/100) * $vamount;
                if($dstamp_pv == "yes" and $dstamp > 0) $stamp_amount = ($dstamp/100) * $vamount;
           }
-
+print_r($folio); exit;
           $total_tax = $stamp_amount + $vat_amount + $tax_amount + $end_amount;
           $amount_approved=$vamount;
           $amount_paid=$amount_approved - $total_tax;  //after tax deduction
