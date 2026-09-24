@@ -5671,11 +5671,11 @@ if($id=='voucher_section_entry_final')
           $amount_paid=$amount_approved - $total_tax;  //after tax deduction
           $year=@date('Y',strtotime(@$_REQUEST['pay_date']));
 
-          $total_budget=@get_budget($folio, $year);
+          //$total_budget=@get_budget($folio, $year);
           $flag=true;
           $queryString = "INSERT INTO vouchertb set pvno='$pvno', pvno_paid='$pvno_final', voucher_date='$pay_date', dept_code='$voucher_unit', dept_acctcode='$account', payee_type='$type', fileno='$fileno', payee_name='$name', payee_acct_no='$act_no', payee_bank_name='$bank', payee_address='$address', payee_tin_number='$payee_tin_number', payee_sort_code='$payee_sort_code', description='Being $desc', amount_approved='$amount_approved', total_tax='$total_tax', amount_paid='$amount_paid', prepared_by='$prepared_by', date_prepared='$pay_date', entry_date='$pay_date', entry_by='$login_id', entry_type='Final', checked_by='$checked_by', date_checked='$pay_date', checked_action='Approved', controlled_by='$controlled_by', date_controlled='$pay_date', controlled_action='Approved', authorized_by='$authorized_by', date_authorized='$pay_date', authorized_action='Approved', authorized_by2='$authorized_by', date_authorized2='$pay_date',  authorized_action2='Approved', paid_by='$login_id', date_paid='$pay_date', paid_action='Approved', final_approval_by='$login_id', final_approval_date='$pay_date', final_approval='Approved', audit_by='$audited_by', audit_date='$pay_date', audit_action='Approved', memo_id='$memo_id', purchase_advance='$isPA', pre_pvno='{$pvno}'";
           if(mysqli_query($con, $queryString)){
-               //if( count($folio)==1 ){
+               if( count($folio)==1 ){
                     $queryStringA="INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'";
                     $queryStringB="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$amount_paid', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
                     $queryStringC="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
@@ -5685,7 +5685,7 @@ if($id=='voucher_section_entry_final')
                          $flag=false;
                          goto TestArea;
                     }
-               /* }else{
+               }else{
                     if(count($bcode)>1){
                          foreach($bcode as $v){
                               $queryStringA = "INSERT INTO voucher_folio_codetb set pvno='$pvno',folio_code='$v',amount='$bamt[$s]', paid='Yes'";
@@ -5700,7 +5700,7 @@ if($id=='voucher_section_entry_final')
                               $s++;
                          }
                     }
-               } */
+               }
           }else {
                $flag=false;
                goto TestArea;
