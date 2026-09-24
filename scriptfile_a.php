@@ -5648,8 +5648,8 @@ if($id=='voucher_section_entry_final')
           // End of Validation
           $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;
           // transaction begins
-          print_r($folio); exit;
-          begin();
+          
+          begin();print_r($folio); exit;
           //now save to voucher table
 
           $stamp_amount = 0; $vat_amount = 0; $tax_amount = 0;  $vat_amount = 0;
