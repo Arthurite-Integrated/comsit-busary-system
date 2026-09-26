@@ -475,7 +475,7 @@ include "function.php";?>
                                         <td><?=++$sn?></td>
                                         <td><?=$row['memo_id']?></td>
                                         <td><?=$row['memo_from']?></td>
-                                        <td><?=is_numeric($row['address_unit'])?$dept_from:$row['address_unit'];?></td>
+                                        <td><?=$dept_from?></td>
                                         <td><?=$row['description']?></td>
                                         <td><?=$row['amount']?></td>
                                         <td><?=$dept_to;?></td>
