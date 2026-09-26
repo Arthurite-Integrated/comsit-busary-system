@@ -468,7 +468,7 @@ include "function.php";?>
                                 <?php
                                 $qmail=mysqli_query($con, $sq);
                                 while($row=mysqli_fetch_array($qmail, 3)){
-                                    $row['address_unit']=='' ? $dept_from='Central' : $dept_to=get_unit_name('', $row['address_unit']);
+                                    !is_numeric($row['address_unit']) ? $dept_from=$row['address_unit'] : $dept_from=get_unit_name('', $row['address_unit']);
                                     $row['dept_unit']=='' ? $dept_to='Central' : $dept_to=get_unit_name('', $row['dept_unit']);
                                     ?>
                                     <tr  style="color:#900">
