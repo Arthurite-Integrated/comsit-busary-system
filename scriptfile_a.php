@@ -5708,7 +5708,7 @@ if($id=='voucher_section_entry_final')
                goto TestArea;
           }
 
-          if($flag){
+          /*if($flag){
                if($dvat_pv == "yes" and $dvat > 0){
                     $pvno_tax = $pvno."_VAT";
 
@@ -5803,7 +5803,7 @@ if($id=='voucher_section_entry_final')
                          goto TestArea;
                     }
                }//end if $dvat_pv
-          }
+          }*/
 echo $queryString; exit;
 TestArea:
           if($flag==true){
