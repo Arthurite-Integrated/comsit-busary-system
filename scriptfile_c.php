@@ -1811,7 +1811,7 @@ if($id=='allocaterole_section')
      $login_id=@$_SESSION['login_id'];
      if($action=='save')
      {
-          echo $sql="INSERT INTO users_roletb set fileno='{$j->fileno}', role='{$j->role}', dept_acctcode='{$j->dept_acctcode}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'"; exit;
+          $sql="INSERT INTO users_roletb set fileno='{$j->fileno}', role='{$j->role}', dept_acctcode='{$j->dept_acctcode}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
           @mysqli_query($con, $sql);
           echo "<script>alert('Record saved successfully');</script>";
 
