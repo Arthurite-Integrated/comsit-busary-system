@@ -424,9 +424,9 @@ onClosed: function () {
                                                   $voucher_date=$rs_v['voucher_date'];
                                                   $net = number_format($rs_v['amount_approved'], 2);
                                                   $pv = explode('_', $pvno);
-					if(count($pv) <= 1){
-						$net = number_format($rs_v['amount_paid'], 2);
-					}
+													if(count($pv) <= 1){
+														$net = number_format($rs_v['amount_paid'], 2);
+													}
                                                   $res_ds=@mysqli_query($con, "select amount_approved from vouchertb where pvno='".$pv[0]."'");
                                                   while($rs_ds=@mysqli_fetch_array($res_ds)) $amnt_app = $rs_ds[0];
                                                   $gross = read_gross($pvno);

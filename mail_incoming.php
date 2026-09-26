@@ -468,6 +468,7 @@ include "function.php";?>
                                 <?php
                                 $qmail=mysqli_query($con, $sq);
                                 while($row=mysqli_fetch_array($qmail, 3)){
+                                    $row['dept_unit']=='' ? $dept_to='Central' : $dept_to=get_unit_name('', $row['dept_unit']);
                                     ?>
                                     <tr  style="color:#900">
                                         <td><?=++$sn?></td>
@@ -476,7 +477,7 @@ include "function.php";?>
                                         <td><?=is_numeric($row['address_unit']) && $row['address_unit'] !=''?$row['unit_name']:$row['address_unit'];?></td>
                                         <td><?=$row['description']?></td>
                                         <td><?=$row['amount']?></td>
-                                        <td><?=$row['dept_unit'];?></td>
+                                        <td><?=$dept_to;?></td>
                                         <td><?=$row['datein']." ".$row['entry_time']?></td>
                                     </tr>
                                     <?php
