@@ -21,6 +21,9 @@ $staff_category=@$_SESSION['staff_category'];
 <?php include("required_jQuery_files.php");
 include "function.php";?>
 <link href="tooplate_style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="include/jquery.dataTables.min.css">
+ 
+<script type="text/javascript" src="include/jquery.dataTables.min.js"></script> 
 <script>
     function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
     {   //swap content begins where cv means div id name
@@ -220,11 +223,6 @@ include "function.php";?>
 			//document.getElementById('tmemoid').value=ids.join('\n');
 		}
 
-		function reload_grids(){
-			$('#dg').datagrid('reload');
-			//$('#dgout').datagrid('reload');
-		}
-		
         function upload_supporting_doc($fileid){
             jQuery(function($){
                 $.noConflict();
@@ -309,26 +307,86 @@ include "function.php";?>
             });
         });	
 		
-        function loadMailGrid(){
-            const fro=$('#dFrm').val();
-            const to=$('#dTo').val();
-            const dataOpt = "singleSelect:true,url:'scriptfile_m.php?contentvar=incoming_mail&sdate="+fro+"&edate="+to+"',rownumbers:true,method:'get',toolbar:'#tb', pagination:true,pageSize:10,rowStyler: function(index,row){if (row.read_status == 'Unread'){return 'color:#900;font-weight:bold;';}}";
-            $('#dg').attr('data-options', dataOpt);
-            //alert($('#dg').attr('data-options'));
-        }
-
         function open_window(index){
             if(index==1) window.location='mail.php';
             else if(index==2) window.location='mail_treated.php';
         }
-	</script>
-    <link rel="stylesheet" type="text/css" href="include/colorbox.css">
+    $(document).ready(function() { //parent.jQuery.colorbox.close(); 
+        $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
+        $('#MyTable').DataTable( {  
+            initComplete: function () {  
+                this.api().columns().every( function () {  
+                    var column = this;  
+                    var select = $('<select><option value=""></option></select>')  
+                        .appendTo( $(column.footer()).empty() )  
+                        .on( 'change', function () {  
+                            var val = $.fn.dataTable.util.escapeRegex(  
+                                $(this).val()  
+                            );  
+                    //to select and search from grid  
+                            column  
+                                .search( val ? '^'+val+'$' : '', true, false )  
+                                .draw();  
+                        } );  
+    
+                    column.data().unique().sort().each( function ( d, j ) {  
+                        select.append( '<option value="'+d+'">'+d+'</option>' )  
+                    } );  
+                } );  
+            }  
+        } );  
+        $('#MyTable2').DataTable( {  
+            initComplete: function () {  
+                this.api().columns().every( function () {  
+                    var column = this;  
+                    var select = $('<select><option value=""></option></select>')  
+                        .appendTo( $(column.footer()).empty() )  
+                        .on( 'change', function () {  
+                            var val = $.fn.dataTable.util.escapeRegex(  
+                                $(this).val()  
+                            );  
+                    //to select and search from grid  
+                            column  
+                                .search( val ? '^'+val+'$' : '', true, false )  
+                                .draw();  
+                        } );  
+    
+                    column.data().unique().sort().each( function ( d, j ) {  
+                        select.append( '<option value="'+d+'">'+d+'</option>' )  
+                    } );  
+                } );  
+            }  
+        } );  
+        $('#MyTable3').DataTable( {  
+            initComplete: function () {  
+                this.api().columns().every( function () {  
+                    var column = this;  
+                    var select = $('<select><option value=""></option></select>')  
+                        .appendTo( $(column.footer()).empty() )  
+                        .on( 'change', function () {  
+                            var val = $.fn.dataTable.util.escapeRegex(  
+                                $(this).val()  
+                            );  
+                    //to select and search from grid  
+                            column  
+                                .search( val ? '^'+val+'$' : '', true, false )  
+                                .draw();  
+                        } );  
+    
+                    column.data().unique().sort().each( function ( d, j ) {  
+                        select.append( '<option value="'+d+'">'+d+'</option>' )  
+                    } );  
+                } );  
+            }  
+        } );  
+    } );
+ </script>    <link rel="stylesheet" type="text/css" href="include/colorbox.css">
     <script type="text/javascript" src="include/jquery.colorbox.js"></script>
 <link href="upload.css" rel="stylesheet" type="text/css" />
 <script src="file/jquery.min.js"></script>
 <script src="upload.js"></script>
 </head>
-<body class="subpage" onload="reload_grids();">
+<body class="subpage" onload="">
 <div id="tooplate_wrapper">
 	 <div id="tooplate_sidebar">
 	<?php include_once("sidebar_main.php"); ?>
@@ -349,7 +407,7 @@ include "function.php";?>
 	        
         	<div class="content_box">
                 <div style="margin:20px 0;"></div>
-                <div class="easyui-tabs" data-options="tabWidth:100,tabHeight:60" style="width:900px; height:600px" id="tt">
+                <div class="easyui-tabs" data-options="tabWidth:100,tabHeight:60" style="width:1200px;" id="tt">
                     <div title="<span class='tt-inner' onclick='open_window(1);'><img src='images/newmail.png'/><br>New Mail</span>" style="padding:10px"></div>
                     <div title="<span class='tt-inner' onClick=''><img src='images/inmail.png'/><br>Incoming Mail</span>" style="padding:10px">
                         <form name="frmFilter" id="frmFilter" method="post" action="<?=$_SERVER['PHP_SELF'];?>">
@@ -365,37 +423,17 @@ include "function.php";?>
                             </div>
                         </form>
                         <?php
-                        $dTo=$_POST['dTo'];
-                        $dFrm=$_POST['dFrm'];
-                        if($dTo=='') $dTo=date('Y-m-d');
-                        if($dFrm=='') $dFrm=date('Y-m-d');
+                        if(isset($_POST['dFrm']) && $_POST['dFrm'] != ''){
+                            $sdate = $_POST['dFrm'];
+                            if(isset($_POST['dTo']) && $_POST['dTo'] != '') $edate = $_POST['dTo'];
+                            else $edate = $_POST['dFrm'];
+                        }else{
+                            $sdate = $edate = date('Y-m-d');
+                        }
+
+		                $sq = "SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, u.unit_name FROM ((memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id) INNER JOIN unittb u ON u.unit_code=mm.dept_unit) WHERE mm.memo_status='IN' and  mm.read_status='Unread' and (mm.dept_unit='".$_SESSION['userunit']."' or m.entry_by='".$_SESSION['login_id']."') AND m.entry_date BETWEEN '{$sdate}' AND '{$edate}' order by mm.id desc";
                         ?>
-                        <table id="dg" title="" style="width:880px;" data-options="
-                                        singleSelect:true,
-                                    url: 'scriptfile_m.php?contentvar=incoming_mail&sdate=<?=$dFrm;?>&edate=<?=$dTo;?>',
-                                    rownumbers:true,method:'get',toolbar:'#tb', pagination:true,
-                                    pageSize:10,
-                                    rowStyler: function(index,row){
-                                        if (row.read_status == 'Unread'){
-                                            return 'color:#900;font-weight:bold;';
-                                        }
-                                    }
-                                ">
-                            <thead>
-                                <tr>
-                                    <th data-options="field:'ck',checkbox:true"></th>
-                                    <th data-options="field:'memo_id',width:100">ID</th>
-                                    <th data-options="field:'memo_from',width:100">FROM</th>
-                                    <th data-options="field:'address_unit',width:100,hidden:'false'">ADDRESS/UNIT</th>
-                                    <th data-options="field:'description',width:180,align:'left'">DESCRIPTION</th>
-                                    <th data-options="field:'amount',width:100,align:'left'">AMOUNT</th>
-                                    <th data-options="field:'dept_unit',width:100,align:'left'">DEPT/UNIT</th>
-                                    <th data-options="field:'datein',width:90">DATE</th>
-                                    <th data-options="field:'memo_status',width:80,align:'center'">STATUS</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <div id="tb" style="padding:2px 5px;">
+                        <div style="padding:2px 5px;">
                             <?php /*if(strtolower($role) == "bursar")*/{ ?>
                             <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected(); $('#xwin').window('open'); ">Process</a>
                             <?php } ?>
@@ -412,336 +450,44 @@ include "function.php";?>
                             <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
                             <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected(); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher_sal.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Voucher (PAYE)</a>
                             <?php } //echo $role; ?> 
-                        </div>
-                
-                        <div id="outmail"></div><div id="out_query"></div>
-                        <div id="xwin" class="easyui-window" title="Memo/Mail Details" style="width:620px;height:400px;padding:10px;" 
-                            data-options="
-                            modal:true,
-                            closed:true,
-                            iconCls:'icon-tip',
-                                onResize:function(){
-                                    $(this).window('hcenter');
-                                }">
-                            <form id= 'outmails'  enctype="multipart/form-data" name="outmails">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+                        </div><hr>
+                        <table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box' style='font-size:10px;'>
+                            <thead>
                                 <tr>
-                                    <td height="33" align="left" valign="middle">Memo ID:</td>
-                                    <td height="33" align="left" valign="middle"><div id="hmemoid"></div></td>
+                                    <th data-options="field:'ck',checkbox:true"></th>
+                                    <th data-options="field:'memo_id',width:100">ID</th>
+                                    <th data-options="field:'memo_from',width:100">FROM</th>
+                                    <th data-options="field:'address_unit',width:100,hidden:'false'">ADDRESS/UNIT</th>
+                                    <th data-options="field:'description',width:180,align:'left'">DESCRIPTION</th>
+                                    <th data-options="field:'amount',width:100,align:'left'">AMOUNT</th>
+                                    <th data-options="field:'dept_unit',width:100,align:'left'">DEPT/UNIT</th>
+                                    <th data-options="field:'datein',width:90">DATE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $qmail=mysqli_query($con, $sq);
+                                while($row=mysqli_fetch_array($qmail, 3)){
+                                    ?>
+                                    <tr  style="color:#900">
+                                        <td><?=++$sn?></td>
+                                        <td><?=$row['memo_id']?></td>
+                                        <td><?=$row['memo_from']?></td>
+                                        <td><?=is_numeric($row['address_unit']) && $row['address_unit'] !=''?$row['unit_name']:$row['address_unit'];?></td>
+                                        <td><?=$row['description']?></td>
+                                        <td><?=$row['amount']?></td>
+                                        <td><?=$row['dept_unit'];?></td>
+                                        <td><?=$row['datein']." ".$row['entry_time']?></td>
                                     </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle">From:</td>
-                                    <td height="33" align="left" valign="middle"><div id="hmemofrom"></div></td>            
-                                    </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle">Address/Unit:</td>
-                                    <td height="33" align="left" valign="middle"><div id="haddress_unit"></div></td>            
-                                    </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><label for="fdept">To: (Faculty/Dept)</label></td>
-                                    <td height="33" align="left" valign="middle"><select name="fdept" id="fdept" onchange="swapcontent('load_unit',document.getElementById('fdept').value)" style="width:300px;">
-                                                <option selected="selected" value="">---</option>
-                                                <?php
-                                                $res_c=@mysqli_query($con, "select * from departmenttb order by dept_name");
-                                                while($rs_c=@mysqli_fetch_array($res_c))
-                                                {
-                                                    $dept_code=@$rs_c['dept_code'];
-                                                    $dept_name=@$rs_c['dept_name'];
-                                                    echo "<option value='$dept_code'>$dept_name</option>";
-                                                }
-                                                    echo "<option value='others'>Others...</option>";
-                                                echo "</select>";
-                                                ?>
-                                            </select></td>
-                                    </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><label for="unit">Unit/Address: </label></td>
-                                    <td height="33" align="left" valign="middle"><span id="load_unit"><select name="unit" id="unit" style="width:300px;">
-                                                <option selected="selected" value=''>---</option>
-                                                <?php
-                                                /*  $res_c=@mysqli_query($con, "select * from unittb order by unit_name");
-                                                while($rs_c=@mysqli_fetch_array($res_c))
-                                                {
-                                                    $unit_code=@$rs_c['unit_code'];
-                                                    $unit_name=@$rs_c['unit_name'];
-                                                    echo "<option value='$unit_code'>$unit_name</option>";
-                                                }
-                                                echo "</select>";*/
-                                                ?>
-                                            </select></span></td>
-                                    </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><label for="action">Action:</label></td>
-                                    <td height="33" align="left" valign="middle"><select name="action" id="action" class="easyui-combobox" panelHeight="auto" style="width:300px;" >
-                                        <option value="" selected>Select item...</option>
-                                        <?php  $q =  mysqli_query($con, "select action from memo_actiontb order by action");
-                                        while($r= mysqli_fetch_array($q, 3 )){
-                                        echo '<option value="'. $r['action'] .'">'. $r['action'] .'</option>'; } ?></select></td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><label for="remark">Comment:</label></td>
-                                    <td height="33" align="left" valign="middle"><textarea id="remark" name="remark" class="easyui-textbox" style="width:300px;height:60px;"></textarea>
-                                <input type="hidden" id="login_id" name="login_id" value="<?php echo $login_id; ?>"/>
-                                <input type="hidden" id="staff_category" name="staff_category" value="<?php echo $role; ?>"/>
-                                <input type="hidden" id="tmemoid" name="tmemoid" value=""/>
-                                <input type="hidden" id="memo_unit_code" name="memo_unit_code" value=""/></td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle">Amount Requested:</td>
-                                    <td height="33" align="left" valign="middle" nowrap><span id="hmemoamountd"></span></td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle">Amount Approved:</td>
-                                    <td height="33" align="left" valign="middle" nowrap><input type="text" class="easyui-textbox" id="hmemoamount" name="hmemoamount" style="width:300px;" /></td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="center" valign="middle">&nbsp;</td>
-                                    <td height="33" align="left" valign="middle" nowrap>
-                                    <a id="idoc" class='iframe easyui-linkbutton' iconCls="icon-tip" href=""><strong><font color="#000099">View Document</font></strong></a>&nbsp;&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-save" onClick="getSelected(); swapcontent('outmail',$('#unit').val(),$('#action').val(),$('#remark').val(),$('#tmemoid').val(),$('#login_id').val(),$('#staff_category').val(),$('#memo_unit_code').val(), $('#hmemoamount').val()); reload_grids();">Submit</a></td>
-                                </tr>
-                                <!--<tr>
-                                    <td>&nbsp;</td>
-                                    <td height="33" align="right"> &nbsp;
-                                    <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="getSelected(); swapcontent('mark_mail',$('#tmemoid').val(),$('#login_id').val(),$('#staff_category').val(),$('#memo_unit_code').val());">Mark as Read</a></td>
-                                </tr>-->
-                                </table>
-                            </form>
-                        </div>
-                        <div id="vwin" class="easyui-window" title="View/Edit Memo" style="width:600px;height:400px;padding:10px;" 
-                            data-options="
-                            modal:true,
-                            closed:true,
-                            iconCls:'icon-tip',
-                                onResize:function(){
-                                    $(this).window('hcenter');
-                                }">
-                            <form action="scriptfile_m.php?contentvar=mfileupload" method="post" enctype="multipart/form-data" target="upload_target2" onsubmit="startUpload2();" class="formx" id="editmail" name="editmail" >
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><strong>Memo ID:</strong></td>
-                                    <td height="33" align="left" valign="middle"><div id="vmemoid"></div>
-                                    <input type="hidden" id="vmemoid_x" name="vmemoid_x" value=""/>
-                                    <input type="hidden" id="vlogin_id" name="vlogin_id" value="<?php echo $login_id; ?>"/></td>
-                                    </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><strong>From:</strong></td>
-                                    <td height="33" align="left" valign="middle"><input type="text" class="easyui-textbox" id="vmemofrom" name="vmemofrom" style="width:300px;" /></td>
-                                    </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><strong>Address/Unit:</strong></td>
-                                    <td height="33" align="left" valign="middle"><select name="vaddress_unit" id="vaddress_unit" style="width:300px;" >
-                                                    <option value="" selected>Select item...</option>
-                                                    <?php  $q =  mysqli_query($con, "select * from departmenttb order by dept_name");
-                                                    while($r= mysqli_fetch_array($q, 3 )){
-                                                        echo '<option value="'. $r['dept_code'] .'">'. $r['dept_name'] .'</option>';
-                                                    }
-                                                    ?>
-                                                </select></td>            
-                                    </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><strong>Memo Title/ Description:</strong></td>
-                                    <td height="33" align="left" valign="middle"><textarea id="vmemodesc" name="vmemodesc" class="easyui-textbox" style="width:300px;height:60px;"></textarea></td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="left"><strong>Amount Requested:</strong></td>
-                                    <td height="33" align="left" valign="middle"><input type="text" class="easyui-textbox" id="vmemoamount" name="vmemoamount" style="width:300px;" /></td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><strong>Recieved into:</strong></td>
-                                    <td height="33" align="left" valign="middle"><select name="vmemodept" id="vmemodept" style="width:300px;" >
-                                                    <option value="" selected>Select item...</option>
-                                                    <?php  $q =  mysqli_query($con, "select * from unittb order by id");
-                                                    while($r= mysqli_fetch_array($q, 3 )){
-                                                        echo '<option value="'. $r['unit_code'] .'">'. $r['unit_name'] .'</option>';
-                                                    }
-                                                    ?>
-                                                </select></td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><strong>Date/Time:</strong></td>
-                                    <td height="33" align="left" valign="middle"><div id="vmemodate"></div></td>
-                                    <td height="33" align="left" valign="middle">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td height="33" align="left" valign="middle"><strong>Status:</strong></td>
-                                    <td height="33" align="left" valign="middle" nowrap><span id="vmemoaction"></span>&nbsp;&nbsp;<a id="vidoc" class='iframe easyui-linkbutton' iconCls="icon-tip" href=""><strong><font color="#000099">View Document</font></strong></a><span id="mupdate">&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-save" onClick="getSelected(); swapcontent('editmails', $('#vmemodept').val(), $('#vmemofrom').val(), $('#vmemodesc').val(),$('#vmemoid_x').val(), $('#vmemoamount').val()); reload_grids();">Update</a></span></td>
-                                </tr>
-                                <!--<tr>
-                                    <td height="33" align="center" valign="middle">&nbsp;</td>
-                                    <td height="33" align="right" valign="middle">
-                                    </td>
-                                </tr>-->
-                                <tr id="mupdate_r">
-                                    <td height="33" align="left" valign="middle"><strong>Document:</strong></td>
-                                    <td height="33" align="left" valign="middle">
-                                        <span class="formx2" >
-                                                
-                                            <p id="f1_upload_form2" align="left"><br/>
-                                                <!--<label class="labelx" for="myfile2">File: --> 
-                                                    <input name="myfile2" type="file" size="20" />
-                                                <!--</label>-->
-                                                <input type="hidden" name="file_memo_id2" id="file_memo_id2" value="">
-                                                <label>                         
-                                                    <input type="submit" name="submitBtn2" class="sbtn2 buttonx" value="Upload" />
-                                                </label>
-                                            </p>
-                                            <p id="f1_upload_process2">Loading...<br/><img src="images/ajax-loader.gif" /><br/></p>
-                                <iframe id="upload_target2" name="upload_target2" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
-                                                <!--</form>-->
-                                        </span>
-                                    </td>
-                                </tr>
-                                </table>
-                            </form>
-                            <div id="editmails"></div>
-                        </div>
+                                    <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
                     </div><!-- END OF DIV FOR INCOMING MAILS -->
                     
                     <div title="<span class='tt-inner' onClick='open_window(2);'><img src='images/outmail.png'/><br>Treated Mail</span>" style="padding:10px" ></div>
     
-            <script>
-                    //script for pagination starts
-                    (function($){
-                        function pagerFilter(data){
-                            if ($.isArray(data)){    // is array
-                                data = {
-                                    total: data.length,
-                                    rows: data
-                                }
-                            }
-                            var dg = $(this);
-                            var state = dg.data('datagrid');
-                            var opts = dg.datagrid('options');
-                            if (!state.allRows){
-                                state.allRows = (data.rows);
-                            }
-                            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-                            var end = start + parseInt(opts.pageSize);
-                            data.rows = $.extend(true,[],state.allRows.slice(start, end));
-                            return data;
-                        }
-            
-                        var loadDataMethod = $.fn.datagrid.methods.loadData;
-                        $.extend($.fn.datagrid.methods, {
-                            clientPaging: function(jq){
-                                return jq.each(function(){
-                                    var dg = $(this);
-                                    var state = dg.data('datagrid');
-                                    var opts = state.options;
-                                    opts.loadFilter = pagerFilter;
-                                    var onBeforeLoad = opts.onBeforeLoad;
-                                    opts.onBeforeLoad = function(param){
-                                        state.allRows = null;
-                                        return onBeforeLoad.call(this, param);
-                                    }
-                                    dg.datagrid('getPager').pagination({
-                                        onSelectPage:function(pageNum, pageSize){
-                                            opts.pageNumber = pageNum;
-                                            opts.pageSize = pageSize;
-                                            $(this).pagination('refresh',{
-                                                pageNumber:pageNum,
-                                                pageSize:pageSize
-                                            });
-                                            dg.datagrid('loadData',state.allRows);
-                                        }
-                                    });
-                                    $(this).datagrid('loadData', state.data);
-                                    if (opts.url){
-                                        $(this).datagrid('reload');
-                                    }
-                                });
-                            },
-                            loadData: function(jq, data){
-                                jq.each(function(){
-                                    $(this).data('datagrid').allRows = null;
-                                });
-                                return loadDataMethod.call($.fn.datagrid.methods, jq, data);
-                            },
-                            getAllRows: function(jq){
-                                return jq.data('datagrid').allRows;
-                            }
-                        })
-                    })(jQuery);
-            
-                    function getData(){
-                        var rows = [];
-                        for(var i=1; i<=800; i++){
-                            var amount = Math.floor(Math.random()*1000);
-                            var price = Math.floor(Math.random()*1000);
-                            rows.push({
-                                inv: 'Inv No '+i,
-                                date: $.fn.datebox.defaults.formatter(new Date()),
-                                name: 'Name '+i,
-                                amount: amount,
-                                price: price,
-                                cost: amount*price,
-                                note: 'Note '+i
-                            });
-                        }
-                        return rows;
-                    }
-                    //script for pagination ends
-            </script>
-    
-            <script type="text/javascript">
-                var toolbar = [{
-                    text:'TRACK MAIL',
-                    iconCls:'icon-tip',
-                    handler:function(){
-                        //alert('PUT MEMO MOVEMENT HERE!')
-                        getSelected()
-                        }
-                }/*,{
-                    text:'Cut',
-                    iconCls:'icon-cut',
-                    handler:function(){alert('cut')}
-                },'-',{
-                    text:'Save',
-                    iconCls:'icon-save',
-                    handler:function(){alert('save')}
-                }*/];
-            </script>
-    
-            <script type="text/javascript">
-                //FILTER/SEARCH SCRIPT STAR5T HERE FOR GRIDS
-                $(function(){
-                    var dg = $('#dg').datagrid();
-                    
-                    
-                    dg.datagrid('enableFilter', [{
-                        field:'amount',
-                        type:'numberbox',
-                        options:{precision:2},
-                        op:['equal','notequal','less','greater']
-                    },/*{
-                        field:'unitcost',
-                        type:'numberbox',
-                        options:{precision:1},
-                        op:['equal','notequal','less','greater']
-                    },*/{
-                        field:'memo_status',
-                        type:'combobox',
-                        options:{
-                            panelHeight:'auto',
-                            data:[{value:'',text:'All'},{value:'In Progress',text:'In Progress'},
-                                {value:'Queried',text:'Queried'},{value:'Completed',text:'Completed'}],
-                            onChange:function(value){
-                                if (value == ''){
-                                    dg.datagrid('removeFilterRule', 'memo_status');
-                                } else {
-                                    dg.datagrid('addFilterRule', {
-                                        field: 'memo_status',
-                                        op: 'equal',
-                                        value: value
-                                    });
-                                }
-                                dg.datagrid('doFilter');
-                            }
-                        }
-                    }]);
-                });
-            </script>
-                        
                 </div>
              <strong><span style="color:#900">Not Treated mail</span> - <span style="color:#000">Treated mail</span></strong>   
 <!-- END OF DIV FOR OUTGOING MAILS -->
