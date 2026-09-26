@@ -304,7 +304,7 @@ if($id=="load_dept_account"){
 
 
      $res_c=@mysqli_query($con, "SELECT * FROM account_departments where department_category='". mysqli_real_escape_string($con, $_REQUEST['category'])."' order by department_code");
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
      {
           $dept_code=@$rs_c['department_code']; //$dept_code=@$rs_c['dept_code'];
           $dept_name=@$rs_c['department_name']; //$dept_name=@$rs_c['dept_name'];
@@ -321,7 +321,7 @@ if($id=="load_items_code"){
 
      $res_c=@mysqli_query($con, "select distinct itemcode, title as codetitle from foliotb where category='". mysqli_real_escape_string($con, $_REQUEST['category'])."' order by itemcode");
      //fundcenter='". mysqli_real_escape_string($con, $_REQUEST['fundcenter'])."' and deptcode='". mysqli_real_escape_string($con, $_REQUEST['deptcode'])."'
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
      {
           $dept_code=@$rs_c['itemcode']; //$dept_code=@$rs_c['dept_code'];
           $dept_name=@$rs_c['codetitle']; //$dept_name=@$rs_c['dept_name'];
@@ -342,7 +342,7 @@ if($id=="load_category" || $id=="load_category_r"){
      elseif($id=="load_category_r")
      $res_c=@mysqli_query($con, "select distinct category from foliotb where fundcenter = '".$fundcenter."' order by category"); // and category != ''in ('01-000C', '09-000C')
 
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
      {
           $dept_code=@$rs_c['category']; //$dept_code=@$rs_c['dept_code'];
           $dept_name= $bursary->get_any_value('folio_category', 'folio_categorytb', 'id', @$rs_c['category']); //$dept_name=@$rs_c['dept_name'];
@@ -2035,7 +2035,7 @@ if($id=='natdiv') //nationality
      {
           echo "Country: <select name='country' id='country'><option selected value=''>---</option>";
           $res_c=@mysqli_query($con, "SELECT * FROM countrytb where country!='Nigeria' order by country");
-          while($rs_c=@mysqli_fetch_array($res_c))
+          while($rs_c=@mysqli_fetch_array($res_c, 3))
           {
                $country=@$rs_c['country'];
                echo "<option value='$country'>$country</option>";
@@ -2046,7 +2046,7 @@ if($id=='natdiv') //nationality
      {
           echo "<span id='statediv'>State:<select name='state' id='state' onchange=\"swapcontent('lgadiv',document.getElementById('state').value)\"><option selected value=''>---</option>";
           $res_c=@mysqli_query($con, "SELECT * FROM statetb order by state_name");
-          while($rs_c=@mysqli_fetch_array($res_c))
+          while($rs_c=@mysqli_fetch_array($res_c, 3))
           {
                $state_id=@$rs_c['state_id'];
                $state_name=@$rs_c['state_name'];
@@ -2482,7 +2482,7 @@ if($id=='load_unit')
           <option selected="selected" value="">---</option>
           <?php
           $res_c=@mysqli_query($con, "SELECT * FROM unittb where dept_code='$dept_code' order by unit_name");
-          while($rs_c=@mysqli_fetch_array($res_c))
+          while($rs_c=@mysqli_fetch_array($res_c, 3))
           {
                $unit_code=@$rs_c['unit_code'];
                $unit_name=@$rs_c['unit_name'];
@@ -2659,7 +2659,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                    <option selected="selected" value="">---</option>
                                    <?php
                                    $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                   while ($rcourse=@mysqli_fetch_array($r))
+                                   while ($rcourse=@mysqli_fetch_array($r, 3))
                                    {
                                         $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                         echo "<option value='$pcode'>$scourse</option>";
@@ -2711,7 +2711,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                    <option selected="selected" value="">---</option>
                                    <?php
                                    $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                   while ($rcourse=@mysqli_fetch_array($r))
+                                   while ($rcourse=@mysqli_fetch_array($r, 3))
                                    {
                                         $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                         echo "<option value='$pcode'>$scourse</option>";
@@ -2762,7 +2762,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                    <option selected="selected" value="">---</option>
                                    <?php
                                    $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                   while ($rcourse=@mysqli_fetch_array($r))
+                                   while ($rcourse=@mysqli_fetch_array($r, 3))
                                    {
                                         $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                         echo "<option value='$pcode'>$scourse</option>";
@@ -2814,7 +2814,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                    <option selected="selected" value="">---</option>
                                    <?php
                                    $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                   while ($rcourse=@mysqli_fetch_array($r))
+                                   while ($rcourse=@mysqli_fetch_array($r, 3))
                                    {
                                         $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                         echo "<option value='$pcode'>$scourse</option>";
@@ -2960,7 +2960,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        <option selected="selected" value="">---</option>
                                                        <?php
                                                        $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                       while ($rcourse=@mysqli_fetch_array($r))
+                                                       while ($rcourse=@mysqli_fetch_array($r, 3))
                                                        {
                                                             $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                             echo "<option value='$pcode'>$scourse</option>";
@@ -3012,7 +3012,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        <option selected="selected" value="">---</option>
                                                        <?php
                                                        $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                       while ($rcourse=@mysqli_fetch_array($r))
+                                                       while ($rcourse=@mysqli_fetch_array($r, 3))
                                                        {
                                                             $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                             echo "<option value='$pcode'>$scourse</option>";
@@ -3064,7 +3064,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        <option selected="selected" value="">---</option>
                                                        <?php
                                                        $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                       while ($rcourse=@mysqli_fetch_array($r))
+                                                       while ($rcourse=@mysqli_fetch_array($r, 3))
                                                        {
                                                             $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                             echo "<option value='$pcode'>$scourse</option>";
@@ -3116,7 +3116,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        <option selected="selected" value="">---</option>
                                                        <?php
                                                        $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                       while ($rcourse=@mysqli_fetch_array($r))
+                                                       while ($rcourse=@mysqli_fetch_array($r, 3))
                                                        {
                                                             $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                             echo "<option value='$pcode'>$scourse</option>";
@@ -3162,7 +3162,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        <option selected="selected" value="">---</option>
                                                        <?php
                                                        $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                       while ($rcourse=@mysqli_fetch_array($r))
+                                                       while ($rcourse=@mysqli_fetch_array($r, 3))
                                                        {
                                                             $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                             echo "<option value='$pcode'>$scourse</option>";
@@ -3210,7 +3210,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        <option selected="selected" value="">---</option>
                                                        <?php
                                                        $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                       while ($rcourse=@mysqli_fetch_array($r))
+                                                       while ($rcourse=@mysqli_fetch_array($r, 3))
                                                        {
                                                             $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                             echo "<option value='$pcode'>$scourse</option>";
@@ -3255,7 +3255,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        <option selected="selected" value="">---</option>
                                                        <?php
                                                        $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                       while ($rcourse=@mysqli_fetch_array($r))
+                                                       while ($rcourse=@mysqli_fetch_array($r, 3))
                                                        {
                                                             $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                             echo "<option value='$pcode'>$scourse</option>";
@@ -3374,7 +3374,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                             <option selected="selected" value="">---</option>
                                                             <?php
                                                             $r=@mysqli_query($con, "select distinct bankname  from banktb order by bankname");
-                                                            while ($rcourse=@mysqli_fetch_array($r))
+                                                            while ($rcourse=@mysqli_fetch_array($r, 3))
                                                             {
                                                                  $scourse=@$rcourse['bankname'];$pcode=@$rcourse['bankname'];
                                                                  echo "<option value='$pcode'>$scourse</option>";
@@ -5624,14 +5624,16 @@ if($id=='voucher_section_entry_final')
           $countpv = @mysqli_num_rows($d);
           if($countpv > 0)
           {
-               echo "<script language='javascript'>alert('PVNO already Exists, try again...');</script>";exit;
+               echo "<script language='javascript'>alert('PVNO already Exists, try again...');</script>";
+               exit;
           }
 
           foreach($vamt as $amt)
           {
                if($amt!="" && !preg_match('/^\d+(\.\d+)?$/', $amt))
                {
-                    echo "<script language='javascript'>alert('Invalid Amount. Enter Amount correctly');</script>";exit;
+                    echo "<script language='javascript'>alert('Invalid Amount. Enter Amount correctly');</script>";
+                    exit;
                }
           }
           if(count($bcode)>0)
@@ -5640,7 +5642,8 @@ if($id=='voucher_section_entry_final')
                {
                     if(!preg_match('/^\d+(\.\d+)?$/', $val_amt))//$val_amt!="" &&
                     {
-                         echo "<script language='javascript'>alert('Invalid Amount. Enter Breakdown Amount correctly');</script>";exit;
+                         echo "<script language='javascript'>alert('Invalid Amount. Enter Breakdown Amount correctly');</script>";
+                         exit;
                     }
                }//end of foreach for bamt
           }// end of bcode is not empty
@@ -5678,9 +5681,9 @@ if($id=='voucher_section_entry_final')
           //
           if(mysqli_query($con, $queryString)){
                if( count($folio)==1 ){
-                    echo $queryStringA="INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'";
-                    echo $queryStringB="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$amount_paid', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
-                    echo $queryStringC="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                    $queryStringA="INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'";
+                    $queryStringB="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$amount_paid', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
+                    $queryStringC="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                     if(mysqli_query($con, $queryStringA) && mysqli_query($con, $queryStringB) && mysqli_query($con, $queryStringC)){
                          $flag=true;
                     } else {
@@ -5894,7 +5897,7 @@ TestArea:
                               <?php
                               //$res_c=@mysqli_query($con, "SELECT * FROM departmenttb order by dept_name");
                               $res_c=@mysqli_query($con, "SELECT * FROM departmenttb order by dept_name");
-                              while($rs_c=@mysqli_fetch_array($res_c))
+                              while($rs_c=@mysqli_fetch_array($res_c, 3))
                               {
                               $dept_code=@$rs_c['dept_code']; //$dept_code=@$rs_c['dept_code'];
                               $dept_name=@$rs_c['dept_name']; //$dept_name=@$rs_c['dept_name'];
@@ -5936,7 +5939,7 @@ TestArea:
                               <option value="---">Empty (No Account)</option>
                               <?php
                               $r=@mysqli_query($con, "select distinct *  from bank_accounttb WHERE status='Active' order by acctcode");
-                              while ($rcourse=@mysqli_fetch_array($r))
+                              while ($rcourse=@mysqli_fetch_array($r, 3))
                               {
                                    $scourse=@$rcourse['acctname'];		$pcode=@$rcourse['acctcode'];
                                    $bank=@$rcourse['bankname'];		$acctno=@$rcourse['acctno'];
@@ -5948,7 +5951,7 @@ TestArea:
                               ?>
                               <?php
                               /*$res_c=@mysqli_query($con, "SELECT * FROM bank_accounttb order by bankname");
-                              while($rs_c=@mysqli_fetch_array($res_c))
+                              while($rs_c=@mysqli_fetch_array($res_c, 3))
                               {
                               $acct_code=@$rs_c['acctno'];
                               $acct_name=@$rs_c['bankname'].": ".$rs_c['acctno'];
@@ -6176,7 +6179,7 @@ TestArea:
                     '<select name="acctcode" id="acctcode" class="txt" style="width: 300px" onchange="swapcontent(\'generatePVNo\', $(\'#acctcode\').val(), $(\'#pay_date\').val())" >
                     <option selected="selected" value="">---</option>';
                     $r=@mysqli_query($con, "select distinct *  from bank_accounttb where status='Active' order by acctcode");
-                    while ($rcourse=@mysqli_fetch_array($r))
+                    while ($rcourse=@mysqli_fetch_array($r, 3))
                     {
                          $scourse=@$rcourse['acctname'];$pcode=@$rcourse['acctcode'];
                          $bank=@$rcourse['bankname'];$acctno=@$rcourse['acctno'];
@@ -8039,7 +8042,7 @@ TestArea:
      <option selected="selected" value="">---</option>
      <?php
      $res_c=@mysqli_query($con, "SELECT * FROM hr_positiontb where category='$category' order by category");
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
      {
      $position=@$rs_c['position'];
      echo "<option value='$position'>$position</option>";
@@ -9087,7 +9090,7 @@ if($id=='display_grievance')
 {
      $r_id=@$_REQUEST['r_id'];
      $res_c=@mysqli_query($con, "select issues from hr_grievancetb where id='$r_id'");
-     $rs_c=@mysqli_fetch_array($res_c);
+     $rs_c=@mysqli_fetch_array($res_c, 3);
      $tb="<form name='frmpro' id='frmpro'><table>
      <center><font color='red'><b>REACTION/REPLY</b></font></center>
      <tr><th>ISSUE</th><td>{$rs_c['issues']}</td></tr>
@@ -9305,7 +9308,7 @@ if($id=='display_applicant_process')
      <option selected='selected' value=''>---</option>";
 
      $res_c=@mysqli_query($con, "SELECT * FROM hr_positiontb order by category,position");
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
      {
           $post=@$rs_c['position'];
           $tb.="<option value='$post'>$post</option>";
@@ -9330,7 +9333,7 @@ if($id=='display_applicant_process')
 
      $res_c=@mysqli_query($con, "SELECT * FROM level_categorytb order by convert(level,decimal)");
 
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
 
      {
 
@@ -9345,7 +9348,7 @@ if($id=='display_applicant_process')
 
      $res_c=@mysqli_query($con, "SELECT * FROM steptb order by convert(step,decimal)");
 
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
 
      {
 
@@ -9602,7 +9605,7 @@ if($id=="filter_allowances"){
      <option selected="selected" value="">---</option>';
      //$res_c=@mysqli_query($con, "SELECT * FROM salary_codetb where category='ALLOWANCE' and status='Active' order by account_code");
      $res_c=@mysqli_query($con, "SELECT * FROM allowancestb order by id");
-     while($rs_c=@mysqli_fetch_array($res_c))
+     while($rs_c=@mysqli_fetch_array($res_c, 3))
      {
           $al_id=@$rs_c['id'];
           $d_val=explode("***", $bursary->get_allowance_defined($al_id) );

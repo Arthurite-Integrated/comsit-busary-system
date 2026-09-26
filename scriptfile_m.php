@@ -311,7 +311,7 @@ if($id=="paygrid"){
 if($id=='staff_grid')
 {
 	$r= mysqli_query($con, "select s.fileno, concat(s.title, ' ', s.surname, ' ', s.first_name, ' ', s.other_name) as fullname, concat(d.dept_name, ', ', 'University of Ilorin') as dept, s.phone_no, s.acct_no, s.bank_name from stafftb s INNER JOIN departmenttb d on s.dept_code=d.dept_code where s.status='Active'"); 		$json_response=array();
-		 while ($row =  mysqli_fetch_array($r)) { 
+		 while ($row =  mysqli_fetch_array($r, 3)) { 
 		 $row_array['fileno'] = $row['fileno'];
 		 $row_array['fullname'] = $row['fullname'];
 		 $row_array['dept'] = $row['dept'];
@@ -332,7 +332,7 @@ if($id=='foliocode_grid')
 		 //where mm.memo_status='OUT' and mm.dept_unit='$udept'
 		//$r= mysqli_query($con, "select * from memotb"); //ADD CONDITION TO FILTER 		
 		$json_response=array();
-		 while ($row =  mysqli_fetch_array($r)) { 
+		 while ($row =  mysqli_fetch_array($r, 3)) { 
 		 $row_array['folio_code'] = $row['folio_code'];
 		 $row_array['title'] = $row['title'];
 		 $row_array['category'] = $row['categoryF'];
@@ -351,7 +351,7 @@ if($id=='load_fundsource')
 {
 	$r= mysqli_query($con, "select * from account_funds order by fund_code");
 		$json_response=array();
-		 while ($row =  mysqli_fetch_array($r)) { 
+		 while ($row =  mysqli_fetch_array($r, 3)) { 
 		 $row_array['fund_code'] = $row['fund_code'];
 		 $row_array['fund_name'] = $row['fund_name'];
 			 array_push($json_response,$row_array);
@@ -363,7 +363,7 @@ if($id=='load_fundsource')
 if($id=="load_category_j"){
 	$res_c=@mysqli_query($con, "select distinct category from foliotb order by category"); 
 	$json_response=array();
-	  while($rs_c=@mysqli_fetch_array($res_c))
+	  while($rs_c=@mysqli_fetch_array($res_c, 3))
 	   {
 		   $dept_name= $bursary->get_any_value('folio_category', 'folio_categorytb', 'id', @$rs_c['category']);
 		   $row_array['category'] = $rs_c['category'];
@@ -382,7 +382,7 @@ if($id=='load_unit')
 	  /*if($unit_code!='' and $dept_code!=''){
 	 echo '<select name="unit" id="unit">';
 	 $res_c2=@mysqli_query($con, "select * from unittb where dept_code='$dept_code' and unit_code = '$unit_code'");
-	 $rs_c2=@mysqli_fetch_array($res_c2);
+	 $rs_c2=@mysqli_fetch_array($res_c2, 3);
 		$unit_name=@$rs_c2['unit_name'];	
 		echo "<option selected value='$unit_code'>$unit_name</option>";
 	   echo '</select>';
@@ -400,7 +400,7 @@ if($id=='load_unit')
 						 else
 						 {
 						$res_c2=@mysqli_query($con, "select * from unittb where dept_code='$dept_code' and unit_code = '$unit_code' order by unit_name");
-						$rs_c2=@mysqli_fetch_array($res_c2);
+						$rs_c2=@mysqli_fetch_array($res_c2, 3);
 						 $unit_name=@$rs_c2['unit_name'];
 						 echo "<select name='unit' id='unit'><option selected value='$unit_code'>$unit_name</option>";
 						 $res_c=@mysqli_query($con, "select * from unittb where dept_code='$dept_code' and unit_code != '$unit_code' order by unit_name");
@@ -409,7 +409,7 @@ if($id=='load_unit')
 						
 						
                      //     $res_c=@mysqli_query($con, "select * from unittb where dept_code='$dept_code' order by unit_name");
-                          while($rs_c=@mysqli_fetch_array($res_c))
+                          while($rs_c=@mysqli_fetch_array($res_c, 3))
                            {
                               $unit_code=@$rs_c['unit_code'];
 							  $unit_name=@$rs_c['unit_name'];
@@ -450,7 +450,7 @@ if($id=='outgoing_mail')
 		 //where mm.memo_status='OUT' and mm.dept_unit='$udept'
 		//$r= mysqli_query($con, "select * from memotb"); //ADD CONDITION TO FILTER 		
 		$json_response=array();
-		 while ($row =  mysqli_fetch_array($r)) { 
+		 while ($row =  mysqli_fetch_array($r, 3)) { 
 			 $row_array['memo_id'] = $row['memo_id'];
 			 $row_array['memo_from'] = $row['memo_from'];//." (".$row['address_unit'].")";
 			 if(is_numeric($row['address_unit']) and $row['address_unit'] !='') $row_array['address_unit'] = $bursary->get_any_value('unit_name', 'unittb', "unit_code", $row['address_unit']); //$row['address_unit'];
@@ -524,7 +524,7 @@ if($id=='mailsearch')
 	
 		$r= mysqli_query($con, "select * from memotb"); //ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
 		$json_response=array();
-		 while ($row =  mysqli_fetch_array($r)) { 
+		 while ($row =  mysqli_fetch_array($r, 3)) { 
 		 $row_array['memo_id'] = $row['memo_id'];
 		 $row_array['memo_from'] = $row['memo_from'];
 		 $row_array['description'] = $row['description'];
@@ -543,7 +543,7 @@ if($id=='memo_withsub')
 {	
 		$r= mysqli_query($con, "select * from memotb order by id desc"); //ADD DEPARTMENT FILTER
 		$json_response=array();
-		 while ($row =  mysqli_fetch_array($r)) { 
+		 while ($row =  mysqli_fetch_array($r, 3)) { 
 		 $row_array['memo_id'] = $row['memo_id'];
 		 $row_array['memo_from'] = $row['memo_from'];
 		 //$row_array['address_unit'] = $row['address_unit'];
@@ -1140,7 +1140,7 @@ if($id=='display_voucher_processx111')
   <td width='40%' height='20' align='left' valign='middle'><select style='width:200px' name='fundsource' id='fundsource' style='width:120px;' onchange=\"swapcontent('read_budget', $('#budget_cat').val(), $('#budget_dept').val(), $('#budget_year').val(), '".$pvno."'); \">
 			         <option selected='selected'>Select...</option>";
 				  $res_c=@mysqli_query($con, "select * from account_funds order by fund_code");
-                          while($rs_c=@mysqli_fetch_array($res_c))
+                          while($rs_c=@mysqli_fetch_array($res_c, 3))
                            {
                               $dept_code=@$rs_c['fund_code'];
 							  $dept_name=@$rs_c['fund_name'];
@@ -1154,7 +1154,7 @@ if($id=='display_voucher_processx111')
   <td width='40%' height='20' align='left' valign='middle'><select style='width:200px' name='deptcode' id='deptcode' style='width:120px;' onchange=\"if($('#budget_cat option:selected').val() == 'Recurrent'){ $('tr#bgd_td').show(); $('tr#cdb_td').hide(); } else { $('tr#bgd_td').hide(); $('tr#cdb_td').hide(); swapcontent('read_budget', $('#budget_cat').val(), $('#budget_dept').val(), $('#budget_year').val(), '".$pvno."'); } /**/\">
 			         <option selected='selected'>Select...</option>";
 				  $res_c=@mysqli_query($con, "select * from account_departments order by department_category");
-                          while($rs_c=@mysqli_fetch_array($res_c))
+                          while($rs_c=@mysqli_fetch_array($res_c, 3))
                            {
                               $dept_code=@$rs_c['department_code']; //$dept_code=@$rs_c['dept_code'];
 							  $dept_name=@$rs_c['department_name']; //$dept_name=@$rs_c['dept_name'];
@@ -1171,7 +1171,7 @@ if($id=='display_voucher_processx111')
   <td width='40%' height='20' align='left' valign='middle'><select style='width:200px' name='itemcode' id='itemcode' style='width:120px;' onchange=\"if($('#budget_cat option:selected').val() == 'Recurrent'){ $('tr#bgd_td').show(); $('tr#cdb_td').hide(); } else { $('tr#bgd_td').hide(); $('tr#cdb_td').hide(); swapcontent('read_budget', $('#budget_cat').val(), $('#budget_dept').val(), $('#budget_year').val(), '".$pvno."'); } /**/\">
 			         <option selected='selected'>Select...</option>";
 				  $res_c=@mysqli_query($con, "select distinct itemcode from foliotb order by itemcode");
-                          while($rs_c=@mysqli_fetch_array($res_c))
+                          while($rs_c=@mysqli_fetch_array($res_c, 3))
                            {
                               $dept_code=@$rs_c['itemcode']; 
                               $tb .= "<option value='$dept_code'>$dept_code</option>";
@@ -1462,7 +1462,7 @@ if($id=='display_voucher_processx')
   <td width='40%' height='20' align='left' valign='middle'><select style='width:200px' name='deptcode' id='deptcode' style='width:120px;' onchange=\"if($('#budget_cat option:selected').val() == 'Recurrent'){ $('tr#bgd_td').show(); $('tr#cdb_td').hide(); } else { $('tr#bgd_td').hide(); $('tr#cdb_td').hide(); swapcontent('read_budget', $('#budget_cat').val(), $('#budget_dept').val(), $('#budget_year').val(), '".$pvno."'); } /**/\">
 			         <option selected='selected'>Select...</option>";
 				  $res_c=@mysqli_query($con, "select * from account_departments order by department_category");
-                          while($rs_c=@mysqli_fetch_array($res_c))
+                          while($rs_c=@mysqli_fetch_array($res_c, 3))
                            {
                               $dept_code=@$rs_c['department_code']; //$dept_code=@$rs_c['dept_code'];
 							  $dept_name=@$rs_c['department_name']; //$dept_name=@$rs_c['dept_name'];
@@ -1724,7 +1724,7 @@ if($id=='display_voucher_process_transfer')
             <td width='40%' height='20' align='left' valign='middle'><select style='width:200px' name='fundsource' id='fundsource' style='width:120px;' onchange=\"swapcontent('read_budget', $('#budget_cat').val(), $('#budget_dept').val(), $('#budget_year').val(), '".$pvno."'); \">
               <option selected='selected'>Select...</option>";
               $res_c=@mysqli_query($con, "select * from account_funds order by fund_code");
-              while($rs_c=@mysqli_fetch_array($res_c))
+              while($rs_c=@mysqli_fetch_array($res_c, 3))
               {
               $dept_code=@$rs_c['fund_code'];
               $dept_name=@$rs_c['fund_name'];
@@ -1738,7 +1738,7 @@ if($id=='display_voucher_process_transfer')
             <td width='40%' height='20' align='left' valign='middle'><select style='width:200px' name='deptcode' id='deptcode' style='width:120px;' onchange=\"if($('#budget_cat option:selected').val() == 'Recurrent'){ $('tr#bgd_td').show(); $('tr#cdb_td').hide(); } else { $('tr#bgd_td').hide(); $('tr#cdb_td').hide(); swapcontent('read_budget', $('#budget_cat').val(), $('#budget_dept').val(), $('#budget_year').val(), '".$pvno."'); } \">
               <option selected='selected'>Select...</option>";
               $res_c=@mysqli_query($con, "select * from account_departments order by department_category");
-              while($rs_c=@mysqli_fetch_array($res_c))
+              while($rs_c=@mysqli_fetch_array($res_c, 3))
               {
               $dept_code=@$rs_c['department_code'];               $dept_name=@$rs_c['department_name'];               $tb .= "<option value='$dept_code'>$dept_code - $dept_name</option>";
               }
@@ -1753,7 +1753,7 @@ if($id=='display_voucher_process_transfer')
             <td width='40%' height='20' align='left' valign='middle'><select style='width:200px' name='itemcode' id='itemcode' style='width:120px;' onchange=\"if($('#budget_cat option:selected').val() == 'Recurrent'){ $('tr#bgd_td').show(); $('tr#cdb_td').hide(); } else { $('tr#bgd_td').hide(); $('tr#cdb_td').hide(); swapcontent('read_budget', $('#budget_cat').val(), $('#budget_dept').val(), $('#budget_year').val(), '".$pvno."'); } /**/\">
               <option selected='selected'>Select...</option>";
               $res_c=@mysqli_query($con, "select distinct itemcode from foliotb order by itemcode");
-              while($rs_c=@mysqli_fetch_array($res_c))
+              while($rs_c=@mysqli_fetch_array($res_c, 3))
               {
               $dept_code=@$rs_c['itemcode']; 
               $tb .= "<option value='$dept_code'>$dept_code</option>";
@@ -3672,7 +3672,7 @@ if($id=='month_breakdown')
 	echo "<table width='90%' align='left' border='1' cellspacing='0' cellpadding='3' rules='rows' frame='hsides'>
 			<tr><th align='left'>Months</th><th align='left'>Quarter</th></tr>";
 	$res_c= mysqli_query($con, "select * from monthtb where month_code >= $month_code order by month_code") or die( mysqli_error($con));
-	while($rs_c=@mysqli_fetch_array($res_c)) {
+	while($rs_c=@mysqli_fetch_array($res_c, 3)) {
 		$q_c++; if($q_c > 3) { $q_c = 1; $qcount++; }
 	  	$m_code=@$rs_c['month_code']; $title=@$rs_c['month_name'];
 	  	//echo $title."::".$month_code."<br>";
@@ -3680,7 +3680,7 @@ if($id=='month_breakdown')
 		if($action == "update")  mysqli_query($con, "update monthtb set quarter='". mysqli_real_escape_string($con, $q[$qcount])."' where month_code='". mysqli_real_escape_string($con, $m_code)."'");
 	}
 	$res_c= mysqli_query($con, "select * from monthtb where month_code < $month_code order by month_code") or die( mysqli_error($con));
-	while($rs_c=@mysqli_fetch_array($res_c))	{
+	while($rs_c=@mysqli_fetch_array($res_c, 3))	{
 		$q_c++; if($q_c > 3) { $q_c = 1; $qcount++; }
 	  	$m_code=@$rs_c['month_code']; $title=@$rs_c['month_name'];
 	  	//echo $title."::".$month_code."<br>";
