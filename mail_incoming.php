@@ -454,13 +454,12 @@ include "function.php";?>
                         <table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box' style='font-size:10px;'>
                             <thead>
                                 <tr>
-                                    <th data-options="field:'ck',checkbox:true"></th>
-                                    <th data-options="field:'memo_id',width:100">ID</th>
+                                    <th data-options="field:'ck',checkbox:true">SN</th>
+                                    <!--th data-options="field:'memo_id',width:100">ID</th-->
                                     <th data-options="field:'memo_from',width:100">FROM</th>
-                                    <th data-options="field:'address_unit',width:100,hidden:'false'">ADDRESS/UNIT</th>
                                     <th data-options="field:'description',width:180,align:'left'">DESCRIPTION</th>
                                     <th data-options="field:'amount',width:100,align:'left'">AMOUNT</th>
-                                    <th data-options="field:'dept_unit',width:100,align:'left'">DEPT/UNIT</th>
+                                    <th data-options="field:'dept_unit',width:100,align:'left'">TO DEPT/UNIT</th>
                                     <th data-options="field:'datein',width:90">DATE</th>
                                 </tr>
                             </thead>
@@ -473,11 +472,10 @@ include "function.php";?>
                                     ?>
                                     <tr  style="color:#900">
                                         <td><?=++$sn?></td>
-                                        <td><?=$row['memo_id']?></td>
-                                        <td><?=$row['memo_from']?></td>
-                                        <td><?=$dept_from?></td>
+                                        <!--td><?=$row['memo_id']?></td-->
+                                        <td><?=$row['memo_from']?><br><?=$dept_from?></td>
                                         <td><?=$row['description']?></td>
-                                        <td><?=$row['amount']?></td>
+                                        <td><?=number_format($row['amount'], 2)?></td>
                                         <td><?=$dept_to;?></td>
                                         <td><?=$row['datein']." ".$row['entry_time']?></td>
                                     </tr>
