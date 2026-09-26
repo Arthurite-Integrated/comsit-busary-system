@@ -345,10 +345,21 @@ onClosed: function () {
 		</form>
 <?php
 
-if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST['dTo']!=''){
-	$dFrm = $_POST['dFrm'];
-	$dTo = $_POST['dTo'];
-	echo "<h2>VOUCHER LIST FROM {$dFrm} TO {$dTo}</h2>";
+	if(isset($_POST['dFrm']) && $_POST['dFrm']!=''){
+		$dFrm = $_POST['dFrm'];
+		if(isset($_POST['dTo']) && $_POST['dTo'] != '') {
+			$dTo = $_POST['dTo'];
+			echo "<h2>PENDING VOUCHERS RAISED BETWEEN {$dFrm} TO {$dTo}</h2>";
+		}
+		else {
+			$dTo = $_POST['dFrm'];
+			echo "<h2>PENDING VOUCHERS RAISED ON {$dFrm}</h2>";
+		}
+	}else {
+		$dFrm = $dTo = date('Y-m-d');
+		echo "<h2>PENDING VOUCHERS RAISED TODAY {$dFrm}</h2>";
+	}
+	
 	?>
 			<div id="display2"></div>
             <p>
@@ -468,7 +479,7 @@ if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST
 			}" style="width:600px;height:auto;padding:10px; display:none"> </div>
             </p>
 	  <?php
-}
+//}
 ?>
 		</div>           
             </div><!-- end of content box -->
