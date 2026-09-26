@@ -244,7 +244,7 @@ if($id=='main_login')
           {
                //////project title fetching
                $res_p=@mysqli_query($con, "SELECT * FROM project_titletb where status='Active'");
-               $rs_p=@mysqli_fetch_array($res_p);
+               $rs_p=@mysqli_fetch_array($res_p, 3);
                $title=@$rs_p['title'];
                $_SESSION['project_title']=$title;
 
@@ -1043,7 +1043,7 @@ if($id=='journal_section_entry_new')
                $month_name=@date('F',strtotime($pay_date)); $month_no=@date('m',strtotime($pay_date));
                $year=@date('Y',strtotime($pay_date));
                $res_p=@mysqli_query($con, "SELECT count(*) as total from vouchertb where month(date_paid)='$month_no' and year(date_paid)='$year'");
-               $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d", $rs_p['total'] + 1);
+               $rs_p=@mysqli_fetch_array($res_p, 3); $no=sprintf("%04d", $rs_p['total'] + 1);
                
                $d=@mysqli_query($con, "SELECT * FROM transtb WHERE pvno='{$pvno}' AND year(transdate)='{$pay_year}' AND amount='{$cr_vamount}'");
                $countpv = @mysqli_num_rows($d);
@@ -2520,7 +2520,7 @@ if($id=='generate_pvno')
      $yearx=@date('ys');//,strtotime($pay_date));
      $year=@date('Y',strtotime($pay_date));
      $res_p=@mysqli_query($con, "select count(*) as total from vouchertb where month(voucher_date)='$month_no' and year(voucher_date)='$year'");
-     $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d",$rs_p['total'] + 1).rand(10, 54765);
+     $rs_p=@mysqli_fetch_array($res_p, 3); $no=sprintf("%04d",$rs_p['total'] + 1).rand(10, 54765);
 
      $pvno=strtoupper($voucher_unit."/".$month_no."/".$yearx."/". $no); //echo $month_no;
      echo "<b><font color='red'>$pvno</font></b><input type='hidden' name='pvno' id='pvno' value='$pvno'/>";
@@ -5104,7 +5104,7 @@ if($id=='voucher_section_entry_finalxxx')
                          goto TestArea;
                     }*/
                     
-                    $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                    $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                     $qr[] = $queryString;
                     $log=$queryString.";";
                     //$r9[]=@mysqli_query($con, $queryString) or die( "5.". mysqli_error($con));
@@ -5141,7 +5141,7 @@ if($id=='voucher_section_entry_finalxxx')
                                    goto TestArea;
                               }*/
 
-                              $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$v."', budget_folio_code = '".$v."', amount = ".$bamt[$s].", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                              $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$v."', budget_folio_code = '".$v."', amount = ".$bamt[$s].", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                               $qr[] = $queryString;
                               $log=$queryString.";";
                               //$r9[]=@mysqli_query($con, $queryString) or die( "8.". ysqli_error($con));
@@ -5227,7 +5227,7 @@ if($id=='voucher_section_entry_finalxxx')
                          goto TestArea;
                     }*/
 
-                    $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$vat_amount.", voucher_pvno = '".$pvno_final."A', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                    $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$vat_amount.", voucher_pvno = '".$pvno_final."A', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                     $qr[] = $queryString;
                     $log=$queryString.";";
                     //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
@@ -5305,7 +5305,7 @@ if($id=='voucher_section_entry_finalxxx')
                     goto TestArea;
                }*/
 
-               $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$tax_amount.", voucher_pvno = '".$pvno_final."B', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+               $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$tax_amount.", voucher_pvno = '".$pvno_final."B', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                $qr[] = $queryString;
                $log=$queryString.";";
                //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
@@ -5383,7 +5383,7 @@ if($id=='voucher_section_entry_finalxxx')
                     goto TestArea;
                }*/
 
-               $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$end_amount.", voucher_pvno = '".$pvno_final."C', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+               $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$end_amount.", voucher_pvno = '".$pvno_final."C', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                $qr[] = $queryString;
                $log=$queryString.";";
                //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
@@ -5461,7 +5461,7 @@ if($id=='voucher_section_entry_finalxxx')
                     goto TestArea;
                }*/
 
-               $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$stamp_amount.", voucher_pvno = '".$pvno_final."D', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+               $queryString="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$stamp_amount.", voucher_pvno = '".$pvno_final."D', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                $qr[] = $queryString;
                $log=$queryString.";";
                //$r9[]=@mysqli_query($con, $queryString) or die( mysqli_error($con));
@@ -5679,8 +5679,8 @@ if($id=='voucher_section_entry_final')
           if(mysqli_query($con, $queryString)){
                if( count($folio)==1 ){
                     echo $queryStringA="INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'";
-                    echo $queryStringB="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$amount_paid', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";exit;
-                    echo $queryStringC="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                    echo $queryStringB="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$amount_paid', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
+                    echo $queryStringC="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$amount_paid.", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                     if(mysqli_query($con, $queryStringA) && mysqli_query($con, $queryStringB) && mysqli_query($con, $queryStringC)){
                          $flag=true;
                     } else {
@@ -5693,7 +5693,7 @@ if($id=='voucher_section_entry_final')
                          foreach($bcode as $v){
                               $queryStringA = "INSERT INTO voucher_folio_codetb set pvno='$pvno',folio_code='$v',amount='$bamt[$s]', paid='Yes'";
                               $queryStringB="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$v', transtype='Debit', transdate='$pay_date', amount='".$bamt[$s]."', paybatch='$batchno', pvno='$pvno_final', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}', purchase_advance='$isPA'";
-                              $queryStringC="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$v."', budget_folio_code = '".$v."', amount = ".$bamt[$s].", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                              $queryStringC="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$v."', budget_folio_code = '".$v."', amount = ".$bamt[$s].", voucher_pvno = '".$pvno_final."', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                               if(mysqli_query($con, $queryStringA) && mysqli_query($con, $queryStringB) && mysqli_query($con, $queryStringC)){
                                    $flag=true;
                               } else {
@@ -5709,7 +5709,7 @@ if($id=='voucher_section_entry_final')
                goto TestArea;
           }
 
-          /*if($flag){
+          if($flag){
                if($dvat_pv == "yes" and $dvat > 0){
                     $pvno_tax = $pvno."_VAT";
 
@@ -5720,7 +5720,7 @@ if($id=='voucher_section_entry_final')
                          $queryStringB="INSERT INTO voucher_taxtb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$vat_amount}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
                          $queryStringC="INSERT INTO voucher_folio_codetb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$vat_amount}', paid='Yes'";
                          $queryStringD="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$vat_amount', paybatch='$batchno', pvno='{$pvno_final}A', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$vat_amount.", voucher_pvno = '".$pvno_final."A', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$vat_amount.", voucher_pvno = '".$pvno_final."A', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                          if(mysqli_query($con, $queryStringA) && mysqli_query($con, $queryStringB) && mysqli_query($con, $queryStringC) && mysqli_query($con, $queryStringD) && mysqli_query($con, $queryStringE)){
                               $flag=true;
                          } else {
@@ -5744,7 +5744,7 @@ if($id=='voucher_section_entry_final')
                          $queryStringB="INSERT INTO voucher_taxtb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$tax_amount}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
                          $queryStringC="INSERT INTO voucher_folio_codetb set pvno='$pvno_tax',folio_code='$folio[0]',amount='$tax_amount', paid='Yes'";
                          $queryStringD="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$tax_amount', paybatch='$batchno', pvno='{$pvno_final}B', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$tax_amount.", voucher_pvno = '".$pvno_final."B', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$tax_amount.", voucher_pvno = '".$pvno_final."B', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                          if(mysqli_query($con, $queryStringA) && mysqli_query($con, $queryStringB) && mysqli_query($con, $queryStringC) && mysqli_query($con, $queryStringD) && mysqli_query($con, $queryStringE)){
                               $flag=true;
                          } else {
@@ -5768,7 +5768,7 @@ if($id=='voucher_section_entry_final')
                          $queryStringB="INSERT INTO voucher_taxtb SET pvno='{$pvno_tax}',folio_code='{$folio[0]}',amount='{$end_amount}',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'";
                          $queryStringC="INSERT INTO voucher_folio_codetb SET pvno='{$pvno_tax}', folio_code='{$folio[0]}', amount='{$end_amount}',  paid='Yes'";
                          $queryStringD="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$end_amount', paybatch='$batchno', pvno='{$pvno_final}C', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$end_amount.", voucher_pvno = '".$pvno_final."C', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$end_amount.", voucher_pvno = '".$pvno_final."C', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                          if(mysqli_query($con, $queryStringA) && mysqli_query($con, $queryStringB) && mysqli_query($con, $queryStringC) && mysqli_query($con, $queryStringD) && mysqli_query($con, $queryStringE)){
                               $flag=true;
                          } else {
@@ -5792,7 +5792,7 @@ if($id=='voucher_section_entry_final')
                          $queryStringB="INSERT INTO voucher_taxtb SET pvno='{$pvno_stamp}', folio_code='{$folio[0]}', amount='{$stamp_amount}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
                          $queryStringC="INSERT INTO voucher_folio_codetb set pvno='$pvno_stamp',folio_code='$folio[0]',amount='$stamp_amount', paid='Yes'";
                          $queryStringD="INSERT INTO transtb set dept_acctcode='', acctcode='$account', folio_code='$folio[0]', transtype='Debit', transdate='$pay_date', amount='$stamp_amount', paybatch='$batchno', pvno='{$pvno_final}D', comment='PAID', entry_date='$pay_date', entry_time=CURTIME(), entry_by='{$login_id}'";
-                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$stamp_amount.", voucher_pvno = '".$pvno_final."D', budget_category = 'Recurrent', operation_year = '".date('y', $pay_date)."', operation_month = '".date('m', $pay_date)."', operation_quarter = '".get_quarter(date('m', $pay_date))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
+                         $queryStringE="INSERT INTO `budget_votebooktb` set voucher_folio_code = '".$folio[0]."', budget_folio_code = '".$folio[0]."', amount = ".$stamp_amount.", voucher_pvno = '".$pvno_final."D', budget_category = 'Recurrent', operation_year = '".date('Y', strtotime($pay_date))."', operation_month = '".date('m', strtotime($pay_date))."', operation_quarter = '".get_quarter(date('m', strtotime($pay_date)))."', status = 'PAID', entry_by = '".$controlled_by."', entry_date = '$pay_date', entry_time = now()";
                          if(mysqli_query($con, $queryStringA) && mysqli_query($con, $queryStringB) && mysqli_query($con, $queryStringC) && mysqli_query($con, $queryStringD) && mysqli_query($con, $queryStringE)){
                               $flag=true;
                          } else {
@@ -5804,7 +5804,7 @@ if($id=='voucher_section_entry_final')
                          goto TestArea;
                     }
                }//end if $dvat_pv
-          }*/
+          }
 
 TestArea:
           if($flag==true){
@@ -6407,7 +6407,7 @@ TestArea:
                $month_name=@date('F',strtotime($pay_date)); $month_no=@date('m',strtotime($pay_date));
                $year=@date('Y',strtotime($pay_date));
                $res_p=@mysqli_query($con, "SELECT count(*) as total from vouchertb where month(date_paid)='{$month_no}' and year(date_paid)='$year'");
-               $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d",$rs_p['total'] + 1);
+               $rs_p=@mysqli_fetch_array($res_p, 3); $no=sprintf("%04d",$rs_p['total'] + 1);
                
                $d=@mysqli_query($con, "SELECT * FROM transtb where pvno='{$pvno_paid}' and transdate like '%{$pay_date}%'");
                $countpv = @mysqli_num_rows($d);
@@ -6562,7 +6562,7 @@ TestArea:
                $month_no=@date('m',strtotime($pay_date));
                $year=@date('Y',strtotime($pay_date));
                $res_p=@mysqli_query($con, "SELECT count(*) as total from vouchertb where month(date_paid)='{$month_no}' and year(date_paid)='$year'");
-               $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d",$rs_p['total'] + 1);
+               $rs_p=@mysqli_fetch_array($res_p, 3); $no=sprintf("%04d",$rs_p['total'] + 1);
                
                $d=@mysqli_query($con, "SELECT * FROM transtb where pvno='{$pvno_paid}'");// and transdate like '%{$pay_date}%'");
                $countpv = @mysqli_num_rows($d);
@@ -7678,7 +7678,7 @@ TestArea:
      $month_name=@date('F',strtotime($pay_date)); $month_no=@date('m',strtotime($pay_date));
      $year=@date('Y',strtotime($pay_date));
      $res_p=@mysqli_query($con, "select count(distinct schedule_no) as total from vouchertb where month(date_paid)='$month_no' and year(date_paid)='$year'");
-     $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d",$rs_p['total'] + 1);
+     $rs_p=@mysqli_fetch_array($res_p, 3); $no=sprintf("%04d",$rs_p['total'] + 1);
 
      $sch_no="SD/".strtoupper($month_name."/".$year."/". $no); //echo $month_no;
      $bursary->begin();
@@ -8785,7 +8785,7 @@ if($id=='delete_upload')
      if($action=='delete')
      {
           $res_p=@mysqli_query($con, "select doc_path from hr_app_documenttb where id='$r_id'");
-          $rs_p=@mysqli_fetch_array($res_p);
+          $rs_p=@mysqli_fetch_array($res_p, 3);
           $path=$rs_p['doc_path'];
           @unlink($path);  //delete the file
           @mysqli_query($con, "DELETE FROM hr_app_documenttb where id='$r_id'");

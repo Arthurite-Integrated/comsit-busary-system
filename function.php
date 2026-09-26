@@ -26,7 +26,7 @@ function get_account_code_narration($code)
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select title from salary_codetb where account_code='$code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['title'];
 	 return($val);
  }
@@ -160,7 +160,7 @@ function get_dept_name($dept_code)
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select dept_name from departmenttb where dept_code='$dept_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['dept_name'];
 	 return($val);
  }
@@ -169,7 +169,7 @@ function get_dept_name_act($dept_code)
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select department_name from account_departments where department_code='$dept_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['department_name'];
 	 return($val);
  }
@@ -177,7 +177,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select memo_id from vouchertb where pvno='$pvno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['memo_id'];
 	 return($val);
  }
@@ -185,7 +185,7 @@ global $con;
  {
 	global $con;
 	 $res_p=@mysqli_query($con, "select acctname from bank_accounttb where acctcode='$acctcode'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['acctname'];
 	 return($val);
  }
@@ -195,7 +195,7 @@ global $con;
 	global $con;
 	 if($dept_code!='') $res_p=@mysqli_query($con, "SELECT unit_name from unittb where dept_code='$dept_code' and unit_code='$unit_code'");
 	 else $res_p=@mysqli_query($con, "SELECT unit_name from unittb where unit_code='$unit_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['unit_name'];
 	 return($val);
  }
@@ -206,11 +206,11 @@ global $con;
 	//return $folio_code."CODE";
 	//return "select title from foliotb where folio_code='$folio_code'";
 	 $res_p=@mysqli_query($con, "select title from foliotb where folio_code='$folio_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['title'];
 	 if($val==''){
 		 $res_p=@mysqli_query($con, "select distinct ncoa_title from foliotb where ncoa_code='$folio_code'");
-		 $rs_p=@mysqli_fetch_array($res_p);
+		 $rs_p=@mysqli_fetch_array($res_p, 3);
 		 $val=@$rs_p['ncoa_title'];
 	 }
 	 return($val);
@@ -220,7 +220,7 @@ function get_folio_code($p)
 {
 global $con;
 $res_p=@mysqli_query($con, "select folio_code from foliotb where title like '%$p%'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['folio_code'];
 	 return($val);
 }
@@ -229,7 +229,7 @@ $res_p=@mysqli_query($con, "select folio_code from foliotb where title like '%$p
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select title,surname,first_name,other_name from stafftb where fileno='$fileno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['title']." ".strtoupper(@$rs_p['surname'])." ".ucfirst(strtolower(@$rs_p['first_name']))." ".ucfirst(strtolower(@$rs_p['other_name']));
 	 return($val);
  }
@@ -238,7 +238,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select title,surname,first_name,other_name from hr_applicanttb where appno='$appno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['title']." ".strtoupper(@$rs_p['surname'])." ".ucfirst(strtolower(@$rs_p['first_name']))." ".ucfirst(strtolower(@$rs_p['other_name']));
 	 return($val);
  }
@@ -247,7 +247,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select rank from stafftb where fileno='$fileno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['rank'];
 	 return($val);
  }
@@ -271,7 +271,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select * from companytb");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $name=@$rs_p['company_name'];
 	 $logo=@$rs_p['company_logo'];
 	 $add=@$rs_p['company_address'];
@@ -283,7 +283,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select * from project_titletb where status='Active'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $title=@$rs_p['title'];
 	 $status=@$rs_p['status']; //active or inactive
 	 $project_type=@$rs_p['project_type']; //bursary, HR, Both
@@ -297,7 +297,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select caption from roletb where role='$role'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['caption'];
 	 return($val);
  }
@@ -327,7 +327,7 @@ function get_tax_account($folio_code)
 {
 global $con;
 	$res_p=@mysqli_query($con, "select acctcode from tax_ratetb where folio_code='$folio_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['acctcode'];
 	 return($val);
 }
@@ -354,7 +354,7 @@ global $con;
 	 	$quarter."') and operation_year = '".$budgetyear."' and budget_folio_code = '".$budget_folio_code."'";
 	 
 	 $res_p = @mysqli_query($con, $res);
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p[0];
 	 if($val > 0) return($val); else return 0;
  }
@@ -456,7 +456,7 @@ global $con;
 	 $budget_folio_code =  mysqli_real_escape_string($con, $budgetcode);
 	 
 	 $res_p = @mysqli_query($con, "select sum(amount) as amount_spent from budget_votebooktb where operation_year = '".$budgetyear."' and budget_folio_code = '".$budget_folio_code."'");// and status = 'PAID'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p[0];
 	 if($val > 0) return($val); else return 0;
  }
@@ -570,8 +570,8 @@ function get_quarter($month_code)
  {
 	global $con;
 	 $code =  mysqli_real_escape_string($con, $month_code);
-	 $res_p = @mysqli_query($con, "select quarter from monthtb where month_code='$code' or month_name='$code' or month_short_name='$code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $res_p = @mysqli_query($con, "select quarter from monthtb where month_code='{$code}' or month_name='{$code}' or month_short_name='{$code}'");
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['quarter'];
 	 return($val);
  }
@@ -580,7 +580,7 @@ function get_month_name($month_code)
  {
 	global $con;
 	 $res_p=@mysqli_query($con, "select month_name from monthtb where month_code='$month_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['month_name'];
 	 return($val);
  }
@@ -589,7 +589,7 @@ function get_month_name($month_code)
  {
 	global $con;
 	 $res_p=@mysqli_query($con, "select month_code from monthtb where month_name='$month_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['month_code'];
 	 return($val);
  }
@@ -597,7 +597,7 @@ function prepare_transdate($month_code,$year)
  {
 	global $con;
 	 $res_p=@mysqli_query($con, "select month_end from monthtb where month_code='$month_code'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=$year."-".sprintf("%02d",$month_code)."-".$rs_p['month_end'];
 	 return($val);
  }
@@ -609,7 +609,7 @@ function generate_pvno($pay_date)
 	 $month_name=@date('F',strtotime($pay_date)); $month_no=@date('m',strtotime($pay_date));
 	 $year=@date('Y',strtotime($pay_date));
 	 $res_p=@mysqli_query($con, "select count(*) as total from vouchertb where month(voucher_date)='$month_no' and year(voucher_date)='$year'");
-	 $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d",$rs_p['total'] + 1);
+	 $rs_p=@mysqli_fetch_array($res_p, 3); $no=sprintf("%04d",$rs_p['total'] + 1);
 	 
 	 $pvno=strtoupper($month_name."/".$year."/". $no); //echo $month_no; */
 }
@@ -618,7 +618,7 @@ function get_bank_list_summary_no($bank_name,$field_name,$field_value,$staff_cat
 {
 	global $con;
 	 $res_p=@mysqli_query($con, "select count(distinct fileno) as total from $tb_name where month='$month_code' and year='$year' and $field_name='$field_value' and bank_name='$bank_name' and category='$staff_category'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['total'];
 	 return($val);
 }
@@ -627,7 +627,7 @@ function get_bank_list_summary_pay($bank_name,$field_name,$field_value,$staff_ca
 {
 global $con;
 	 $res_p=@mysqli_query($con, "select sum(amount) as total_pay from $tb_name where month='$month_code' and year='$year' and $field_name='$field_value' and bank_name='$bank_name' and payment_type='$pay_type' and category='$staff_category'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['total_pay'];
 	 return($val);
 }
@@ -646,7 +646,7 @@ function get_payroll_total_pay($fileno,$f_code,$month_code,$year)
 global $con;
 	 //the amount they av paid for the staff $fileno since he/she started workin
 	 $res_p=@mysqli_query($con, "select sum(amount) as total_pay from payroll_scheduletb where folio_code='$f_code' and fileno='$fileno' and (month<=$month_code and year<=$year)");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['total_pay'];
 	 return($val);
  }
@@ -655,7 +655,7 @@ function get_staff_pay_bytype($fileno,$month_code,$year,$pay_type) //use to get 
 {
 global $con;
 	 $res_p=@mysqli_query($con, "select sum(amount) as total_pay from payroll_scheduletb where month='$month_code' and year='$year' and fileno='$fileno' and payment_type='$pay_type'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['total_pay'];
 	 return($val);
 }
@@ -674,7 +674,7 @@ function get_staff_acctno($fileno)
 global $con;
 	 //the amount they av paid for the staff $fileno since he/she started workin
 	 $res_p=@mysqli_query($con, "select acct_no from stafftb where fileno='$fileno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['acct_no'];
 	 return($val);
  }
@@ -738,7 +738,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select email from stafftb where fileno='$fileno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['email'];
 	 return($val);
  }
@@ -747,7 +747,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select phone_no from stafftb where fileno='$fileno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['phone_no'];
 	 return($val);
  }
@@ -756,7 +756,7 @@ function get_pay_total_amt($month_code,$year,$deptname,$pay_type,$category,$stat
 {
 global $con;
 	 $res_p=@mysqli_query($con, "select sum(amount) as total_pay from payroll_scheduletb where month='$month_code' and year='$year' and department='$deptname' and payment_type='$pay_type' and category='$category' and staff_status='$status'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['total_pay'];
 	 return($val);
 }
@@ -765,7 +765,7 @@ function get_pay_total_no($month_code,$year,$deptname,$category,$status) //use f
 {
 global $con;
 	 $res_p=@mysqli_query($con, "select count(distinct fileno) as total from payroll_scheduletb where month='$month_code' and year='$year' and department='$deptname' and category='$category' and staff_status='$status'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['total'];
 	 return($val);
 }
@@ -774,7 +774,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select * from scale_nametb where status='Active'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['scale_name'];
 	 return($val);
  }
@@ -793,7 +793,7 @@ global $con;
 {
 global $con;
 	 $res_p=@mysqli_query($con, "select count(*) as total from $table_name where $field_name='$fileno' order by name");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['total'];
 	 if($val==0) $val="Nil";
 	 return($val);
@@ -805,7 +805,7 @@ global $con;
 	 $month_name=@date('F',strtotime($pay_date)); $month_no=@date('m',strtotime($pay_date));
 	 $year=@date('Y',strtotime($pay_date));
 	 $res_p=@mysqli_query($con, "select count(*) as total from hr_loan_apptb where month(app_date)='$month_no' and year(app_date)='$year'");
-	 $rs_p=@mysqli_fetch_array($res_p); $no=sprintf("%04d",$rs_p['total'] + 1);
+	 $rs_p=@mysqli_fetch_array($res_p, 3); $no=sprintf("%04d",$rs_p['total'] + 1);
 	 
 	 $pvno=strtoupper("L/".$month_name."/".$year."/". $no); //echo $month_no;
 	return ($pvno);
@@ -828,7 +828,7 @@ function get_position_category($rank_appointed)
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select * from hr_positiontb where position='$rank_appointed'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['category'];
 	 return($val);
  }
@@ -837,7 +837,7 @@ global $con;
  {
 global $con;
 	 $res_p=@mysqli_query($con, "select * from hr_app_positiontb where dept_code='$prev_dept_code' and position='$prev_position' and appno='$prev_appno'");
-	 $rs_p=@mysqli_fetch_array($res_p);
+	 $rs_p=@mysqli_fetch_array($res_p, 3);
 	 $val=@$rs_p['dept_code']."***".@$rs_p['unit_code'];
 	 return($val);
  }
