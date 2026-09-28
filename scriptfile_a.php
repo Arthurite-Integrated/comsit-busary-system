@@ -3521,7 +3521,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   $due_bank=@$_REQUEST['due_bank'];	$due_acct=@$_REQUEST['due_acct'];	$due_payee=@$_REQUEST['due_payee'];
 
                                                   $vcode=@$_REQUEST['code'];$vamt=@$_REQUEST['amount'];  //code is the folio_code and rate
-
+echo $action; exit;
                                                   if($action=='save')
                                                   {
                                                        foreach($vamt as $amt)
