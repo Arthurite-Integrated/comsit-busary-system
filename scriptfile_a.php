@@ -3544,9 +3544,9 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        }// end of bcode is not empty */
 
                                                        // End of Validation
-                                                       $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;//echo "Im here!".count($folio); exit;
+                                                       $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;//
                                                        // transaction begins
-                                                       begin();
+                                                       begin();echo "Im here! ".count($folio); exit;
                                                        //now save to voucher table
 
                                                        $stamp_amount = 0; $vat_amount = 0; $tax_amount = 0;  $vat_amount = 0;
