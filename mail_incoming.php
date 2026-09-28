@@ -430,10 +430,10 @@ include "function.php";?>
                             <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }" target="_blank">Raise Voucher</a>
                             <?php } //echo $role; ?> 
                             <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='journal_entry2.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Journal</a>
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='journal_entry2.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }" target="_blank">Journal</a>
                             <?php } //echo $role; ?>
                             <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher_sal.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Voucher (PAYE)</a>
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher_sal.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }" target="_blank">Voucher (PAYE)</a>
                             <?php } //echo $role; ?> 
                         </div><hr>
                         <table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box' style='font-size:10px;'>
@@ -706,19 +706,5 @@ include "function.php";?>
 		font-size:12px
 	}
 </style>
-<script type="text/javascript">
-		var url;
-		function open_memo(){
-			/*alert(1343234);*/
-			var row = $('#dg').datagrid('getSelected');
-			/*$('#dlg').dialog('open').dialog('setTitle', "New Window"); exit;*/
-			if (row){
-				$('#dlg').dialog('open').dialog('setTitle', row.memo_id + "::" + row.memo_from);
-				$('#fm').form('load',row);
-				url = 'scriptfile_m.php?contentvar=memo_meovement&memo_id=1';
-			}
-		}
-		</script>
-
 </body>
 </html>
