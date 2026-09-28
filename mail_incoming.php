@@ -281,10 +281,8 @@ include "function.php";?>
             else if(index==2) window.location='mail_treated.php';
         }
     $(document).ready(function() { 
-        $(".thMemoID").hide();
+        //$(".thMemoID").hide();
         $('#MyTable tbody').on('click', 'tr', function() { 
-             $('.selected').removeClass('selected');
-            $(this).toggleClass('selected');
 
             var rowData = [];
     
@@ -294,6 +292,10 @@ include "function.php";?>
             });
             
             $("#selectedMemoID").val(rowData[1]);
+            $("#tmemoid").val(rowData[1])
+
+             $('.selected').removeClass('selected');
+            $(this).toggleClass('selected');
         });
         //parent.jQuery.colorbox.close(); 
         $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
@@ -394,7 +396,7 @@ include "function.php";?>
                 <div class="easyui-tabs" data-options="tabWidth:100,tabHeight:60" style="width:1200px;" id="tt">
                     <div title="<span class='tt-inner' onclick='open_window(1);'><img src='images/newmail.png'/><br>New Mail</span>" style="padding:10px"></div>
                     <div title="<span class='tt-inner' onClick=''><img src='images/inmail.png'/><br>Incoming Mail</span>" style="padding:10px">
-                        <input type="hidden" id="selectedMemoID" name="selectedMemoID" value="">
+                        <input type="text" id="selectedMemoID" name="selectedMemoID" value="">
                         <form name="frmFilter" id="frmFilter" method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                             <p>&nbsp;</p>
                             <h3>APPLY FILTER</h3><hr>
@@ -441,7 +443,7 @@ include "function.php";?>
                             <thead>
                                 <tr>
                                     <th data-options="field:'ck',checkbox:true">SN</th>
-                                    <th class="thMemoID" style="visibility:hidden; width:1px;" width="1px">ID</th>
+                                    <th class="thMemoID" style="">ID</th>
                                     <th data-options="field:'memo_from',width:100">FROM</th>
                                     <th data-options="field:'description',width:180,align:'left'">DESCRIPTION</th>
                                     <th data-options="field:'amount',width:100,align:'left'">AMOUNT</th>
@@ -458,7 +460,7 @@ include "function.php";?>
                                     ?>
                                     <tr  style="color:#900">
                                         <td><?=++$sn?></td>
-                                        <td class="thMemoID" style="visibility:hidden; width:1px;"><?=$row['memo_id']?></td>
+                                        <td class="thMemoID" style=""><?=$row['memo_id']?></td>
                                         <td><?=$row['memo_from']?><br><?=$dept_from?></td>
                                         <td><?=$row['description']?></td>
                                         <td><?=number_format($row['amount'], 2)?></td>
