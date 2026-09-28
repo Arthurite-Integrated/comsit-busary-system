@@ -241,175 +241,170 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
 </head>
 <body class="subpage">
 
-<div id="tooplate_wrapper">
-	<div id="tooplate_sidebar">
-	<?php include_once("sidebar_main.php"); ?>
-    </div> <!-- end of sidebar tooplate_sidebar-->
+	<div id="tooplate_wrapper">
+		<div id="tooplate_sidebar">
+		<?php include_once("sidebar_main.php"); ?>
+		</div> <!-- end of sidebar tooplate_sidebar-->
+		
+		<div id="tooplate_main">
+			
+			<div id="tooplate_menu">
+				<?php include_once("menu_main.php"); ?>
+			</div> <!-- end of tooplate_menu -->
+			
+			<div id="content_title_box">
+				<h2>Voucher List</h2>
+					<p><?php echo $role_cap; ?></p>
+			</div><!-- end of content_title_box -->
 	
-    <div id="tooplate_main">
-    	
-        <div id="tooplate_menu">
-            <?php include_once("menu_main.php"); ?>
-        </div> <!-- end of tooplate_menu -->
-        
-        <div id="content_title_box">
-	        <h2>Voucher List</h2>
-                <p><?php echo $role_cap; ?></p>
-        </div><!-- end of content_title_box -->
-   
-        <div id="tooplate_content">
-	        
-        	<div class="content_box">
-                                
-<div class="content">
-	<form name="frm" id="frm" method="post" action="<?=$_SERVER['PHP_SELF'];?>?r_val=<?=$_REQUEST['r_val']?>">
-	<p>&nbsp;</p>
-	<h3>APPLY FILTER</h3><hr>
-	<div class="row">
-		<div class="col-sm-6">
-			<label><strong>Enter Date Range: </strong></label> <input type="date" id="dFrm" name="dFrm" value="" class="form-control">
-		- 
-			<input type="date" id="dTo" name="dTo" value="" class="form-control"> 
-			<input type="submit" id="btn" name="btn" value="DISPLAY" class="btn">
-		</div><hr>
-	</div>
-</form>
-				<!--<div class="title"><h2>Recent Updates</h2></div>
-                <h3><i>Voucher Processing</i></h3> -->
-			<div id="display2"></div>
-            <p>
-               
-                <?php $r=@strtolower($r_vals); ?>
-                       <!-- end of pending tab-->
-                       <div style="padding:10px"> <!-- QUERIED tab  -->
-                        <?php
-						if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST['dTo']!=''){
-							$dFrm = $_POST['dFrm'];
-							$dTo = $_POST['dTo'];
-							echo "<h2>VOUCHER LIST FROM {$dFrm} TO {$dTo}</h2>";
-						   $r=@strtolower($r_vals);							
-							   $yr = date('Y');
-							   $sql="SELECT * FROM vouchertb WHERE voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' order by voucher_date desc"; //where  prepared_by='".$login_id."'  or dept_code='".$_SESSION['userunit']."'
-							$res_v=@mysqli_query($con, $sql);
-							$sn=0;
-							$tb="<table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box' style='font-size:10px;'>
-							<thead> 
-							<tr style='border:solid 1px #000; background-color:#f2f2f2'>
-								<th style='font-size:10px;'>SNO</th>
-								<th>PROCESS NO</th>
-								<th>PV NO</th>
-								<th>GROSS (NET)</th>
-								<th>PAYEE</th>
-								<th>PAYEE ACCOUNT</th>
-								<!--th>PAYEE BANK</th-->
-								<th>DATE</th>
-								<th style='font-size:10px;'>CHECKED</th>
-								<th style='font-size:10px;'>CERTIFIED</th>
-								<th style='font-size:10px;'>CONTROLLED</th>
-								<th style='font-size:10px;'>AUDITED</th>
-								<th style='font-size:10px;'>PAID</th>
-								<th style='font-size:10px;'>FACULTY/ CENTER</th>
-								<th>ACTION</th>
-							</tr></thead><tbody>";
-						  if(@mysqli_num_rows($res_v)>=1)
-						   {
-							while($rs_v=@mysqli_fetch_array($res_v))
-							{
-								++$sn;
-								$pvno=$rs_v['pvno']; 
-								$rs_v['pvno_paid']==''?$pvno_paid=$rs_v['pre_pvno']:$pvno_paid=$rs_v['pvno_paid'];
-								$p=base64_encode($pvno);
-								$payee_name=$rs_v['payee_name'];
-								$payee_acct_no=$rs_v['payee_acct_no'];
-								$payee_bank_name=$rs_v['payee_bank_name'];
-								$voucher_date=$rs_v['voucher_date'];
-								$rs_v['dept_vou']=='' ? $dept_vou='Central' : $dept_vou=get_unit_name('', $rs_v['dept_vou']);
+			<div id="tooplate_content">
+				
+				<div class="content_box">
+									
+					<div class="content">
+						<form name="frm" id="frm" method="post" action="<?=$_SERVER['PHP_SELF'];?>?r_val=<?=$_REQUEST['r_val']?>">
+							<p>&nbsp;</p>
+							<h3>APPLY FILTER</h3><hr>
+							<div class="row">
+								<div class="col-sm-6">
+									<label><strong>Enter Date Range: </strong></label> <input type="date" id="dFrm" name="dFrm" value="" class="form-control">
+								- 
+									<input type="date" id="dTo" name="dTo" value="" class="form-control"> 
+									<input type="submit" id="btn" name="btn" value="DISPLAY" class="btn">
+								</div><hr>
+							</div>
+						</form>
+						<!--<div class="title"><h2>Recent Updates</h2></div>
+						<h3><i>Voucher Processing</i></h3> -->
+						<div id="display2"></div>
+						<p>
+					
+							<?php $r=@strtolower($r_vals); ?>
+							<!-- end of pending tab-->
+							<div style="padding:10px"> <!-- QUERIED tab  -->
+								<?php
+								if(isset($_POST['dFrm']) && $_POST['dFrm']!='' && isset($_POST['dTo']) && $_POST['dTo']!=''){
+									$dFrm = $_POST['dFrm'];
+									$dTo = $_POST['dTo'];
+									echo "<h2>VOUCHER LIST FROM {$dFrm} TO {$dTo}</h2>";
+									$r=@strtolower($r_vals);							
+									$yr = date('Y');
+									$sql="SELECT v.* FROM vouchertb WHERE voucher_date v BETWEEN '{$dFrm}' AND '{$dTo}' order by v.voucher_date desc";
+									$res_v=@mysqli_query($con, $sql);
+									$sn=0;
+									?>
+									<table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box' style='font-size:10px;'>
+									<thead> 
+									<tr style='border:solid 1px #000; background-color:#f2f2f2'>
+										<th style='font-size:10px;'>SNO</th>
+										<th>PROCESS NO</th>
+										<th>PV NO</th>
+										<th>GROSS (NET)</th>
+										<th>PAYEE</th>
+										<th>PAYEE ACCOUNT</th>
+										<!--th>PAYEE BANK</th-->
+										<th>DATE</th>
+										<th style='font-size:10px;'>CHECKED</th>
+										<th style='font-size:10px;'>CERTIFIED</th>
+										<th style='font-size:10px;'>CONTROLLED</th>
+										<th style='font-size:10px;'>AUDITED</th>
+										<th style='font-size:10px;'>PAID</th>
+										<th style='font-size:10px;'>FACULTY/ CENTER</th>
+										<th>ACTION</th>
+									</tr></thead><tbody>
+									<?php
+									if(@mysqli_num_rows($res_v)>=1)
+									{
+										while($rs_v=@mysqli_fetch_array($res_v))
+										{
+											++$sn;
+											$pvno=$rs_v['pvno']; 
+											$rs_v['pvno_paid']==''?$pvno_paid=$rs_v['pre_pvno']:$pvno_paid=$rs_v['pvno_paid'];
+											$p=base64_encode($pvno);
+											$payee_name=$rs_v['payee_name'];
+											$payee_acct_no=$rs_v['payee_acct_no'];
+											$payee_bank_name=$rs_v['payee_bank_name'];
+											$voucher_date=$rs_v['voucher_date'];
+											$rs_v['dept_vou']=='' ? $dept_vou='Central' : $dept_vou=get_unit_name('', $rs_v['dept_vou']);
 
-								$prepared=$rs_v['prepared_by']; 	$prepared_date=date('d-m-Y', strtotime($rs_v['date_prepared']));
+											$prepared=$rs_v['prepared_by']; 	$prepared_date=date('d-m-Y', strtotime($rs_v['date_prepared']));
 
-								$checked=$rs_v['checked_by'];	           $checked_date=date('d-m-Y', strtotime($rs_v['date_checked']));
-								$checked_action=$rs_v['checked_action']!=''?$rs_v['checked_action']."<br>".$checked_date:'';
+											$checked=$rs_v['checked_by'];	           $checked_date=date('d-m-Y', strtotime($rs_v['date_checked']));
+											$checked_action=$rs_v['checked_action']!=''?$rs_v['checked_action']."<br>".$checked_date:'';
 
-								$authorized=$rs_v['authorized_by'];	              $authorized_date=date('d-m-Y', strtotime($rs_v['date_authorized']));
-								$authorized_action=$rs_v['authorized_action']!=''?$rs_v['authorized_action']."<br>".$authorized_date:'';
+											$authorized=$rs_v['authorized_by'];	              $authorized_date=date('d-m-Y', strtotime($rs_v['date_authorized']));
+											$authorized_action=$rs_v['authorized_action']!=''?$rs_v['authorized_action']."<br>".$authorized_date:'';
 
-								$controlled=$rs_v['controlled_by'];	              $controlled_date=date('d-m-Y', strtotime($rs_v['date_controlled']));
-								$controlled_action=$rs_v['controlled_action']!=''?$rs_v['controlled_action']."<br>".$controlled_date:'';
+											$controlled=$rs_v['controlled_by'];	              $controlled_date=date('d-m-Y', strtotime($rs_v['date_controlled']));
+											$controlled_action=$rs_v['controlled_action']!=''?$rs_v['controlled_action']."<br>".$controlled_date:'';
 
-								$audited=$rs_v['audit_by'];		          $audit_date=date('d-m-Y', strtotime($rs_v['audit_date']));
-								$audit_action=$rs_v['audit_action']!=''?$rs_v['audit_action']."<br>".$audit_date:'';
+											$audited=$rs_v['audit_by'];		          $audit_date=date('d-m-Y', strtotime($rs_v['audit_date']));
+											$audit_action=$rs_v['audit_action']!=''?$rs_v['audit_action']."<br>".$audit_date:'';
 
-								$paid=$rs_v['paid_by'];		          $paid_date=date('d-m-Y', strtotime($rs_v['date_paid']));
-								$paid_action=$rs_v['paid_action']!=''?$rs_v['paid_action']."<br>".$paid_date:'';
-								
-								$net = number_format($rs_v['amount_approved'], 2);
-								//$pvGross=explode('_', $pvno);
-								$pv = explode('_', $pvno);
-								if(count($pv) <= 1){
-									$net = number_format($rs_v['amount_paid'], 2);
+											$paid=$rs_v['paid_by'];		          $paid_date=date('d-m-Y', strtotime($rs_v['date_paid']));
+											$paid_action=$rs_v['paid_action']!=''?$rs_v['paid_action']."<br>".$paid_date:'';
+											
+											$net = number_format($rs_v['amount_approved'], 2);
+											//$pvGross=explode('_', $pvno);
+											$pv = explode('_', $pvno);
+											if(count($pv) <= 1){
+												$net = number_format($rs_v['amount_paid'], 2);
+											}
+											//$pvGross=$pvGross[0];
+											$gross = read_gross($pvno);
+											?>
+											<tr>
+												<td><?=$sn?></td>
+												<td style='font-size:10px;'><?=$pvno?></td>
+												<td><?=$pvno_paid?></td>
+												<td><?=$gross." (".$net.")"?></td>
+												<td><?=$payee_name?></td>
+												<td style='font-size:10px;'><?=$payee_bank_name?><br><?=$payee_acct_no?></td>
+												<!--td>$payee_bank_name</td-->
+												<td><?=date('d/m/Y',strtotime($voucher_date))?></td>
+												<td style='font-size:10px;'><a href='#' title='<?=$checked_date?>'><?=$checked_action?></a></td>
+												<td style='font-size:10px;'><a href='#' title='<?=$authorized_date?>'><?=$authorized_action?></a></td>
+												<td style='font-size:10px;'><a href='#' title='<?=$controlled_date?>'><?=$controlled_action?></a></td>
+												<td style='font-size:10px;'><a href='#' title='<?=$audit_date?>'><?=$audit_action?></a></td>
+												<td style='font-size:10px;'><a href='#' title='<?=$paid_date?>'><?=$paid_action?></a></td>
+												<td style='font-size:10px;'><?=$dept_vou?></td>
+												<td nowrap><a class='iframe' href='voucher_report.php?p=<?=$p?>' >VIEW</a>";
+												| <a class='iframe' href='voucher_resubmit.php?p=<?=$p?>&r_val=<?=$_REQUEST['r_val']?>' >EDIT</a>
+													<?php if($role_cap=="TREASURY") echo " | <a href='voucher_reprocess.php?p={$p}' target='_blank'>PROCESS</a>"; ?>
+												</td>
+											</tr>
+											<?php
+										} //end of while
+									
+										echo "</tbody></table>";
+									}
+									else
+										echo "<font color='red'><b>No record to display</b></font>";
 								}
-								//$pvGross=$pvGross[0];
-								$gross = read_gross($pvno);
-								
-								//$tb.="<tr><td>$sn</td><td>$pvno</td><!--<td>$pvno_paid</td>--><td>$payee_name</td><td>$payee_acct_no</td><td>$payee_bank_name</td><td>".date('d/m/Y',strtotime($voucher_date))."</td><td><a class='iframe' href='voucher_report.php?p=$p'>VIEW</a></tr>";
+								?>
+							</div> <!-- END OF QUERY VOUCHER -->
+						
+							<div id="display" class="easyui-window" title="Voucher Process" data-options="
+							modal:true,
+							closed:true,
+							iconCls:'icon-save',
+								onResize:function(){
+									$(this).window('hcenter');
+								}" style="width:600px;height:auto;padding:10px; display:none"> </div>
+						</p>
+					</div>           
+				</div><!-- end of content box -->
 
-								$tb.="<tr>
-								<td>$sn</td>
-								<td style='font-size:10px;'>$pvno</td>
-								<td>$pvno_paid</td>
-								<td>".$gross." (".$net.")</td>
-								<td>$payee_name</td>
-								<td style='font-size:10px;'>{$payee_bank_name}<br>{$payee_acct_no}</td>
-								<!--td>$payee_bank_name</td-->
-								<td>".date('d/m/Y',strtotime($voucher_date))."</td>
-								<td style='font-size:10px;'><a href='#' title='".$checked_date."'>".$checked_action."</a></td>
-								<td style='font-size:10px;'><a href='#' title='".$authorized_date."'>".$authorized_action."</a></td>
-								<td style='font-size:10px;'><a href='#' title='".$controlled_date."'>".$controlled_action."</a></td>
-								<td style='font-size:10px;'><a href='#' title='".$audit_date."'>".$audit_action."</a></td>
-								<td style='font-size:10px;'><a href='#' title='".$paid_date."'>".$paid_action."</a></td>
-								<td style='font-size:10px;'>{$dept_vou}</td>
-								<td nowrap><a class='iframe' href='voucher_report.php?p=$p' >VIEW</a>";
-								
-								//if($r=="prepared officer" or $r=="budget officer" and ($checked == '' or $checked_action == 'Queried') and ($prepared == $login_id or $r=="super admin" or $r=="administrator"))
-								$tb.="  | <a class='iframe' href='voucher_resubmit.php?p={$p}&r_val={$_REQUEST['r_val']}' >EDIT</a>";
-								//$tb.="  | <a href='x.php?pv=$pvno' target='_blank' >AUDIT</a> | <a href='x.php?pv2=$pvno' target='_blank' >CONTROL</a>";
-								if($role_cap=="TREASURY") $tb.=" | <a href='voucher_reprocess.php?p={$p}' target='_blank'>PROCESS</a>";
-								$tb.="</td></tr>";
-								//else $tb.=" | <a href=\"javascript:swapcontent('display_voucher_process','$pvno','$r_vals');\">PROCESS</a></td></tr>";
+			</div> <!-- end of content tooplate_content-->
+		
+		</div> <!-- end of content tooplate_main-->
+		
+		<div class="cleaner"></div>    
+	</div> <!-- end of wrapper tooplate_wrapper-->
 
-							} //end of while
-							
-							$tb.="</tbody></table>"; echo $tb;
-						   }
-						   else
-						    echo "<font color='red'><b>No record to display</b></font>";
-		    }
-						?>
-                       </div> <!-- END OF QUERY VOUCHER -->
-                       
-                   
-				   
-				   <div id="display" class="easyui-window" title="Voucher Process" data-options="
-                   modal:true,
-                   closed:true,
-                   iconCls:'icon-save',
-			onResize:function(){
-				$(this).window('hcenter');
-			}" style="width:600px;height:auto;padding:10px; display:none"> </div>
-            </p>
-		</div>           
-            </div><!-- end of content box -->
-
-        </div> <!-- end of content tooplate_content-->
-    
-    </div> <!-- end of content tooplate_main-->
-	
-    <div class="cleaner"></div>    
-</div> <!-- end of wrapper tooplate_wrapper-->
-
-<div id="tooplate_footer_wrapper">
-	<?php include_once("footer.php"); ?>
-</div><!-- end of footer  tooplate_footer_wrapper-->
+	<div id="tooplate_footer_wrapper">
+		<?php include_once("footer.php"); ?>
+	</div><!-- end of footer  tooplate_footer_wrapper-->
 
 </body>
 </html>
