@@ -406,10 +406,11 @@ onClosed: function () {
 			}*/
 			$sql;
 			$res_v=@mysqli_query($con, $sql);
-			$sn=0;
-			$tb="<table width='100%' id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
+			$sn=0;?>
+			<table width='100%' id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
 			<thead> 
-			<tr style='border:solid 1px #000; background-color:#f2f2f2'><th>S/NO</th><th>NARRATION</th><!--th>PV NO</th--><th>PAYEE</th><th>PAYEE ACCT NO.</th><!--th>PAYEE BANK</th--><th>DATE</th><th>GROSS (NET)</th><th>CHECKED</th><th>CERTIFIED</th><th>CONTROLLED</th><th>AUDITED</th><th>PAID</th><th>ACTION</th></tr></thead><tbody>";
+			<tr style='border:solid 1px #000; background-color:#f2f2f2'><th>S/NO</th><th>NARRATION</th><!--th>PV NO</th--><th>PAYEE</th><th>PAYEE ACCT NO.</th><!--th>PAYEE BANK</th--><th>DATE</th><th>GROSS (NET)</th><th>CHECKED</th><th>CERTIFIED</th><th>CONTROLLED</th><th>AUDITED</th><th>PAID</th><th>ACTION</th></tr></thead><tbody>
+				<?php
 			if(@mysqli_num_rows($res_v)>=1)
 			{
 				while($rs_v=@mysqli_fetch_array($res_v))
@@ -443,25 +444,27 @@ onClosed: function () {
                                                   $audit_date=$rs_v['date_audited'];		$audit_remark=$rs_v['audit_remark'];
                                                   $paid=$rs_v['paid_by'];				$paid_action=$rs_v['paid_action'];	
                                                   $paid_date=$rs_v['date_paid'];			$paid_remark=$rs_v['paid_remark'];
-                                        
-                                                  $tb.="<tr><td>$sn</td><td style='font-size:10px;'>$desc</td><!--td>$pvno_paid</td--><td>$payee_name</td><td>$payee_acct_no ($payee_bank_name)</td><!--td>$payee_bank_name</td--><td>".date('d/m/Y',strtotime($voucher_date))."</td>
-                                                  <td>".$gross." (".$net.")</td>
-                                                  <td><a href='#' title='".$checked_date."'>".$checked_action."</a><br><span style='font-size:10px;'>".$checked_remark."</span></td>
-                                                  <td><a href='#' title='".$authorized_date."'>".$authorized_action."</a><br><span style='font-size:10px;'>".$authorized_remark."</span></td>
-                                                  <td><a href='#' title='".$controlled_date."'>".$controlled_action."</a><br><span style='font-size:10px;'>".$controlled_remark."</span></td>
-                                                  <td><a href='#' title='".$audit_date."'>".$audit_action."</a><br><span style='font-size:10px;'>".$audit_remark."</span></td>
-                                                  <td><a href='#' title='".$paid_date."'>".$paid_action."</a><br><span style='font-size:10px;'>".$paid_remark."</span></td>";
-                                                  if($r=="cash officer" || $r=="final account"){
-                                                            $tb.="<td nowrap><a class='iframe' href='voucher_report_y.php?p=$p&rv=$r' >VIEW/PROCESS</a>"; 
+													?>
+                                                  <tr><td><?=$sn?></td><td style='font-size:10px;'><?=$desc?></td><!--td>$pvno_paid</td--><td><?=$payee_name?></td><td><?=$payee_acct_no." (".$payee_bank_name.")"?></td><!--td>$payee_bank_name</td--><td><?=date('d/m/Y',strtotime($voucher_date))?></td>
+                                                  <td><?=$gross." (".$net.")"?></td>
+                                                  <td><a href='#' title='<?=$checked_date?>'><?=$checked_action?></a><br><span style='font-size:10px;'><?=$checked_remark?></span></td>
+                                                  <td><a href='#' title='<?=$authorized_date?>'><?=$authorized_action?></a><br><span style='font-size:10px;'><?=$authorized_remark?></span></td>
+                                                  <td><a href='#' title='<?=$controlled_date?>'><?=$controlled_action?></a><br><span style='font-size:10px;'><?=$controlled_remark?></span></td>
+                                                  <td><a href='#' title='<?=$audit_date?>'><?=$audit_action?></a><br><span style='font-size:10px;'><?=$audit_remark?></span></td>
+                                                  <td><a href='#' title='<?=$paid_date?>'><?=$paid_action?></a><br><span style='font-size:10px;'><?=$paid_remark?></span></td>
+												  <td nowrap>
+                                                  <?php if($r=="cash officer" || $r=="final account"){
+                                                            echo "<a class='iframe' href='voucher_report_y.php?p=$p&rv=$r' >VIEW/PROCESS</a>"; 
                                                   }else{
-                                                  $tb.="<td nowrap><a class='iframe' href='voucher_report.php?p=$p' >VIEW</a>";
-                                                  if($r=="prepared officer" and ($checked == '' or $checked_action == 'Queried') and ($prepared == $login_id or $r=="super admin" or $r=="administrator"))
-                                                  $tb.=" | <a href=\"javascript:if(confirm('Are you sure you want to perform this operation')==true) swapcontent('voucher_section_entry','delete','$r_id');\">DELETE</a></td></tr>";
-                                                  else $tb.=" | <a href=\"javascript:swapcontent('display_voucher_process','$pvno','$r_vals');\">PROCESS</a></td></tr>";
-                                                  }
+                                                  	echo "<a class='iframe' href='voucher_report.php?p=$p' >VIEW</a>";
+                                                  	echo " | <a href=\"javascript:swapcontent('display_voucher_process','$pvno','$r_vals');\">PROCESS</a>";
+                                                  }?>
+												  </td>
+												</tr>
+												<?php
                                         } //end of while
                                         
-                                        $tb.="</tbody></table>"; echo $tb;
+                                        echo "</tbody></table>";
 			}
 			else
 			echo "<font color='red'><b>No pending voucher to process</b></font>";
