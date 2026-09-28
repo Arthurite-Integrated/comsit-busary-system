@@ -3532,7 +3532,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                                  echo "<script language='javascript'>alert('Invalid Amount. Enter Amount correctly');</script>";exit;
                                                             }
                                                        } //
-                                                       if(count($folio)>0)
+                                                       /* if(count($folio)>0)
                                                        {
                                                             foreach($bamt as $val_amt)
                                                             {
@@ -3541,10 +3541,10 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                                       echo "<script language='javascript'>alert('Invalid Amount. Enter Breakdown Amount correctly');</script>";exit;
                                                                  }
                                                             }//end of foreach for bamt
-                                                       }// end of bcode is not empty
+                                                       }// end of bcode is not empty */
 
                                                        // End of Validation
-                                                       $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;echo "Im here!".count($folio); exit;
+                                                       $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;//echo "Im here!".count($folio); exit;
                                                        // transaction begins
                                                        begin();
                                                        //now save to voucher table
