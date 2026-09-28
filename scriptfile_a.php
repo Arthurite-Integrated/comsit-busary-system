@@ -3601,7 +3601,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                                       $s++;
                                                                  }
                                                             }
-                                                       }echo "Im here! ".count($folio); exit;
+                                                       }
                                                        //exit;
 
                                                        if($dvat_pv == "yes" and $dvat > 0){
@@ -3678,7 +3678,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                             $r6[]=@mysqli_query($con, "INSERT INTO voucher_taxtb set pvno='$pvno_due',folio_code='$folio[0]',amount='$due_amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'") or die( mysqli_error($con));
                                                             $r7[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno_due',folio_code='$folio[0]',amount='$due_amount', paid='No'") or die( mysqli_error($con));
                                                        }//end if $due_pv
-
+echo "Im here!! ".count($folio); exit;
                                                        if($autocreate=='yes')
                                                        {
                                                             if(count($vcode)>0)
