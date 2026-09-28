@@ -3546,7 +3546,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        // End of Validation
                                                        $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;//
                                                        // transaction begins
-                                                       begin();echo "Im here! ".count($folio); exit;
+                                                       begin();
                                                        //now save to voucher table
 
                                                        $stamp_amount = 0; $vat_amount = 0; $tax_amount = 0;  $vat_amount = 0;
@@ -3575,7 +3575,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        $amount_approved=$vamount;
                                                        $amount_paid=$amount_approved - $total_tax;  //after tax deduction
                                                        $year=@date('Y',strtotime(@$_REQUEST['pay_date']));
-
+echo "Im here! ".count($folio); exit;
                                                        if($process_type=="Pending") {
                                                             $r1=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', fileno='{$fileno}', payee_name='{$name}', payee_acct_no='{$act_no}', payee_bank_name='{$bank}', payee_address='{$address}', payee_tin_number='{$payee_tin_number}', payee_sort_code='{$payee_sort_code}', description='Being $desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', memo_id='$memo_id', purchase_advance='$isPA'") or die( mysqli_error($con));
                                                        }
