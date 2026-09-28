@@ -289,7 +289,7 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
 									echo "<h2>VOUCHER LIST FROM {$dFrm} TO {$dTo}</h2>";
 									$r=@strtolower($r_vals);							
 									$yr = date('Y');
-									$sql="SELECT v.* FROM vouchertb WHERE voucher_date v BETWEEN '{$dFrm}' AND '{$dTo}' order by v.voucher_date desc";
+									$sql="SELECT * FROM vouchertb WHERE voucher_date BETWEEN '{$dFrm}' AND '{$dTo}' order by voucher_date desc";
 									$res_v=@mysqli_query($con, $sql);
 									$sn=0;
 									?>
@@ -368,8 +368,9 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
 												<td style='font-size:10px;'><a href='#' title='<?=$audit_date?>'><?=$audit_action?></a></td>
 												<td style='font-size:10px;'><a href='#' title='<?=$paid_date?>'><?=$paid_action?></a></td>
 												<td style='font-size:10px;'><?=$dept_vou?></td>
-												<td nowrap><a class='iframe' href='voucher_report.php?p=<?=$p?>' >VIEW</a>";
-												| <a class='iframe' href='voucher_resubmit.php?p=<?=$p?>&r_val=<?=$_REQUEST['r_val']?>' >EDIT</a>
+												<td nowrap>
+													<a class='iframe' href='voucher_report.php?p=<?=$p?>' >VIEW</a>
+													 | <a class='iframe' href='voucher_resubmit.php?p=<?=$p?>&r_val=<?=$_REQUEST['r_val']?>' >EDIT</a>
 													<?php if($role_cap=="TREASURY") echo " | <a href='voucher_reprocess.php?p={$p}' target='_blank'>PROCESS</a>"; ?>
 												</td>
 											</tr>
