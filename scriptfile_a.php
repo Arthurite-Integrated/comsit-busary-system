@@ -3575,13 +3575,13 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        $amount_approved=$vamount;
                                                        $amount_paid=$amount_approved - $total_tax;  //after tax deduction
                                                        $year=@date('Y',strtotime(@$_REQUEST['pay_date']));
-echo "Im here! ".count($folio); exit;
+
                                                        if($process_type=="Pending") {
                                                             $r1=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', fileno='{$fileno}', payee_name='{$name}', payee_acct_no='{$act_no}', payee_bank_name='{$bank}', payee_address='{$address}', payee_tin_number='{$payee_tin_number}', payee_sort_code='{$payee_sort_code}', description='Being $desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', memo_id='$memo_id', purchase_advance='$isPA'") or die( mysqli_error($con));
                                                        }
                                                        elseif($process_type=="Final") {
                                                             $r1=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', fileno='{$fileno}', payee_name='{$name}', payee_acct_no='{$act_no}', payee_bank_name='{$bank}', payee_address='{$address}', payee_tin_number='{$payee_tin_number}', payee_sort_code='{$payee_sort_code}', description='Being $desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', checked_by='{$login_id}', date_checked=CURDATE(), time_checked=CURTIME(), checked_action='Approved', controlled_by='$login_id', date_controlled=CURDATE(), time_controlled=CURTIME(), controlled_action='Approved', authorized_by='$login_id', date_authorized=CURDATE(), time_authorized=CURTIME(), authorized_action='Approved', paid_by='{$login_id}', date_paid=CURDATE(), time_paid=CURTIME(), paid_action='Approved', final_approval_by='{$login_id}', final_approval_date=CURDATE(), final_approval='Approved', audit_by='{$login_id}', audit_date=CURDATE(), audit_time=CURTIME(), audit_action='Approved', memo_id='$memo_id', purchase_advance='$isPA'") or die( mysqli_error($con));
-                                                       }
+                                                       }//echo "Im here! ".count($folio); exit;
                                                        //folio_code='$folio',
                                                        //echo $process_type; exit;
                                                        if(count($folio)==1)
@@ -3589,9 +3589,9 @@ echo "Im here! ".count($folio); exit;
                                                        elseif($process_type=="Final") $r2[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'") or die( mysqli_error($con));
                                                        else
                                                        {
-                                                            if(count($bcode)>1)
+                                                            if(count($folio)>1)
                                                             {
-                                                                 foreach($bcode as $v)
+                                                                 foreach($folio as $v)
                                                                  {
                                                                       if($process_type=="Pending")$r2[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno',folio_code='$v',amount='$bamt[$s]', paid='No'") or die( mysqli_error($con));
                                                                       else if($process_type=="Final") $r2[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno',folio_code='$v',amount='$bamt[$s]', paid='Yes'") or die( mysqli_error($con));
