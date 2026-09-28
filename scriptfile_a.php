@@ -3525,7 +3525,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   $vcode=@$_REQUEST['code'];$vamt=@$_REQUEST['amount'];  //code is the folio_code and rate
 
                                                   //$scalename=@$_REQUEST['scalename'];$category=@$_REQUEST['category'];$level=@$_REQUEST['level'];$step=@$_REQUEST['step'];
-                                                  //echo "$vcode ==> $vamt===>$mydata";exit;
+                                                  echo "$vcode ==> $vamt===>$mydata";exit;
                                                   if($action=='save')
                                                   {
                                                        /*if($amt_approved != $vamount)
@@ -3583,7 +3583,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   $amount_paid=$amount_approved - $total_tax;  //after tax deduction
                                                   $year=@date('Y',strtotime(@$_REQUEST['pay_date']));
 
-                                                  $total_budget=@get_budget($folio, $year);
+                                                  //$total_budget=@get_budget($folio, $year);
 
                                                   //stepping down budget check at this point
                                                   ////if( ($amount_paid <= $total_budget) or $total_budget=='' )
@@ -3598,8 +3598,8 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        //folio_code='$folio',
                                                        //echo $process_type; exit;
                                                        if(count($folio)==1)
-                                                       if($process_type=="Pending") $r2[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='No'") or die( mysqli_error($con));
-                                                       elseif($process_type=="Final") $r2[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'") or die( mysqli_error($con));
+                                                            if($process_type=="Pending") $r2[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='No'") or die( mysqli_error($con));
+                                                            elseif($process_type=="Final") $r2[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno', folio_code='$folio[0]', amount='$amount_paid', paid='Yes'") or die( mysqli_error($con));
                                                        else
                                                        {
                                                             if(count($bcode)>1)
@@ -3614,19 +3614,17 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        }
                                                        //exit;
 
-                                                       /*if($vat_incl != "yes" and $dvat > 0)*/{
-                                                       if($dvat_pv == "yes" and $dvat > 0){
-                                                            $pvno_tax = $pvno."_VAT";
+                                                  if($dvat_pv == "yes" and $dvat > 0){
+                                                       $pvno_tax = $pvno."_VAT";
 
-                                                            /*if($vat_incl == "yes") $vat_amount = ($dvat/($dvat + 100)) * $vamount;
-                                                            else $vat_amount = ($dvat/100) * $vamount;*/
+                                                       /*if($vat_incl == "yes") $vat_amount = ($dvat/($dvat + 100)) * $vamount;
+                                                       else $vat_amount = ($dvat/100) * $vamount;*/
 
-                                                            $r4[]=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno_tax}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', payee_name='$vat_payee', payee_acct_no='$vat_acct', payee_bank_name='$vat_bank', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of $dvat% VAT for $desc', amount_approved='{$vat_amount}', amount_paid='{$vat_amount}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_type='VAT', memo_id='$memo_id'") or die( mysqli_error($con));
-                                                            $r5[]=@mysqli_query($con, "INSERT INTO voucher_parent_child_taxtb SET parent_pvno='{$pvno}',child_pvno='{$pvno_tax}'") or die( mysqli_error($con));
-                                                            $r6[]=@mysqli_query($con, "INSERT INTO voucher_taxtb set pvno='$pvno_tax',folio_code='$folio[0]',amount='$vat_amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'") or die( mysqli_error($con));
-                                                            $r7[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno_tax',folio_code='$folio[0]',amount='$vat_amount', paid='No'") or die( mysqli_error($con));
-                                                       }//end if $dvat_pv
-                                                  }//end if $vat_incl
+                                                       $r4[]=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno_tax}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', payee_name='$vat_payee', payee_acct_no='$vat_acct', payee_bank_name='$vat_bank', payee_address='', payee_tin_number='{$payee_tin_number}', payee_sort_code='', description='Being remmittance of $dvat% VAT for $desc', amount_approved='{$vat_amount}', amount_paid='{$vat_amount}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_type='VAT', memo_id='$memo_id'") or die( mysqli_error($con));
+                                                       $r5[]=@mysqli_query($con, "INSERT INTO voucher_parent_child_taxtb SET parent_pvno='{$pvno}',child_pvno='{$pvno_tax}'") or die( mysqli_error($con));
+                                                       $r6[]=@mysqli_query($con, "INSERT INTO voucher_taxtb set pvno='$pvno_tax',folio_code='$folio[0]',amount='$vat_amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'") or die( mysqli_error($con));
+                                                       $r7[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno_tax',folio_code='$folio[0]',amount='$vat_amount', paid='No'") or die( mysqli_error($con));
+                                                  }//end if $dvat_pv
 
                                                   if($dtax_pv == "yes" and $dtax > 0){
                                                        $pvno_tax = $pvno."_WHT";
@@ -3690,7 +3688,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        $r6[]=@mysqli_query($con, "INSERT INTO voucher_taxtb set pvno='$pvno_due',folio_code='$folio[0]',amount='$due_amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'") or die( mysqli_error($con));
                                                        $r7[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno_due',folio_code='$folio[0]',amount='$due_amount', paid='No'") or die( mysqli_error($con));
                                                   }//end if $due_pv
-echo "Im here!"; exit;
+
                                                   if($autocreate=='yes')
                                                   {
                                                        if(count($vcode)>0)
