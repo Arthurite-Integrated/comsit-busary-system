@@ -281,7 +281,7 @@ include "function.php";?>
             else if(index==2) window.location='mail_treated.php';
         }
     $(document).ready(function() { 
-        //$(".thMemoID").hide();
+        $(".thMemoID").hide();
         $('#MyTable tbody').on('click', 'tr', function() { 
 
             var rowData = [];
@@ -396,7 +396,7 @@ include "function.php";?>
                 <div class="easyui-tabs" data-options="tabWidth:100,tabHeight:60" style="width:1200px;" id="tt">
                     <div title="<span class='tt-inner' onclick='open_window(1);'><img src='images/newmail.png'/><br>New Mail</span>" style="padding:10px"></div>
                     <div title="<span class='tt-inner' onClick=''><img src='images/inmail.png'/><br>Incoming Mail</span>" style="padding:10px">
-                        <input type="text" id="selectedMemoID" name="selectedMemoID" value="">
+                        <input type="hidden" id="selectedMemoID" name="selectedMemoID" value="">
                         <form name="frmFilter" id="frmFilter" method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                             <p>&nbsp;</p>
                             <h3>APPLY FILTER</h3><hr>
@@ -456,6 +456,8 @@ include "function.php";?>
                                 $qmail=mysqli_query($con, $sq);
                                 while($row=mysqli_fetch_array($qmail, 3)){
                                     !is_numeric($row['address_unit']) ? $dept_from=$row['address_unit'] : $dept_from=get_unit_name('', $row['address_unit']);
+                                    $row['dept_unit'] = $bursary->get_any_value('dept_unit', 'memo_movementtb', 'memo_id', $row['memo_id']);
+                                    if($_SESSION['userunit']!=$row['dept_unit']) continue;
                                     $row['dept_unit']=='' ? $dept_to='Central' : $dept_to=get_unit_name('', $row['dept_unit']);
                                     ?>
                                     <tr  style="color:#900">
