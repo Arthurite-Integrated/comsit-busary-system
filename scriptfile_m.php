@@ -308,9 +308,15 @@ if($id=="paygrid"){
 	 exit;
 }
 
-if($id=='staff_grid')
+if($id=='staff_grid' || $id=='staff_grid_new')
 {
-	$r= mysqli_query($con, "select s.fileno, concat(s.title, ' ', s.surname, ' ', s.first_name, ' ', s.other_name) as fullname, concat(d.dept_name, ', ', 'University of Ilorin') as dept, s.phone_no, s.acct_no, s.bank_name from stafftb s INNER JOIN departmenttb d on s.dept_code=d.dept_code where s.status='Active'"); 		$json_response=array();
+	$fileno=$_REQUEST['fileno'];
+	if($id=='staff_grid') $sq = "SELECT s.fileno, concat(s.title, ' ', s.surname, ' ', s.first_name, ' ', s.other_name) as fullname, concat(d.dept_name, ', ', 'University of Ilorin') as dept, s.phone_no, s.acct_no, s.bank_name from stafftb s INNER JOIN departmenttb d on s.dept_code=d.dept_code where s.status='Active'";	
+	if($id=='staff_grid_new') $sq="SELECT s.fileno, concat(s.title, ' ', s.surname, ' ', s.first_name, ' ', s.other_name) as fullname, concat(d.dept_name, ', ', 'University of Ilorin') as dept, s.phone_no, s.acct_no, s.bank_name from stafftb s INNER JOIN departmenttb d on s.dept_code=d.dept_code where s.fileno='{$fileno}'";
+
+	$r= mysqli_query($con, $sq);
+
+	$json_response=array();
 		 while ($row =  mysqli_fetch_array($r, 3)) { 
 		 $row_array['fileno'] = $row['fileno'];
 		 $row_array['fullname'] = $row['fullname'];
@@ -328,7 +334,8 @@ if($id=='staff_grid')
 
 if($id=='foliocode_grid')
 {
-	$r= mysqli_query($con, "select f.*, c.folio_category as categoryF from foliotb f INNER JOIN folio_categorytb c on f.category=c.id where f.status='Active'"); //ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
+	$r= mysqli_query($con, "SELECT f.*, c.folio_category as categoryF from foliotb f INNER JOIN folio_categorytb c on f.category=c.id WHERE f.status='Active' AND f.exp NOT IN ('Income')"); 
+	//ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
 		 //where mm.memo_status='OUT' and mm.dept_unit='$udept'
 		//$r= mysqli_query($con, "select * from memotb"); //ADD CONDITION TO FILTER 		
 		$json_response=array();
@@ -445,10 +452,7 @@ if($id=='outgoing_mail')
 {
 	$sdate=$_REQUEST['sdate'];
 		$edate=$_REQUEST['edate'];
-		//$r= mysqli_query($con, "select mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time from memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id where mm.memo_status='OUT' order by mm.id desc"); //ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
 		$r= mysqli_query($con, "SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, mm.deptunit_to from memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id where read_status='Read' AND m.entry_date BETWEEN '{$sdate}' AND '{$edate}' order by mm.id desc"); //ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
-		 //where mm.memo_status='OUT' and mm.dept_unit='$udept'
-		//$r= mysqli_query($con, "select * from memotb"); //ADD CONDITION TO FILTER 		
 		$json_response=array();
 		 while ($row =  mysqli_fetch_array($r, 3)) { 
 			 $row_array['memo_id'] = $row['memo_id'];
@@ -468,35 +472,29 @@ if($id=='outgoing_mail')
 		 exit;
 } 
 
-if($id=='incoming_mail')
+if($id=='incoming_mail' || $id=='incoming_mail_new')
 {
-
-		//$r= mysqli_query($con, "select mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time from memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id where mm.memo_status='IN' order by mm.id desc"); //ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
-	/*echo "<script>alert('".$udept."');</script>";*/
-		 /*if($_SESSION['login_id'] == 'ADMIN' ) $r= mysqli_query($con, "select mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit from memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id where mm.memo_status='IN' and  mm.read_status='Unread' order by mm.id desc");
-		 
-$sq = "SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, u.unit_name FROM ((memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id) INNER JOIN unittb u ON u.unit_code=mm.dept_unit) WHERE mm.date BETWEEN '{$sdate}' AND '{$edate}' AND mm.memo_status='IN' and  mm.read_status='Unread' and (mm.dept_unit='".$_SESSION['userunit']."' or m.entry_by='".$_SESSION['login_id']."') order by mm.id desc";
-
-		else*/ 
+	$memoid=$_REQUEST['memoid'];
+		
 		$sdate=$_REQUEST['sdate'];
 		$edate=$_REQUEST['edate'];
 
-		$sq = "SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, u.unit_name FROM ((memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id) INNER JOIN unittb u ON u.unit_code=mm.dept_unit) WHERE mm.memo_status='IN' and  mm.read_status='Unread' and (mm.dept_unit='".$_SESSION['userunit']."' or m.entry_by='".$_SESSION['login_id']."') AND m.entry_date BETWEEN '{$sdate}' AND '{$edate}' order by mm.id desc";
+		if($id=='incoming_mail') $sq = "SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, u.unit_name FROM ((memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id) INNER JOIN unittb u ON u.unit_code=mm.dept_unit) WHERE mm.memo_status='IN' and  mm.read_status='Unread' and (mm.dept_unit='".$_SESSION['userunit']."' or m.entry_by='".$_SESSION['login_id']."') AND m.entry_date BETWEEN '{$sdate}' AND '{$edate}' order by mm.id desc";
+		
+		if($id=='incoming_mail_new') $sq = "SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, u.unit_name FROM ((memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id) INNER JOIN unittb u ON u.unit_code=mm.dept_unit) WHERE m.memo_id='{$memoid}'";
 
-		//$sq = "SELECT mm.memo_id, m.memo_from, m.description, m.amount, m.memo_status, m.datein, mm.read_status, mm.dept_unit, m.entry_time, m.address_unit, u.unit_name FROM ((memo_movementtb mm inner join memotb m on mm.memo_id=m.memo_id) INNER JOIN unittb u ON u.unit_code=mm.dept_unit) WHERE mm.memo_status='IN' and  mm.read_status='Unread' and (mm.dept_unit='".$_SESSION['userunit']."' or m.entry_by='".$_SESSION['login_id']."') order by mm.id desc LIMIT 15";
 		$r= mysqli_query($con, $sq);
 		//ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
 		$json_response=array();
 		 while ($row =  mysqli_fetch_array($r, 3)) { 
 			$row_array['memo_id'] = $row['memo_id'];
 			$row_array['memo_from'] = $row['memo_from'];
-			//$row_array['address_unit'] = $bursary->get_any_value('unit_name', 'unittb', "unit_code", $row['address_unit']); //$row['address_unit'];
-			if(is_numeric($row['address_unit']) and $row['address_unit'] !='') $row_array['address_unit'] = $row['unit_name']; //$bursary->get_any_value('unit_name', 'unittb', "unit_code", $row['address_unit']); //$row['address_unit'];
+			if(is_numeric($row['address_unit']) and $row['address_unit'] !='') $row_array['address_unit'] = $row['unit_name']; 
 				else $row_array['address_unit'] = $row['address_unit'];
 						
 			$row_array['description'] = $row['description'];
 			$row_array['amount'] = $row['amount'];
-			$row_array['dept_unit'] = $row['unit_name']; //$bursary->get_any_value('unit_name', 'unittb', "unit_code", $row['dept_unit']);// $row['dept_unit'];
+			$row_array['dept_unit'] = $row['unit_name'];
 			$row_array['datein'] = $row['datein']." ".$row['entry_time'];
 			$row_array['memo_status'] = $row['memo_status'];
 			$row_array['read_status'] = $row['read_status'];
