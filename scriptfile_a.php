@@ -3530,7 +3530,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                             {
                                                                  echo "<script language='javascript'>alert('Invalid Amount. Enter Amount correctly');</script>";exit;
                                                             }
-                                                       }echo "Im here!"; exit;
+                                                       }echo "Im here!".count($bcode); exit;
                                                        if(count($bcode)>0)
                                                        {
                                                             foreach($bamt as $val_amt)

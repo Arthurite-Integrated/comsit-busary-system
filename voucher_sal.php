@@ -392,10 +392,10 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
 			if(v=='save')
 			    {
 					  //swapcontent('voucher_section_salary','refresh');
-					$("#pay_date").val(''); $("#dept").val(''); $("#pvno").val(''); $("#account").val('');
+					/* $("#pay_date").val(''); $("#dept").val(''); $("#pvno").val(''); $("#account").val('');
 					$("#folio").val(''); $("#type").val(''); $("#fileno").val(''); $("#name").val('');$("#act_no").val('');
 					$("#bank").val(''); $("#address").val(''); $("#payee_tin_number").val(''); $("#payee_sort_code").val('');
-					  
+					   */
 				}
 			if(v=='refresh')
 				  { 
