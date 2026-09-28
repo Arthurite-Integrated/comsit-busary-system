@@ -3525,7 +3525,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   $vcode=@$_REQUEST['code'];$vamt=@$_REQUEST['amount'];  //code is the folio_code and rate
 
                                                   //$scalename=@$_REQUEST['scalename'];$category=@$_REQUEST['category'];$level=@$_REQUEST['level'];$step=@$_REQUEST['step'];
-                                                  echo "$vcode ==> $vamt===>$mydata";exit;
+                                                  //echo "$vcode ==> $vamt===>$mydata";exit;
                                                   if($action=='save')
                                                   {
                                                        /*if($amt_approved != $vamount)
@@ -3549,7 +3549,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                             }
                                                        }//end of foreach for bamt
                                                   }// end of bcode is not empty
-
+echo "Im here!"; exit;
                                                   // End of Validation
                                                   $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;
                                                   // transaction begins
