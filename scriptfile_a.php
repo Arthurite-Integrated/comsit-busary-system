@@ -3487,7 +3487,8 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   $payee_tin_number=@mysqli_real_escape_string($con, @$_REQUEST['payee_tin_number']);
                                                   $payee_sort_code=@mysqli_real_escape_string($con, @$_REQUEST['payee_sort_code']);
                                                   $voucher_unit=@$_REQUEST['voucher_unit'];
-                                                  $bcode=@$_REQUEST['bcode'];$bamt=@$_REQUEST['bamt'];
+                                                  $bcode=@$_REQUEST['bcode'];
+                                                  $bamt=@$_REQUEST['bamt'];
                                                   $autocreate=@$_REQUEST['autocreate'];
                                                   $login_id=@$_SESSION['login_id'];
                                                   $memo_id=@$_REQUEST['memo_id'];
@@ -3530,7 +3531,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                             {
                                                                  echo "<script language='javascript'>alert('Invalid Amount. Enter Amount correctly');</script>";exit;
                                                             }
-                                                       }echo "Im here!".count($bcode); exit;
+                                                       }echo "Im here!".count($folio); exit;
                                                        if(count($bcode)>0)
                                                        {
                                                             foreach($bamt as $val_amt)
