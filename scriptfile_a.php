@@ -3553,23 +3553,11 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   // End of Validation
                                                   $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;
                                                   // transaction begins
-                                                  begin();
+                                                  $bursary->begin();
                                                   //now save to voucher table
 
                                                   $stamp_amount = 0; $vat_amount = 0; $tax_amount = 0;  $vat_amount = 0;
                                                   $pen_amount = 0; $nhf_amount = 0; $paye_amount = 0;  $due_amount = 0;
-                                                  /*if($dstamp_pv == "yes" and $dstamp > 0)	{
-                                                  $stamp_amount = (($vamount/100) * $dstamp);
-                                                  //$vamount = $vamount - $stamp_amount;
-                                             }
-                                             if($dend_pv == "yes" and $dend > 0){
-                                             $end_amount = (($vamount/100) * $dend);
-                                             //$vamount = $vamount - $end_amount;
-                                        }
-                                        if($dtax_pv == "yes" and $dtax > 0){
-                                        $tax_amount = (($vamount/100) * $dtax);
-                                        //$vamount = $vamount - $tax_amount;
-                                   }*/
 
                                    if($vat_incl == "yes"){
                                         if($dvat_pv == "yes" and $dvat > 0) $vat_amount = ($dvat/($dvat + 100)) * $vamount;
@@ -3589,56 +3577,6 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                    if($due_pv == "yes" and $due > 0) $due_amount = ($due/100) * $vamount;
                                    if($dpaye_pv == "yes" and $dpaye > 0) $paye_amount = $dpaye;
 
-                                   /*
-                                   //PAYE TAX CALCULATION
-                                   if($dpaye_pv == "yes" and $dpaye > 0){
-                                   $gross=$vamount-$other_relief;
-                                   $gCent1=( 1.0 / 100.0 ) * $gross;
-                                   if($gCent1 < 200000) $gCent1 = 200000;
-
-                                   $gCent20=( 20.0 / 100.0 ) * $gross;
-                                   $newGross = $gross - $gCent1 - $gCent20 - $pen_amount - $nhf_amount;
-                                   $gCent7 = 0; $gCent11 = 0; $gCent15 = 0; $gCent19 = 0; $gCent21 = 0; $gCent24 = 0;
-
-                                   $mod3h = $newGross / 300000;
-                                   if($mod3h >= 1.0){
-                                   $gCent7 = (7.0/100.0) * 300000;
-                                   $mod3h2 = ($newGross - 300000) / 300000;
-                                   if($mod3h2 >= 1.0){
-                                   $gCent11 = (11.0/100.0) * 300000;
-                                   $mod5h = ($newGross - 300000 - 300000) / 500000;
-                                   if($mod5h >= 1.0){
-                                   $gCent15 = (15.0/100.0) * 500000;
-                                   $mod5h2 = ($newGross - 300000 - 300000 - 500000) / 500000;
-                                   if($mod5h2 >= 1.0){
-                                   $gCent19 = (19.0/100.0) * 500000;
-                                   $mod16h = ($newGross - 300000 - 300000 - 500000 - 500000) / 1600000;
-                                   if($mod16h >= 1.0){
-                                   $gCent21 = (21.0/100.0) * 1600000;
-                                   $mod32h = ($newGross - 300000 - 300000 - 500000 - 500000 - 1600000) / 3200000;
-                                   if($mod32h >= 1.0){
-                                   $gCent24 = (24.0/100.0) * 3200000;
-                              }else{
-                              $gCent24 = (24.0/100.0) * ($newGross - 300000 - 300000 - 500000 - 500000 - 1600000 - 3200000);
-                         }
-                    }else{
-                    $gCent21 = (21.0/100.0) * ($newGross - 300000 - 300000 - 500000 - 1600000);
-               }
-          }else{
-          $gCent19 = (19.0/100.0) * ($newGross - 300000 - 300000 - 500000);
-     }
-}else{
-$gCent15 = (15.0/100.0) * ($newGross - 300000 - 300000);
-}
-}else{
-$gCent11 = (11.0/100.0) * ($newGross - 300000);
-}
-}else{
-$gCent7 = (11.0/100.0) * $newGross;
-}
-$paye_amount = ($gCent7 + $gCent11 + $gCent15 + $gCent19 + $gCent21 + $gCent24);
-} //end of PAYE Tax calculation
-*/
 
 $total_tax = $stamp_amount + $vat_amount + $tax_amount + $end_amount + $pen_amount + $nhf_amount + $paye_amount;
 $amount_approved=$vamount;
@@ -3652,12 +3590,10 @@ $total_budget=@get_budget($folio, $year);
 {
 
      if($process_type=="Pending") {
-          //echo "INSERT INTO vouchertb set pvno='$pvno', voucher_date='$pay_date', dept_code='$dept', dept_acctcode='$account', payee_type='$type', fileno='$fileno', payee_name='$name', payee_acct_no='$act_no', payee_bank_name='$bank', payee_address='$address', payee_tin_number='$payee_tin_number', payee_sort_code='$payee_sort_code', description='$desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final'"; exit;
           $r1=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', fileno='{$fileno}', payee_name='{$name}', payee_acct_no='{$act_no}', payee_bank_name='{$bank}', payee_address='{$address}', payee_tin_number='{$payee_tin_number}', payee_sort_code='{$payee_sort_code}', description='Being $desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', memo_id='$memo_id', purchase_advance='$isPA'") or die( mysqli_error($con));
      }
      elseif($process_type=="Final") {
-          $r1=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', fileno='{$fileno}', payee_name='{$name}', payee_acct_no='{$act_no}', payee_bank_name='{$bank}', payee_address='{$address}', payee_tin_number='{$payee_tin_number}', payee_sort_code='{$payee_sort_code}', description='Being $desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', checked_by='{$login_id}', date_checked=CURDATE(), time_checked=CURTIME(), checked_action='Approved', co{ntrolled_}by='$login_id', date_controlled=CURDATE(), time_controlled=CURTIME(), controlled_action='Approved',{ authoriz}ed_by='$login_id', date_authorized=CURDATE(), time_authorized=CURTIME(), authorized_action='Approved', paid_by='{$login_id}', date_paid=CURDATE(), time_paid=CURTIME(), paid_action='Approved', final_approval_by='{$login_id}', final_approval_date=CURDATE(), final_approval='Approved', audit_by='{$login_id}', audit_date=CURDATE(), audit_time=CURTIME(), audit_action='Approved', memo_id='$memo_id', purchase_advance='$isPA'") or die( mysqli_error($con));
-          //echo "INSERT INTO vouchertb set pvno='$pvno',  voucher_date='$pay_date', dept_code='$dept', dept_acctcode='$account', payee_type='$type', fileno='$fileno', payee_name='$name', payee_acct_no='$act_no', payee_bank_name='$bank', payee_address='$address', payee_tin_number='$payee_tin_number', payee_sort_code='$payee_sort_code', description='Being $desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', checked_by='{$login_id}', date_checked=CURDATE(), time_checked=CURTIME(), checked_action='Approved', controlled_by='{$login_id}', date_controlled=CURDATE(), time_controlled=CURTIME(), controlled_action='Approved', authorized_by='{$login_id}', date_authorized=CURDATE(), time_authorized=CURTIME(), authorized_action='Approved', paid_by='{$login_id}', date_paid=CURDATE(), time_paid=CURTIME(), paid_action='Approved', final_approval_by='{$login_id}', final_approval_date=CURDATE(), final_approval='Approved', audit_by='{$login_id}', audit_date=CURDATE(), audit_time=CURTIME(), audit_action='Approved'";
+          $r1=@mysqli_query($con, "INSERT INTO vouchertb set pvno='{$pvno}', voucher_date='{$pay_date}', dept_code='{$voucher_unit}', dept_acctcode='{$account}', payee_type='{$type}', fileno='{$fileno}', payee_name='{$name}', payee_acct_no='{$act_no}', payee_bank_name='{$bank}', payee_address='{$address}', payee_tin_number='{$payee_tin_number}', payee_sort_code='{$payee_sort_code}', description='Being $desc', amount_approved='{$amount_approved}', total_tax='{$total_tax}', amount_paid='{$amount_paid}', prepared_by='{$login_id}', date_prepared=CURDATE(), time_prepared=CURTIME(), entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}', entry_type='Final', checked_by='{$login_id}', date_checked=CURDATE(), time_checked=CURTIME(), checked_action='Approved', controlled_by='$login_id', date_controlled=CURDATE(), time_controlled=CURTIME(), controlled_action='Approved', authorized_by='$login_id', date_authorized=CURDATE(), time_authorized=CURTIME(), authorized_action='Approved', paid_by='{$login_id}', date_paid=CURDATE(), time_paid=CURTIME(), paid_action='Approved', final_approval_by='{$login_id}', final_approval_date=CURDATE(), final_approval='Approved', audit_by='{$login_id}', audit_date=CURDATE(), audit_time=CURTIME(), audit_action='Approved', memo_id='$memo_id', purchase_advance='$isPA'") or die( mysqli_error($con));
      }
      //folio_code='$folio',
      //echo $process_type; exit;
@@ -3814,7 +3750,7 @@ else
      }// end of folio code is not empty for tax deduction
 }//end of else part of autocreate is not ==yes
 
-logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
+//logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
 
 
 $sql="select v.*, fc.folio_code as item_code FROM vouchertb v INNER JOIN voucher_folio_codetb fc ON v.pvno=fc.pvno WHERE prepared_by='$login_id' AND checked_by='' ORDER BY voucher_date,folio_code,pvno";
@@ -3887,12 +3823,12 @@ if($r1)//and $r2and $r3
 if($flag and  mysqli_query($con, "update memo_assigntb set status='Completed',datecompleted=CURDATE() WHERE memo_id='{$memo_id}'"))
 {
      mysqli_query($con, "update memo_movementtb set read_status = 'Read' where memo_id = '$memo_id'");
-     commit();
+     $bursary->commit();
      echo "<script>alert('Payment Voucher saved successfully');</script>";
 }
 else
 {
-     rollback();
+     $bursary->rollback();
      echo "<script>alert('Operation Failed! Transaction was canceled. ". mysqli_error($con)."');</script>";
 }
 
@@ -3911,13 +3847,13 @@ if($action=='delete')
 {
      $res_d=@mysqli_query($con, "SELECT * FROM vouchertb where id='$r_id'"); $rs_d=@mysqli_fetch_array($res_d); $log_desc=$rs_d['pvno'].$rs_d['folio_code'].$rs_d['voucher_date'].$rs_d['dept_code'].$rs_d['payee_name'];//for logs purpose
      $pvno=$rs_d['pvno'];
-     logs("$login_id","Delete Record","$login_id deleted voucher record $log_desc");
-     begin();
+     //logs("$login_id","Delete Record","$login_id deleted voucher record $log_desc");
+     $bursary->begin();
      if( mysqli_query($con, "DELETE FROM vouchertb where pvno like '$pvno%'") and  mysqli_query($con, "DELETE FROM voucher_taxtb where pvno like '$pvno%'") and  mysqli_query($con, "DELETE FROM voucher_folio_codetb where pvno like '$pvno%'") and  mysqli_query($con, "DELETE FROM voucher_parent_child_taxtb where parent_pvno='$pvno'")) {
-          commit();
+          $bursary->commit();
           echo "<script>alert('Record deleted successfully');</script>";
      }else {
-          rollback();
+          $bursary->rollback();
           echo "<script>alert('Error deleting record!');</script>";
      }
      //exit;
