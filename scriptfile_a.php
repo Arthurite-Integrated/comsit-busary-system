@@ -3751,7 +3751,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   }//end of else part of autocreate is not ==yes
 
                                                   //logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
-
+                                                  echo "Im here!"; exit;
 
                                                   $sql="select v.*, fc.folio_code as item_code FROM vouchertb v INNER JOIN voucher_folio_codetb fc ON v.pvno=fc.pvno WHERE prepared_by='$login_id' AND checked_by='' ORDER BY voucher_date,folio_code,pvno";
                                                   //************** Commite the Transactions
