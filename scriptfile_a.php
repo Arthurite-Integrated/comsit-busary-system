@@ -3690,7 +3690,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                        $r6[]=@mysqli_query($con, "INSERT INTO voucher_taxtb set pvno='$pvno_due',folio_code='$folio[0]',amount='$due_amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'") or die( mysqli_error($con));
                                                        $r7[]=@mysqli_query($con, "INSERT INTO voucher_folio_codetb set pvno='$pvno_due',folio_code='$folio[0]',amount='$due_amount', paid='No'") or die( mysqli_error($con));
                                                   }//end if $due_pv
-
+echo "Im here!"; exit;
                                                   if($autocreate=='yes')
                                                   {
                                                        if(count($vcode)>0)
@@ -3751,7 +3751,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   }//end of else part of autocreate is not ==yes
 
                                                   //logs($login_id,"Save Record","Insert voucher record: $pvno $name $folio $amount_approved $amount_paid $total_tax");
-                                                  echo "Im here!"; exit;
+                                                  
 
                                                   $sql="select v.*, fc.folio_code as item_code FROM vouchertb v INNER JOIN voucher_folio_codetb fc ON v.pvno=fc.pvno WHERE prepared_by='$login_id' AND checked_by='' ORDER BY voucher_date,folio_code,pvno";
                                                   //************** Commite the Transactions
