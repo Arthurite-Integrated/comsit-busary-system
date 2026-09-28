@@ -3521,7 +3521,7 @@ if($id=='load_voucher_details' || $id=='load_voucher_details_entry' || $id=='loa
                                                   $due_bank=@$_REQUEST['due_bank'];	$due_acct=@$_REQUEST['due_acct'];	$due_payee=@$_REQUEST['due_payee'];
 
                                                   $vcode=@$_REQUEST['code'];$vamt=@$_REQUEST['amount'];  //code is the folio_code and rate
-echo $action; exit;
+
                                                   if($action=='save')
                                                   {
                                                        foreach($vamt as $amt)
@@ -3530,7 +3530,7 @@ echo $action; exit;
                                                             {
                                                                  echo "<script language='javascript'>alert('Invalid Amount. Enter Amount correctly');</script>";exit;
                                                             }
-                                                       }
+                                                       }echo "Im here!"; exit;
                                                        if(count($bcode)>0)
                                                        {
                                                             foreach($bamt as $val_amt)
@@ -3541,7 +3541,7 @@ echo $action; exit;
                                                                  }
                                                             }//end of foreach for bamt
                                                        }// end of bcode is not empty
-echo "Im here!"; exit;
+
                                                        // End of Validation
                                                        $s=0;$i=0;$j=0;$tamt=0;$emsg=array(); $total_tax=0; $amount=0;
                                                        // transaction begins
