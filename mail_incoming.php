@@ -457,7 +457,8 @@ include "function.php";?>
                                 while($row=mysqli_fetch_array($qmail, 3)){
                                     !is_numeric($row['address_unit']) ? $dept_from=$row['address_unit'] : $dept_from=get_unit_name('', $row['address_unit']);
                                     $row['dept_unit'] = $bursary->get_any_value('dept_unit', 'memo_movementtb', 'memo_id', $row['memo_id']);
-                                    if($_SESSION['userunit']!=$row['dept_unit']) continue;
+                                    
+                                    if($_SESSION['userunit']!=$row['dept_unit'] && $_SESSION['login_id']!=$row['entry_by']) continue;
                                     $row['dept_unit']=='' ? $dept_to='Central' : $dept_to=get_unit_name('', $row['dept_unit']);
                                     ?>
                                     <tr  style="color:#900">
