@@ -298,17 +298,16 @@ table.excel tbody td {
                                                             }
                                                             else {
                                                                  copy($import_file_tmp_name, $newFPath);
-																 //move_uploaded_file($import_file_tmp_name, $target_path);
 
                                                                  $_SESSION['qtn_path'] = $newFPath;
                                                                  $_SESSION['permit_delete_bulk'] = true;
 						     									///echo "Here. ".$_SESSION['qtn_path']; //exit;
                                                                  // start excel reading
-                                                                 ///$objPHPExcel = PHPExcel_IOFactory::load($_SESSION['qtn_path']);
+                                                                 $objPHPExcel = PHPExcel_IOFactory::load($_SESSION['qtn_path']);
 						     									///echo "Here 2"; exit;
-                                                                 ///$_SESSION['sheetCount'] = $objPHPExcel->getSheetCount();
+                                                                 $_SESSION['sheetCount'] = $objPHPExcel->getSheetCount();
 
-                                                                 ///$_SESSION['sheetNames'] = $objPHPExcel->getSheetNames();
+                                                                 $_SESSION['sheetNames'] = $objPHPExcel->getSheetNames();
 
                                                                  // $sheetData = $objPHPExcel->getSheetByName($sheetNames[0])->toArray(null,true,true,true);
 
