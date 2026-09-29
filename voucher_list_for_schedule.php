@@ -413,7 +413,7 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
                                                 <td><?=$net?></td>
                                                 <td><?=$payee_bank_name?></td>
                                                 <td><?=$payee_acct_no?></td>
-                                                <td><a class='iframe' href='voucher_report.php?p=<?$p?>' >VIEW</a></td>";
+                                                <td><a class='iframe' href='voucher_report.php?p=<?$p?>' >VIEW</a></td>
                                                 </tr><?php
                                             } //end of while
                                             
