@@ -314,7 +314,7 @@ function reload_folio(){
 }
 </script> 
 </head>
-<body class="subpage"><!-- onLoad="$('#fileno').combogrid('StaffGrid').datagrid('load', {filen:''});"-->
+<body class="subpage" onload="$('#tr_sub_cat').hide();"><!-- onLoad="$('#fileno').combogrid('StaffGrid').datagrid('load', {filen:''});"-->
 
 <div id="tooplate_wrapper">
 
@@ -413,10 +413,10 @@ function reload_folio(){
 			  <tr id="tr_sub_cat">
 				<th width="18%" align="left" valign="middle" height="33" nowrap>EXISTING SUB CATEGORY:</th>
 				<td>
-					<select name="bsubcatx" id="bsubcatx" style="width:300px" onchange="$('#bsubcat2').val()=$(this).val();">
+					<select name="bsubcatx" id="bsubcatx" style="width:300px" onchange="$('#bsubcat2').val()=$('#bsubcatx').val();">
 					<option selected="selected" value="">Select Existing Sub_item Category</option>
 					<?php
-					$sq="SELECT DISTINCT bursary_sub_category FROM budgettb WHERE bursary_sub_category!=''";
+					$sq="SELECT DISTINCT bursary_sub_category FROM budgettb WHERE bursary_sub_category!='' ORDER BY bursary_sub_category";
 					$q=mysqli_query($con, $sq);
 					while($r=mysqli_fetch_array($q, 3)){
 					?>
