@@ -411,16 +411,18 @@ function reload_folio(){
 			      </select></td>
 		      </tr>
 			  <tr id="tr_sub_cat">
-				<select name="bsubcatx" id="bsubcatx" style="width:300px" onchange="$('#bsubcat2').val()=$(this).val();">
-			      <option selected="selected" value="">Select Existing Sub_item Category</option>
-				  <?php
-				  $sq="SELECT DISTINCT bursary_sub_category FROM budgettb WHERE bursary_sub_category!=''";
-				  $q=mysqli_query($con, $sq);
-				  while($r=mysqli_fetch_array($q, 3)){
-				  ?>
-                  <option value='<?=$r[0]?>'><?=$r[0]?></option>
-				  <?php } ?>
-				</select>
+				<td>
+					<select name="bsubcatx" id="bsubcatx" style="width:300px" onchange="$('#bsubcat2').val()=$(this).val();">
+					<option selected="selected" value="">Select Existing Sub_item Category</option>
+					<?php
+					$sq="SELECT DISTINCT bursary_sub_category FROM budgettb WHERE bursary_sub_category!=''";
+					$q=mysqli_query($con, $sq);
+					while($r=mysqli_fetch_array($q, 3)){
+					?>
+					<option value='<?=$r[0]?>'><?=$r[0]?></option>
+					<?php } ?>
+					</select>
+				</td>
 			  </tr>
               <tr id="trCapitals">
 			    <th width="18%" align="left" valign="middle" height="33" nowrap>BUDGET SUB CATEGORY:</th>
