@@ -374,14 +374,13 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
                               }
                               //echo $sql;
                               $res_v=@mysqli_query($con, $sql);
-                              $sn=0;
-                              $tb="<table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
+                              $sn=0; ?>
+                              <table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
                               <thead> 
-                              <tr style='border:solid 1px #000; background-color:#f2f2f2'><th>S/NO</th><th>PROCESS NO</th><th>PV NO</th><th>GROSS (NET)</th><th>PAYEE</th>";
-                              $tb.="<th>PAYEE ACCT NO.</th><th>PAYEE BANK</th>";
-                              //$tb.="<th>NARRATION</th>";
-                              $tb.="<th>DATE</th><th>CHECKED</th><th>CERTIFIED</th><th>CONTROLLED</th><th>AUDITED</th><th>PAID</th><th>ACTION</th></tr></thead><tbody>";
-                              //echo $tb; exit;
+                              <tr style='border:solid 1px #000; background-color:#f2f2f2'><th>S/NO</th><th>PROCESS NO</th><th>PV NO</th><th>GROSS (NET)</th><th>PAYEE</th>
+                              <th>PAYEE ACCT NO.</th><th>PAYEE BANK</th>
+                              <!--th>NARRATION</th-->
+                              <th>DATE</th><th>CHECKED</th><th>CERTIFIED</th><th>CONTROLLED</th><th>AUDITED</th><th>PAID</th><th>ACTION</th></tr></thead><tbody><?php
                               if(@mysqli_num_rows($res_v)>=1)
                               {
                                         while($rs_v=mysqli_fetch_array($res_v, 3))
@@ -410,28 +409,24 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
                                                   if($rs_v['retired']=="Yes") $status=" | CLEARED"; else {
                                                         $status=" | <a href='journal_retirement.php?pvno={$tp}&r_val={$_REQUEST['r_val']}&tid={$tid}&rid={$r_id}&ipvno={$p}' target='_blank'>RETIRE</a>";
                                                     }
-                                                    //$status = " | <a href='journal_retirement.php?pvno={$tp}&r_val={$_REQUEST['r_val']}&tid={$tid}' target='_blank'>RETIRE</a>";
-					
-                                                  //$tb.="<tr><td>$sn</td><td>$pvno</td><!--<td>$pvno_paid</td>--><td>$payee_name</td><td>$payee_acct_no</td><td>$payee_bank_name</td><td>".date('d/m/Y',strtotime($voucher_date))."</td><td><a class='iframe' href='voucher_report.php?p=$p'>VIEW</a></tr>";
-
-                                                            $tb.="<tr><td>$sn</td><td>$pvno</td><td>$pvno_paid</td><td>".$gross." (".$net.")</td><td>$payee_name</td>";
-                                                            $tb.="<td>$payee_acct_no</td><td>$payee_bank_name</td>";
-                                                            //$tb.="<td>".$rs_v['description']."</td>";
-                                                            $tb.="<td>".date('d/m/Y',strtotime($voucher_date))."</td>
-                                                            <td><a href='#' title='".$checked_date."'>".$checked_action."</a></td>
-                                                            <td><a href='#' title='".$authorized_date."'>".$authorized_action."</a></td>
-                                                            <td><a href='#' title='".$controlled_date."'>".$controlled_action."</a></td>
-                                                            <td><a href='#' title='".$audit_date."'>".$audit_action."</a></td>
-                                                            <td><a href='#' title='".$paid_date."'>".$paid_action."</a></td>
-                                                            <td nowrap><a class='iframe' href='voucher_report.php?p=$p' >VIEW</a>";
-                                                            
-                                                            //if($r=="prepared officer" or $r=="budget officer" and ($checked == '' or $checked_action == 'Queried') and ($prepared == $login_id or $r=="super admin" or $r=="administrator"))
-                                                            $tb.="  | <a class='iframe' href='voucher_resubmit.php?p=$p' >RE-SUBMIT</a>{$status}</td></td></tr>";
-                                                            //else $tb.=" | <a href=\"javascript:swapcontent('display_voucher_process','$pvno','$r_vals');\">PROCESS</a></td></tr>";
-
+                                                    ?>
+                                                            <tr><td><?=$sn?></td><td><?=$pvno?></td><td><?=$pvno_paid?></td><td><?=$gross." (".$net.")"?></td><td><?=$payee_name?></td>";
+                                                            <td><?=$payee_acct_no?></td><td><?=$payee_bank_name?></td>";
+                                                            <!--td><?=$rs_v['description']?></td-->";
+                                                            <td><?=date('d/m/Y',strtotime($voucher_date))?></td>
+                                                            <td><a href='#' title='<?=$checked_date?>'><?=$checked_action?></a></td>
+                                                            <td><a href='#' title='<?=$authorized_date?>'><?=$authorized_action?></a></td>
+                                                            <td><a href='#' title='<?=$controlled_date?>'><?=$controlled_action?></a></td>
+                                                            <td><a href='#' title='<?=$audit_date?>'><?=$audit_action?></a></td>
+                                                            <td><a href='#' title='<?=$paid_date?>'><?=$paid_action?></a></td>
+                                                            <td nowrap>
+                                                                <a class='iframe' href='voucher_report.php?p=<?=$p?>' >VIEW</a>
+                                                                  | <a class='iframe' href='voucher_resubmit.php?p=<?=$p?>' >RE-SUBMIT</a><?=$status?></td></td></tr>
+                                                                <!-- | <a href=\"javascript:swapcontent('display_voucher_process','<?=$pvno?>','<?=$r_vals?>');\">PROCESS</a></td></tr>-->
+                                                    <?php
                                                   } //end of while
                                                   
-                                                  $tb.="</tbody></table>"; echo $tb;
+                                                  echo "</tbody></table>";
                               }
                               else
                               echo "<font color='red'><b>No record to display</b></font>";

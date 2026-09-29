@@ -374,10 +374,10 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
                                         <?php
                                         //echo $sql;
                                         $res_v=@mysqli_query($con, $sql);
-                                        $sn=0;
-                                        $tb="<table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
+                                        $sn=0; ?>
+                                        <table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
                                         <thead> 
-                                        <tr style='border:solid 1px #000; background-color:#f2f2f2'><th colspan='2'>S/NO</th><th>PV NO</th><th>PAYEE</th><th>DESCRIPTION</th><th>CODE</th><th>AMOUNT</th><th>BANK</th><th>ACCOUNT</th><th>ACTION</th></tr></thead><tbody>";
+                                        <tr style='border:solid 1px #000; background-color:#f2f2f2'><th colspan='2'>S/NO</th><th>PV NO</th><th>PAYEE</th><th>DESCRIPTION</th><th>CODE</th><th>AMOUNT</th><th>BANK</th><th>ACCOUNT</th><th>ACTION</th></tr></thead><tbody><?php
                                         if(@mysqli_num_rows($res_v)>=1)
                                         {
                                             while($rs_v=@mysqli_fetch_array($res_v))
@@ -393,32 +393,31 @@ $(".iframe").colorbox({iframe:true, width:"53%", height:"100%"});
                                                 $voucher_date=$rs_v['voucher_date'];
                                                 $ds=mysqli_query($con, "SELECT folio_code FROM voucher_folio_codetb WHERE pvno='{$pvno}'");
                                                 if(mysqli_num_rows($ds)==1){
-                                                            $code=get_voucher_folio_code($rs_v['pvno'], 'Code');
-                                                            $desc=strtoupper(get_voucher_folio_code($rs_v['pvno'], 'Title'));
+                                                    $code=get_voucher_folio_code($rs_v['pvno'], 'Code');
+                                                    $desc=strtoupper(get_voucher_folio_code($rs_v['pvno'], 'Title'));
                                                 }else{
-                                                            $code="VARIOUS";
-                                                            $desc="REFUND";
+                                                    $code="VARIOUS";
+                                                    $desc="REFUND";
                                                 }
 
                                                 $net = number_format($rs_v['amount_approved'], 2);
                                                 $gross = read_gross($pvno);             $yr = date('y', strtotime($prepared_date));
                                                 if(date('d/m/Y',strtotime($audit_date))=="01/01/1970") $au_date = '';
-                                                else $au_date = date('d/m/Y',strtotime($audit_date));
-                                                $tb.="<tr><td>$sn</td>
-                                                <td><input type='checkbox' class='checkboxes' id='pv_jv_{$rs_v['id']}' name='pv_jv[]' value='{$rs_v['id']}'></td>
-                                                <td><div id='schdiv{$rs_v['id']}'>$pre_pvno_paid</div></td>
-                                                <td>$payee_name</td>
-                                                <td>$desc</td>
-                                                <td>$code</td>
-                                                <td>".$net."</td>
-                                                <td>$payee_bank_name</td>
-                                                <td>$payee_acct_no</td>
-                                                <td><a class='iframe' href='voucher_report.php?p=$p' >VIEW</a></td>";
-                                                $tb.="</tr>";
+                                                else $au_date = date('d/m/Y',strtotime($audit_date));?>
+                                                <tr><td><?=$sn?></td>
+                                                <td><input type='checkbox' class='checkboxes' id='pv_jv_<?=$rs_v['id']?>' name='pv_jv[]' value='<?=$rs_v['id']?>'></td>
+                                                <td><div id='schdiv<?=$rs_v['id']?>'><?=$pre_pvno_paid?></div></td>
+                                                <td><?=$payee_name?></td>
+                                                <td><?=$desc?></td>
+                                                <td><?=$code?></td>
+                                                <td><?=$net?></td>
+                                                <td><?=$payee_bank_name?></td>
+                                                <td><?=$payee_acct_no?></td>
+                                                <td><a class='iframe' href='voucher_report.php?p=<?$p?>' >VIEW</a></td>";
+                                                </tr><?php
                                             } //end of while
                                             
-                                            $tb.="</tbody></table>"; echo $tb;
-                                            //echo  "SELECT s.* from stafftb s INNER JOIN journal_code_user j ON s.fileno=j.fileno WHERE j.jvcode IN ({$fac}) AND s.status='Active' AND s.dept_code='126' AND s.unit_code='8' AND s.fileno not like '%admin%' order by s.surname";
+                                            echo "</tbody></table>";
                                             ?>
                                             <hr>
                                             STAFF: <select id="tstaff" name="tstaff">
