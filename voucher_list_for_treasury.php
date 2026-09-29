@@ -268,10 +268,10 @@ $(document).ready(function() { //parent.jQuery.colorbox.close();
                               <?php
                               //echo $sql;
                               $res_v=@mysqli_query($con, $sql);
-                              $sn=0;
-                              $tb="<table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
+                              $sn=0;?>
+                              <table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box'>
                               <thead>
-                              <tr style='border:solid 1px #000; background-color:#f2f2f2'><th>S/NO</th><!--th>PROCESS NO</th--><th>PV NO</th><th>ACTION</th><th>GROSS (NET)</th><th>PAYEE</th><!--th>PAYEE ACCT NO.</th--><th>PAYEE ACCOUNT</th><th>AUDIT DATE</th><th>CHECKED</th><th>CERTIFIED</th><th>CONTROLLED</th><th>AUDITED</th><th>PAID</th></tr></thead><tbody>";
+                              <tr style='border:solid 1px #000; background-color:#f2f2f2'><th>S/NO</th><!--th>PROCESS NO</th--><th>PV NO</th><th>ACTION</th><th>GROSS (NET)</th><th>PAYEE</th><!--th>PAYEE ACCT NO.</th--><th>PAYEE ACCOUNT</th><th>AUDIT DATE</th><th>CHECKED</th><th>CERTIFIED</th><th>CONTROLLED</th><th>AUDITED</th><th>PAID</th></tr></thead><tbody><?php
                               if(@mysqli_num_rows($res_v)>=1)
                               {
                                         while($rs_v=@mysqli_fetch_array($res_v))
@@ -311,35 +311,30 @@ $(document).ready(function() { //parent.jQuery.colorbox.close();
                                                     }
                                                   $gross = read_gross($pvno);             $yr = $postYear; //date('y'); //date('y', strtotime($prepared_date));
                                                   if(date('d/m/Y',strtotime($audit_date))=="01/01/1970") $au_date = '';
-                                                  else $au_date = date('d/m/Y',strtotime($audit_date));
-                                                  $tb.="<tr><td>$sn</td><!--td>$pvno</td-->
-                                                  <td><div id='schdiv{$rs_v['id']}'>$pre_pvno</div></td>
-                                                  <td><a class='iframe' href='voucher_report.php?p=$p' >VIEW</a>
-                                                  <input type='hidden' id='schid{$rs_v['id']}' name='schid[]' value='{$rs_v['id']}'>
-                                                  | <span class='pre_pvyear'>{$yr}</span>/<span class='pre_pvtype'>{$type}</span><input type='text' placeholder='PV SERIAL NO' id='schpvno{$rs_v['id']}' name='schpvno[]' value='' size='15'>
-                                                  <input type='button' id='schbtn{$rs_v['id']}' name='schbtn[]' value='OK' onclick='swapcontent(\"save_pre_pvno\", \"{$rs_v['id']}\");'>
+                                                  else $au_date = date('d/m/Y',strtotime($audit_date)); 
+                                                  $rid=$rs_v['id'];
+                                                  ?>
+                                                  <tr><td><?=$sn?></td><!--td>$pvno</td-->
+                                                  <td><div id='schdiv<?=$rs_v['id']?>'><?=$pre_pvno?></div></td>
+                                                  <td><a class='iframe' href='voucher_report.php?p=<?=$p?>' >VIEW</a>
+                                                  <input type='hidden' id='schid<?=$rs_v['id']?>' name='schid[]' value='<?=$rs_v['id']?>'>
+                                                  | <span class='pre_pvyear'><?=$yr?></span>/<span class='pre_pvtype'><?=$type?></span><input type='text' placeholder='PV SERIAL NO' id='schpvno<?=$rs_v['id']?>' name='schpvno[]' value='' size='15'>
+                                                  <input type='button' id='schbtn<?=$rs_v['id']?>' name='schbtn[]' value='OK' onclick='swapcontent("save_pre_pvno", "<?=$rid?>");'>
                                                   </td>
-                                                  <td>".$gross." (".$net.")</td>
+                                                  <td><?=$gross." (".$net.")"?></td>
                                                   <td>$payee_name</td>
                                                   <!--td>$payee_acct_no</td-->
-                                                  <td>$payee_bank_name<br>$payee_acct_no</td><td>{$au_date}</td>
-                                                  <td><a href='#' title='".$checked_date."'>".$checked_action."</a></td>
-                                                  <td><a href='#' title='".$authorized_date."'>".$authorized_action."</a></td>
-                                                  <td><a href='#' title='".$controlled_date."'>".$controlled_action."</a></td>
-                                                  <td><a href='#' title='".$audit_date."'>".$audit_action."</a></td>
-                                                  <td><a href='#' title='".$paid_date."'>".$paid_action."</a></td>
-                                                  ";
-
-                                                  //if($r=="prepared officer" or $r=="budget officer" and ($checked == '' or $checked_action == 'Queried') and ($prepared == $login_id or $r=="super admin" or $r=="administrator"))
-                                                  //$tb.="";
-                                                  //$tb.="  | <a class='iframe' href='voucher_resubmit.php?p=$p' >RE-SUBMIT</a>";
-                                                  //$tb.="  | <a href='x.php?pv=$pvno' target='_blank' >AUDIT</a> | <a href='x.php?pv2=$pvno' target='_blank' >CONTROL</a>";
-                                                  $tb.="</tr>";
-                                                  //else $tb.=" | <a href=\"javascript:swapcontent('display_voucher_process','$pvno','$r_vals');\">PROCESS</a></td></tr>";
+                                                  <td><?=$payee_bank_name?><br><?=$payee_acct_no?></td><td><?=$au_date?></td>
+                                                  <td><a href='#' title='<?=$checked_date?>'><?=$checked_action?></a></td>
+                                                  <td><a href='#' title='<?=$authorized_date?>'><?=$authorized_action?></a></td>
+                                                  <td><a href='#' title='<?=$controlled_date?>'><?=$controlled_action?></a></td>
+                                                  <td><a href='#' title='<?=$audit_date?>'><?=$audit_action?></a></td>
+                                                  <td><a href='#' title='<?=$paid_date?>'><?=$paid_action?></a></td>
+                                                  </tr><?php
 
                                         } //end of while
 
-                                        $tb.="</tbody></table>"; echo $tb;
+                                        echo "</tbody></table>";
                               }
                               else
                               echo "<font color='red'><b>No record to display</b></font>";
