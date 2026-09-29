@@ -17,7 +17,7 @@ if(isset($_REQUEST['op_id']) and $_REQUEST['op_id']=='consolidated'){
 }
 
 ////require_once 'excel_reader2.php';
-		include_once 'assets/Classes/PHPExcel/IOFactory.php';
+		require_once 'assets/Classes/PHPExcel/IOFactory.php';
 ?>
 <!DOCTYPE html>
 <html>
