@@ -430,13 +430,13 @@ include "function.php";?>
                             <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onClick="swapcontent('incoming_mail_new'); $('#mupdate').show(); $('#mupdate_r').show(); $('#vwin').window('open'); ">Edit</a>
                             <?php } ?>
                             <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }" target="_blank">Raise Voucher</a>
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Raise Voucher</a>
                             <?php } //echo $role; ?> 
                             <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='journal_entry2.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }" target="_blank">Journal</a>
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='journal_entry2.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Journal</a>
                             <?php } //echo $role; ?>
                             <?php /*if(strtolower($r_vals) == "accountant" or strtolower($r_vals) == "administrator")*/{ ?>
-                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher_sal.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }" target="_blank">Voucher (PAYE)</a>
+                            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="swapcontent('incoming_mail_new'); if($('#tmemoid').val() == ''){ alert('No mail has been selected!'); }else{window.location='voucher_sal.php?r_val=<?php echo $r_val; ?>&id='+btoa($('#tmemoid').val()); }">Voucher (PAYE)</a>
                             <?php } //echo $role; ?> 
                         </div><hr>
                         <table id='MyTable' class='table display' align='left' border='1' cellpadding='5' cellspacing='5' rules='cols' frame='box' style='font-size:10px;'>
