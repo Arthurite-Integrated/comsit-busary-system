@@ -266,7 +266,7 @@ table.excel tbody td {
                                                             $_SESSION['recordtype'] = $_POST['recordtype'];
 
                                                             $status = false;   
-															$_SESSION['sheetData'] = null;
+						$_SESSION['sheetData'] = null;
 
                                                             /******** start processing *********/
                                                             $nfn = $_POST['rmonth'].$_POST['ryear']."_imported_at_".time();
@@ -301,10 +301,10 @@ table.excel tbody td {
 
                                                                  $_SESSION['qtn_path'] = $newFPath;
                                                                  $_SESSION['permit_delete_bulk'] = true;
-						     									///echo "Here. ".$_SESSION['qtn_path']; //exit;
+						     ///echo "Here. ".$_SESSION['qtn_path']; //exit;
                                                                  // start excel reading
                                                                  $objPHPExcel = PHPExcel_IOFactory::load($_SESSION['qtn_path']);
-						     									///echo "Here 2"; exit;
+						     ///echo "Here 2"; exit;
                                                                  $_SESSION['sheetCount'] = $objPHPExcel->getSheetCount();
 
                                                                  $_SESSION['sheetNames'] = $objPHPExcel->getSheetNames();
