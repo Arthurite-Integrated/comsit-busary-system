@@ -282,7 +282,7 @@ table.excel tbody td {
                                                                  if($mime == $_FILES['rfile']['type']) {
                                                                       $status = true;
                                                                       // unlink("../assets/uploads/");
-                                                                      $newFPath =  "upload_files/recon/".$nfn.'.'."xls";
+                                                                      $newFPath =  "./upload_files/recon/".$nfn.'.'."xls";
                                                                       $nfname = $nfn.'.'."xls";
                                                                       break;
                                                                  }
