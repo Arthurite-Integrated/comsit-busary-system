@@ -266,7 +266,7 @@ table.excel tbody td {
                                                             $_SESSION['recordtype'] = $_POST['recordtype'];
 
                                                             $status = false;   
-						$_SESSION['sheetData'] = null;
+															$_SESSION['sheetData'] = null;
 
                                                             /******** start processing *********/
                                                             $nfn = $_POST['rmonth'].$_POST['ryear']."_imported_at_".time();
@@ -282,7 +282,7 @@ table.excel tbody td {
                                                                  if($mime == $_FILES['rfile']['type']) {
                                                                       $status = true;
                                                                       // unlink("../assets/uploads/");
-                                                                      $newFPath =  "./upload_files/recon/".$nfn.'.'."xls";
+                                                                      $newFPath =  "upload_files/recon/".$nfn.'.'."xls";
                                                                       $nfname = $nfn.'.'."xls";
                                                                       break;
                                                                  }
@@ -297,17 +297,18 @@ table.excel tbody td {
                                                                  $_SESSION['is_excel'] = false;
                                                             }
                                                             else {
-                                                                 copy($import_file_tmp_name, $newFPath);
+                                                                 //copy($import_file_tmp_name, $newFPath);
+																 move_uploaded_file($import_file_tmp_name, $target_path);
 
                                                                  $_SESSION['qtn_path'] = $newFPath;
                                                                  $_SESSION['permit_delete_bulk'] = true;
-						     ///echo "Here. ".$_SESSION['qtn_path']; //exit;
+						     									///echo "Here. ".$_SESSION['qtn_path']; //exit;
                                                                  // start excel reading
-                                                                 $objPHPExcel = PHPExcel_IOFactory::load($_SESSION['qtn_path']);
-						     ///echo "Here 2"; exit;
-                                                                 $_SESSION['sheetCount'] = $objPHPExcel->getSheetCount();
+                                                                 ///$objPHPExcel = PHPExcel_IOFactory::load($_SESSION['qtn_path']);
+						     									///echo "Here 2"; exit;
+                                                                 ///$_SESSION['sheetCount'] = $objPHPExcel->getSheetCount();
 
-                                                                 $_SESSION['sheetNames'] = $objPHPExcel->getSheetNames();
+                                                                 ///$_SESSION['sheetNames'] = $objPHPExcel->getSheetNames();
 
                                                                  // $sheetData = $objPHPExcel->getSheetByName($sheetNames[0])->toArray(null,true,true,true);
 
