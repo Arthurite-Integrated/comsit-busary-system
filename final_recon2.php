@@ -297,8 +297,8 @@ table.excel tbody td {
                                                                  $_SESSION['is_excel'] = false;
                                                             }
                                                             else {
-                                                                 //copy($import_file_tmp_name, $newFPath);
-																 move_uploaded_file($import_file_tmp_name, $target_path);
+                                                                 copy($import_file_tmp_name, $newFPath);
+																 //move_uploaded_file($import_file_tmp_name, $target_path);
 
                                                                  $_SESSION['qtn_path'] = $newFPath;
                                                                  $_SESSION['permit_delete_bulk'] = true;
