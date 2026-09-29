@@ -413,7 +413,7 @@ function reload_folio(){
 			  <tr id="tr_sub_cat">
 				<th width="18%" align="left" valign="middle" height="33" nowrap>EXISTING SUB CATEGORY:</th>
 				<td>
-					<select name="bsubcatx" id="bsubcatx" style="width:300px" onchange="alert($(this).val()); document.getElementById('bsubcat2').value=$('#bsubcatx').val();">
+					<select name="bsubcatx" id="bsubcatx" style="width:300px" onchange="document.getElementById('bsubcat2').value=$('#bsubcatx').val();">
 					<option selected="selected" value="">Select Existing Sub_item Category</option>
 					<?php
 					$sq="SELECT DISTINCT bursary_sub_category FROM budgettb WHERE bursary_sub_category!='' ORDER BY bursary_sub_category";
