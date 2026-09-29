@@ -343,7 +343,7 @@ function reload_folio(){
               <tr>
 			    <th width="18%" align="left" valign="middle" height="33">BUDGET CATEGORY:</th>
 			    <td width="82%" align="left" valign="middle" height="33"><select name="bcat2" id="bcat2" style="width:300px"  onChange="if($('#bcat2 option:selected').val() == 'Departmental'){ $('tr#exp_tr').hide(); $('tr#fund_tr').hide(); } else { $('tr#exp_tr').show(); $('tr#fund_tr').show(); } 
-                if($('#bcat2 option:selected').val() == 'Recurrent' || $('#bcat2 option:selected').val() == 'Departmental'){ $('#trCapitals').hide(); $('#trSubCat').show(); }else{ $('#trCapitals').show(); $('#trSubCat').hide(); }">
+                if($('#bcat2 option:selected').val() == 'Recurrent' || $('#bcat2 option:selected').val() == 'Departmental'){ $('#trCapitals').hide(); $('#tr_sub_cat').hide(); $('#trSubCat').show(); }else{ $('#trCapitals').show(); $('#tr_sub_cat').show(); $('#trSubCat').hide(); }">
 			      <option selected="selected" value="">Select item...</option>
 			      <?php if(isset($_REQUEST['faculty'])){ ?>
 					<option value='Departmental'>Departmental</option>
@@ -410,6 +410,18 @@ function reload_folio(){
                   <option value=''></option-->
 			      </select></td>
 		      </tr>
+			  <tr id="tr_sub_cat">
+				<select name="bsubcatx" id="bsubcatx" style="width:300px" onchange="$('#bsubcat2').val()=$(this).val();">
+			      <option selected="selected" value="">Select Existing Sub_item Category</option>
+				  <?php
+				  $sq="SELECT DISTINCT bursary_sub_category FROM budgettb WHERE bursary_sub_category!=''";
+				  $q=mysqli_query($con, $sq);
+				  while($r=mysqli_fetch_array($q, 3)){
+				  ?>
+                  <option value='<?=$r[0]?>'><?=$r[0]?></option>
+				  <?php } ?>
+				</select>
+			  </tr>
               <tr id="trCapitals">
 			    <th width="18%" align="left" valign="middle" height="33" nowrap>BUDGET SUB CATEGORY:</th>
 			    <td width="82%" align="left" valign="middle" height="33"><input type="text" name="bsubcat2" id="bsubcat2" style="width:300px" value=""></td>
