@@ -322,7 +322,7 @@ $(document).ready(function() { //parent.jQuery.colorbox.close();
                                                   <input type='button' id='schbtn<?=$rs_v['id']?>' name='schbtn[]' value='OK' onclick='swapcontent("save_pre_pvno", "<?=$rid?>");'>
                                                   </td>
                                                   <td><?=$gross." (".$net.")"?></td>
-                                                  <td>$payee_name</td>
+                                                  <td><?=$payee_name?></td>
                                                   <!--td>$payee_acct_no</td-->
                                                   <td><?=$payee_bank_name?><br><?=$payee_acct_no?></td><td><?=$au_date?></td>
                                                   <td><a href='#' title='<?=$checked_date?>'><?=$checked_action?></a></td>
