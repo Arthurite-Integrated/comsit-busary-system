@@ -819,7 +819,7 @@ if($id=='budget_section')
      @mysqli_query($con, "insert into budgettb set folio_code='$j->folio', dept_code='$j->dept',bursary_category='$j->bcat', bursary_sub_category='$j->rcat', budget_year='$j->b_year',amount='$j->amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'");
 } //end of save
 */
-logs("$login_id","Save Record","$login_id saved budget record $j->deptcode $j->bcat2 $j->b_year $j->amount");
+//logs("$login_id","Save Record","$login_id saved budget record $j->deptcode $j->bcat2 $j->b_year $j->amount");
 //$sql="select * from budgettb where dept_code='$j->deptcode' and budget_year='$j->b_year' order by dept_code,bursary_category,budget_year";
 $action='search';
 echo "<script>alert('Record saved successfully');</script>";//window.location.reload();
