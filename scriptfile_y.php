@@ -861,6 +861,7 @@ if($id=='budget_section')
      <th style='border-bottom:inset 1px'>DEPARTMENT</th>
      <th style='border-bottom:inset 1px'>AMOUNT</th>
      <th style='border-bottom:inset 1px'>YEAR</th>
+     <th style='border-bottom:inset 1px'>TITLE</th>
      <th style='border-bottom:inset 1px'>CATEGORY</th>
      <th style='border-bottom:inset 1px'>ACTION</th></tr></head><body>";
      if(@mysqli_num_rows($res_v) >= 1)
@@ -876,6 +877,7 @@ if($id=='budget_section')
                <td><?=@get_dept_name_act($rs_v['dept_code'])?></td>
                <td>N<?=number_format($rs_v['amount'],2)?></td>
                <td><?=$rs_v['budget_year']?></td>
+               <td><?=$rs_v['budget_title']?></td>
                <td><?=$rs_v['bursary_category']?></td>
                <td><a href="javascript:if(confirm('Are you sure you want to perform this operation')==true) swapcontent('budget_section','delete','<?=$r_id?>');">DELETE</a></td></tr>
                <!-- || <a href=\"javascript:swapcontent('budget_section','edit','<?=$r_id?>');\">EDIT</a-->
