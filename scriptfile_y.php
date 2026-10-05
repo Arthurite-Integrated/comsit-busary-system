@@ -799,75 +799,63 @@ if($id=='budget_section')
                }
                if($j->bcat2 == 'Recurrent') $bsubcat = $j->bsubcat;
                else $bsubcat = $j->bsubcat2;
-               $check=mysqli_query($con, "SELECT * FROM budgettb WHERE folio_code='{$j->budgetcode}' AND budget_year='{$j->b_year}'");
+               $check=mysqli_query($con, "SELECT * FROM budgettb WHERE folio_code='{$j->budgetcode}' AND budget_year='{$j->b_year}' AND bursary_category='{$j->bcat2}' AND bursary_sub_category='{$bsubcat}'");
                if(mysqli_num_rows($check) > 0)
-                    $sql = "UPDATE budgettb SET amount=amount + {$j->amount}, dept_code='{$j->deptcode}', bursary_category='{$j->bcat2}', bursary_sub_category='{$bsubcat}', budget_title='{$btitle}' WHERE folio_code='{$j->budgetcode}' AND budget_year='{$j->b_year}'";
+                    $sql = "UPDATE budgettb SET amount=amount + {$j->amount}, dept_code='{$j->deptcode}', bursary_category='{$j->bcat2}', bursary_sub_category='{$bsubcat}', budget_title='{$btitle}' WHERE folio_code='{$j->budgetcode}' AND budget_year='{$j->b_year}' AND bursary_category='{$j->bcat2}' AND bursary_sub_category='{$bsubcat}'";
                else
                     $sql = "INSERT INTO budgettb set folio_code='{$j->budgetcode}', dept_code='{$j->deptcode}', bursary_category='{$j->bcat2}', bursary_sub_category='{$bsubcat}', budget_year='{$j->b_year}', amount='{$j->amount}', budget_title='{$btitle}', entry_date=CURDATE(), entry_time=CURTIME(), entry_by='{$login_id}'";
                @mysqli_query($con, $sql);
           }
 
-          /*
-          $res_chk=@mysqli_query($con, "select * from budgettb where folio_code='$j->folio' and dept_code='$j->dept' and unit_code='$j->unit' and budget_year='$j->b_year'");
-          if(@mysqli_num_rows($res_chk)>=1)
+          //logs("$login_id","Save Record","$login_id saved budget record $j->deptcode $j->bcat2 $j->b_year $j->amount");
+          //$sql="select * from budgettb where dept_code='$j->deptcode' and budget_year='$j->b_year' order by dept_code,bursary_category,budget_year";
+          $action='search';
+          echo "<script>alert('Record saved successfully');</script>";//window.location.reload();
+     }
+
+     elseif($action=='delete')
+     {
+          $res_d=@mysqli_query($con, "select * from budgettb where id='$r_id'");
+          $rs_d=@mysqli_fetch_array($res_d);
+          $log_desc=$rs_d['dept_code'].$rs_d['budget_category'].$rs_d['budget_year'];//for logs purpose
+          logs("$login_id","Delete Record","$login_id deleted budget record $log_desc");
+
+          @mysqli_query($con, "delete from budgettb where id='$r_id'");
+          $sql="select * from budgettb where dept_code='{$rs_d['dept_code']}' and budget_year='{$rs_d['budget_year']}' order by dept_code,bursary_category,budget_year";
+          echo "<script>alert('Record deleted successfully');</script>";
+     }
+
+     elseif($action=='search')
+     {
+          $sql="select * from budgettb where budget_year='$j->b_year' and folio_code='$folio'";
+          //if($j->budgetcode!="") $sql.=" and folio_code='$j->budgetcode'";
+          //if($j->deptcode!="") $sql.=" and dept_code='$j->deptcode'";
+          ////if($j->bcat2!="") $sql.=" and bursary_category='$j->bcat2'";
+          //if($j->fundsource!="") $sql.=" and bursary_sub_category='$j->fundsource'";
+          //if($j->b_year!="") $sql.=" and budget_year='$j->b_year'";
+
+          //$sql.=" order by dept_code,bursary_category,budget_year";
+     }
+
+     elseif($action=='edit')
+     {
+          //$res_b=@mysqli_query($con, "select * from budgettb where id='$r_id'");
+
+          //$fileno=@$_REQUEST['fileno'];
+          $db->sql("select * from budgettb where id='$r_id'");
+          if(get_magic_quotes_gpc())
+          $t= @json_decode(stripslashes($db->getResult()));
+          else
+          $t= @json_decode($db->getResult());
+          $s_array=array(s_detail=>"",msg=>"");
+
+          if($t->row>=1) //fond
           {
-          $row=@$j->row_id;  //row id of record to edit
-          @mysqli_query($con, "update budgettb set folio_code='$j->folio', dept_code='$j->dept',bursary_category='$j->bcat', bursary_sub_category='$j->rcat', budget_year='$j->b_year',amount='$j->amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id' where id='$row'");
+               $s_array['s_detail']=$t->data; $s_array['msg']='1'; //echo @json_encode($s_array);
+          }
+          //exit;
+
      }
-     else
-     {
-     @mysqli_query($con, "insert into budgettb set folio_code='$j->folio', dept_code='$j->dept',bursary_category='$j->bcat', bursary_sub_category='$j->rcat', budget_year='$j->b_year',amount='$j->amount',entry_date=CURDATE(),entry_time=CURTIME(),entry_by='$login_id'");
-} //end of save
-*/
-//logs("$login_id","Save Record","$login_id saved budget record $j->deptcode $j->bcat2 $j->b_year $j->amount");
-//$sql="select * from budgettb where dept_code='$j->deptcode' and budget_year='$j->b_year' order by dept_code,bursary_category,budget_year";
-$action='search';
-echo "<script>alert('Record saved successfully');</script>";//window.location.reload();
-}
-
-elseif($action=='delete')
-{
-     $res_d=@mysqli_query($con, "select * from budgettb where id='$r_id'");
-     $rs_d=@mysqli_fetch_array($res_d);
-     $log_desc=$rs_d['dept_code'].$rs_d['budget_category'].$rs_d['budget_year'];//for logs purpose
-     logs("$login_id","Delete Record","$login_id deleted budget record $log_desc");
-
-     @mysqli_query($con, "delete from budgettb where id='$r_id'");
-     $sql="select * from budgettb where dept_code='{$rs_d['dept_code']}' and budget_year='{$rs_d['budget_year']}' order by dept_code,bursary_category,budget_year";
-     echo "<script>alert('Record deleted successfully');</script>";
-}
-
-elseif($action=='search')
-{
-     $sql="select * from budgettb where budget_year='$j->b_year' and folio_code='$folio'";
-     //if($j->budgetcode!="") $sql.=" and folio_code='$j->budgetcode'";
-     //if($j->deptcode!="") $sql.=" and dept_code='$j->deptcode'";
-     ////if($j->bcat2!="") $sql.=" and bursary_category='$j->bcat2'";
-     //if($j->fundsource!="") $sql.=" and bursary_sub_category='$j->fundsource'";
-     //if($j->b_year!="") $sql.=" and budget_year='$j->b_year'";
-
-     //$sql.=" order by dept_code,bursary_category,budget_year";
-}
-
-elseif($action=='edit')
-{
-     //$res_b=@mysqli_query($con, "select * from budgettb where id='$r_id'");
-
-     //$fileno=@$_REQUEST['fileno'];
-     $db->sql("select * from budgettb where id='$r_id'");
-     if(get_magic_quotes_gpc())
-     $t= @json_decode(stripslashes($db->getResult()));
-     else
-     $t= @json_decode($db->getResult());
-     $s_array=array(s_detail=>"",msg=>"");
-
-     if($t->row>=1) //fond
-     {
-          $s_array['s_detail']=$t->data; $s_array['msg']='1'; //echo @json_encode($s_array);
-     }
-     //exit;
-
-}
 
 /////////////////////view section ////////////////////
 $sn=0;
