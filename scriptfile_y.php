@@ -810,7 +810,7 @@ if($id=='budget_section')
           $res_d=@mysqli_query($con, "select * from budgettb where id='$r_id'");
           $rs_d=@mysqli_fetch_array($res_d);
           $log_desc=$rs_d['dept_code'].$rs_d['budget_category'].$rs_d['budget_year'];//for logs purpose
-          logs("$login_id","Delete Record","$login_id deleted budget record $log_desc");
+          //logs("$login_id","Delete Record","$login_id deleted budget record $log_desc");
 
           @mysqli_query($con, "delete from budgettb where id='$r_id'");
           $sql="select * from budgettb where dept_code='{$rs_d['dept_code']}' and budget_year='{$rs_d['budget_year']}' order by dept_code,bursary_category,budget_year";
