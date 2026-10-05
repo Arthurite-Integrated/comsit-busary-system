@@ -1,4 +1,4 @@
-<?php @session_start();
+s<?php @session_start();
 if(!isset($_SESSION['userLogin']) and !isset($_SESSION['login_id']) and !isset($_SESSION['login_status']) and !isset($_SESSION['role']) and $_SESSION['userLogin']!='ok')
    {
 	   echo "<script>location='index.php';</script>";
@@ -669,7 +669,7 @@ function reload_folio(){
 			    </tr-->
 			  <tr>
 			    <th align="left" valign="middle" height="33" nowrap>DEPARTMENT CODE:</th>
-			    <td align="left" valign="middle" height="33"><select name="deptcode" id="deptcode" onchange="swapcontent('budget_folio');" style="width:300px">
+			    <td align="left" valign="middle" height="33"><select name="deptcode" id="deptcode" onchange="/* swapcontent('budget_folio'); */" style="width:300px">
 			      <option selected="selected" value="">Select item...</option>
 			      <?php
                           //$res_c=@mysqli_query($con, "select * from departmenttb order by dept_code");
