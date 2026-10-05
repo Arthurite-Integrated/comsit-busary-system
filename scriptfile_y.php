@@ -754,19 +754,11 @@ if($id=='school_section')
 
 if($id=='budget_section')
 {
-     //print_r($_REQUEST['mydata']) ; exit;
      $j=json_decode(@$_REQUEST['mydata']);
-     //$code=$j->code;
-     //$name=@mysqli_real_escape_string($con, $j->name);
-     //$status=$j->status;
      $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];  //for row id to be deleted/edited
      $login_id=@$_SESSION['login_id'];
      if($j->bcat != 'Recurrent') $j->bcat=$j->bcat2;
-     //if($j->bcat == 'Recurrent') $j->folio = '';
-     //echo $j->rcat."--".$_REQUEST['rcat']; exit;
-     //echo "COde: $code Name: $name Status:$status Action: $action  R_ID: $r_id";
-     //exit;
 
      if($j->bcat2 == 'Departmental') $folio = $j->deptcode;
 
@@ -857,56 +849,52 @@ if($id=='budget_section')
 
      }
 
-/////////////////////view section ////////////////////
-$sn=0;
-$sql="select * from budgettb where budget_year='{$j->b_year}' and folio_code='{$folio}'";
-$res_v= mysqli_query($con, $sql);
-$g_total=0;
-$tb="<table id='MyTable' width='100%' align='center'><head>
-<tr align='left' style='background-color:lightgray'>
-<th style='border-bottom:inset 1px'>S/N</th>
-<th style='border-bottom:inset 1px'>FOLIO</th>
-<th style='border-bottom:inset 1px'>DEPARTMENT</th>
-<th style='border-bottom:inset 1px'>AMOUNT</th>
-<th style='border-bottom:inset 1px'>YEAR</th>
-<th style='border-bottom:inset 1px'>CATEGORY</th>
-<th style='border-bottom:inset 1px'>ACTION</th></tr></head><body>";
-if(@mysqli_num_rows($res_v) >= 1)
-{
-     while($rs_v=@mysqli_fetch_array($res_v))
+     /////////////////////view section ////////////////////
+     $sn=0;
+     $sql="select * from budgettb where budget_year='{$j->b_year}' and folio_code='{$folio}'";
+     $res_v= mysqli_query($con, $sql);
+     $g_total=0;
+     echo "<table id='MyTable' width='100%' align='center'><head>
+     <tr align='left' style='background-color:lightgray'>
+     <th style='border-bottom:inset 1px'>S/N</th>
+     <th style='border-bottom:inset 1px'>FOLIO</th>
+     <th style='border-bottom:inset 1px'>DEPARTMENT</th>
+     <th style='border-bottom:inset 1px'>AMOUNT</th>
+     <th style='border-bottom:inset 1px'>YEAR</th>
+     <th style='border-bottom:inset 1px'>CATEGORY</th>
+     <th style='border-bottom:inset 1px'>ACTION</th></tr></head><body>";
+     if(@mysqli_num_rows($res_v) >= 1)
      {
-          ++$sn;
-          $r_id=$rs_v['id'];
-          $g_total+=$rs_v['amount'];
-          (get_folio_name($rs_v['folio_code']) != '')? $fname=get_folio_name($rs_v['folio_code'])." (".$rs_v['folio_code'].")": $fname=get_dept_name_act($rs_v['folio_code'])." (".$rs_v['folio_code'].")";
-          $tb.="<tr class='ht-row'><td>$sn</td>
-          <td>".$fname."</td>
-          <td>".@get_dept_name_act($rs_v['dept_code'])."</td>
-          <td>N".number_format($rs_v['amount'],2)."</td>
-          <td>{$rs_v['budget_year']}</td>
-          <td>".$rs_v['bursary_category']."</td>
-          <td><a href=\"javascript:if(confirm('Are you sure you want to perform this operation')==true) swapcontent('budget_section','delete','$r_id');\">DELETE</a></td></tr>";
-          // || <a href=\"javascript:swapcontent('budget_section','edit','$r_id');\">EDIT</a>
-     }//end of while
+          while($rs_v=@mysqli_fetch_array($res_v))
+          {
+               ++$sn;
+               $r_id=$rs_v['id'];
+               $g_total+=$rs_v['amount'];
+               get_folio_name($rs_v['folio_code']) != ''? $fname=get_folio_name($rs_v['folio_code'])." (".$rs_v['folio_code'].")": $fname=get_dept_name_act($rs_v['folio_code'])." (".$rs_v['folio_code'].")";
+               ?><tr class='ht-row'><td><?=$sn?></td>
+               <td><?=$fname?></td>
+               <td><?=@get_dept_name_act($rs_v['dept_code'])?></td>
+               <td>N<?=number_format($rs_v['amount'],2)?></td>
+               <td><?=$rs_v['budget_year']?></td>
+               <td><?=$rs_v['bursary_category']?></td>
+               <td><a href="javascript:if(confirm('Are you sure you want to perform this operation')==true) swapcontent('budget_section','delete','<?=$r_id?>');">DELETE</a></td></tr>
+               <!-- || <a href=\"javascript:swapcontent('budget_section','edit','<?=$r_id?>');\">EDIT</a-->
+               <?php
+          }//end of while
 
-     $tb_s="<center><span align='center'><b>TOTAL AMOUNT: N". @number_format($g_total,2)."</b></span></center>";
-     $tb.="<tr><td colspan='5'><b><p align='right'>TOTAL AMOUNT:</p></b></td><td colspan='2'><b>N".@number_format($g_total,2)."</b></td></tr>";
-     $tb.="</body></table>";
-     echo $tb_s.$tb;
-}
-else
-echo "<b>No record to display</b>";
+          echo "<center><span align='center'><b>TOTAL AMOUNT: N". @number_format($g_total,2)."</b></span></center>";
+          echo "<tr><td colspan='5'><b><p align='right'>TOTAL AMOUNT:</p></b></td><td colspan='2'><b>N".@number_format($g_total,2)."</b></td></tr>";
+          echo "</body></table>";
+     }
+     else
+          echo "<b>No record to display</b>";
 
-exit;
+     exit;
 }
 
 if($id=='asset_save') // Start of Save Asset
 {
-
      $j=json_decode(stripslashes(@$_REQUEST['mydata']));
-     //$code=$j->code;
-     //$name=@mysqli_real_escape_string($con, $j->name);
-     //$status=$j->status;
      $action=@$_REQUEST['action'];
      $r_id=@$_REQUEST['r_id'];  //for row id to be deleted/edited
      $login_id=@$_SESSION['login_id'];
