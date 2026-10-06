@@ -334,7 +334,7 @@ if($id=='staff_grid' || $id=='staff_grid_new')
 
 if($id=='foliocode_grid')
 {
-	$r= mysqli_query($con, "SELECT f.*, c.folio_category as categoryF from foliotb f INNER JOIN folio_categorytb c on f.category=c.id WHERE f.status='Active' AND f.exp NOT IN ('Income')"); 
+	$r= mysqli_query($con, "SELECT f.*, c.folio_category as categoryF from foliotb f INNER JOIN folio_categorytb c on f.category=c.id WHERE f.status='Active'");// AND f.exp NOT IN ('Income')"); 
 	//ADD CONDITION TO FILTER BY USER LOGIN DEPARTMENT
 		 //where mm.memo_status='OUT' and mm.dept_unit='$udept'
 		//$r= mysqli_query($con, "select * from memotb"); //ADD CONDITION TO FILTER 		
