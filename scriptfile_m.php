@@ -43,7 +43,7 @@ if($id=="process_voucher_edit"){
 		if($pre_pvno==''){
 			//clear pre_pvno
 			echo "<script>if(!confirm('This operation will clear assigned PV No. Do you still want to continue?')){ exit; }</script>";
-			$sql="UPDATE vouchertb SET pvno_paid = '', pre_pvno = '', pre_pvtype = '', pre_pvyear = '', pre_pvserial = '0' WHERE pvno='{$pvno}'";
+			$sql="UPDATE vouchertb SET pvno_paid = '', pre_pvno = '', pre_pvtype = '', pre_pvyear = '', pre_pvserial = '0', paid_action = '', paid_by = '', date_paid='' WHERE pvno='{$pvno}'";
 		}else{
 			//update pvno_paid and pre_pvno
 			if($_REQUEST['pre_paid']=='Yes' || $_REQUEST['pre_paid']=='Approved'){
