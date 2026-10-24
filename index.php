@@ -10,7 +10,7 @@
 <meta name="description" content="" />
 <link rel="shortcut icon" href="images/logox.png"> <!-- put the image/logo on the browser tab -->
 <link href="tooplate_style.css" rel="stylesheet" type="text/css" />
-<?php include("required_jQuery_files.php"); ?>
+<?php //include("required_jQuery_files.php"); ?>
 <script>
 function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
 {   //swap content begins where cv means div id name
@@ -112,7 +112,7 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
     <div id="tooplate_main">
     	
         <div id="tooplate_menu">
-             <?php //include_once("menu.php"); ?>	
+             <?php include_once("menu.php"); ?>	
         </div> <!-- end of tooplate_menu -->
         
         <div id="featured_project">

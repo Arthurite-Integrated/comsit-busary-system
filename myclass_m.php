@@ -2,9 +2,9 @@
  @session_start();
  @require_once('connect.php');
  
- 	/* @require_once('class/mysqli_class.php');
+ 	require_once('class/mysqli_class.php');
 	$db = new Database();
-	$db->connect(); */
+	$db->connect();
 
 	class myclass_m{
 		protected $sql;
