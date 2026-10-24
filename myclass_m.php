@@ -294,28 +294,12 @@ function get_deduction_definedx($al_id){
 					}elseif($religion != "" && $religion != "All"){	//defined for all religion
 						$def_for = $religion." (Academic/Non-Academic)";	$val = $religion;
 					}
-					/*
-					elseif($pos != "" && $pos != "All"){	//defined for all position
-						$def_for = $pos." (Academic/Non-Academic)";	$val = $pos;
-					}elseif($rank != "" && $rank != "All"){	//defined for all rank
-						$def_for = $rank." (Academic/Non-Academic)";	$val = $rank;
-					}elseif($scale != "" && $scale != "All"){	//defined for all scale
-						$def_for = $scale." (Academic/Non-Academic)";	$val = $scale;
-					}*/
 				 }else{	//defined for particular level
 					if($sex != "" && $sex != "All"){	//defined for particular sex
 						$def_for = $sex." (Level $level: Academic/Non-Academic)";		$val = $sex;
 					}elseif($religion != "" && $religion != "All"){	//defined for all religion
 						$def_for = $religion." (Level $level: Academic/Non-Academic)";	$val = $religion;
 					}
-					/*
-					elseif($pos != "" && $pos != "All"){	//defined for all position
-						$def_for = $pos." (Academic/Non-Academic)";	$val = $pos;
-					}elseif($rank != "" && $rank != "All"){	//defined for all rank
-						$def_for = $rank." (Academic/Non-Academic)";	$val = $rank;
-					}elseif($scale != "" && $scale != "All"){	//defined for all scale
-						$def_for = $scale." (Academic/Non-Academic)";	$val = $scale;
-					}*/
 				 } //end if($level == "" && $level == "All"){
 			  }else{ 		  // CATEGORISED STAFF STATUS [EITHER ACADEMIC OR NON-ACADEMIC]
 				 if($level == "" && $level == "All"){	//for all level
