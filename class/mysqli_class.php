@@ -13,7 +13,7 @@ class Database{
 	*/
 	private $db_host = "localhost";  // Change as required
 	private $db_user = "root";  // Change as required
-	private $db_pass = "bursary29032017";  // Change as required
+	private $db_pass = "Comsit2026!";  // Change as required
 	private $db_name = "uilkashdb_b";	// Change as required
 
 	/*
