@@ -112,7 +112,7 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
     <div id="tooplate_main">
     	
         <div id="tooplate_menu">
-             <?php include_once("menu.php"); ?>	
+             <?php //include_once("menu.php"); ?>	
         </div> <!-- end of tooplate_menu -->
         
         <div id="featured_project">
