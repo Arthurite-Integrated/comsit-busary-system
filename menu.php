@@ -36,7 +36,7 @@
 
  <?php
 
-   @require_once "function.php";
+   require_once "function.php";
 
    $val_str=explode("***",get_company());
 
