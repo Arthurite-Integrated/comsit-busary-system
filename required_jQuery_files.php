@@ -21,8 +21,8 @@
 <script src="assets/countdown/jquery.countdown.js"></script>
 <script src="assets/js/script.js"></script>  
 <?php
-require_once('class/mysqli_class.php');
+/* require_once('class/mysqli_class.php');
 $db = new Database();
-$db->connect();
+$db->connect(); */
 
 ?>

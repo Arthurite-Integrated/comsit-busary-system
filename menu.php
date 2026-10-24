@@ -36,11 +36,11 @@
 
  <?php
 
-   require_once "function.php";
+   /* require_once "function.php";
 
    $val_str=explode("***",get_company());
 
-   $val_title=explode("***",get_project_title());
+   $val_title=explode("***",get_project_title()); */
 
  ?>
 
