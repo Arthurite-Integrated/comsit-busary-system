@@ -106,13 +106,13 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
 <div id="tooplate_wrapper">
 
 	<div id="tooplate_sidebar">
-		<?php include_once("sidebar.php"); ?>
+		<?php //include_once("sidebar.php"); ?>
 	</div> <!-- end of sidebar -->
     
     <div id="tooplate_main">
     	
         <div id="tooplate_menu">
-             <?php include_once("menu.php"); ?>	
+             <?php //include_once("menu.php"); ?>	
         </div> <!-- end of tooplate_menu -->
         
         <div id="featured_project">
@@ -171,7 +171,7 @@ function swapcontent(cv,v,a,b,c,d,e,f,g,h,i,j,k,l)
 </div> <!-- end of wrapper -->
 
 <div id="tooplate_footer_wrapper">
-	<?php include_once("footer.php"); ?>
+	<?php //include_once("footer.php"); ?>
 </div>
 
 </body>
